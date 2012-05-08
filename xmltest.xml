@@ -1,0 +1,25 @@
+<menubar>
+
+  <menu label="Menu 1" name="menuOne">
+    <entity label="Open test" name="openTest"/>
+    <entity label="Save test" name="saveTest"/>
+    <menu label="Submenu for Menu 1" name="menuTwo">
+      <entity label="Submenu Entity" name="subMenuEntity"/>
+    </menu>
+    <separator name="separatorOne"/>
+    <entity label="Enter Name" name="nameEntity"/>
+  </menu>
+
+  <menu label="Menu 2" name="menuTwo">
+    <entity label="A entity with accelerator" name="coolEntity" accelerator="alt X"/>
+    <checkbox_entity label="A selected checkbox entity" selected="true" name="selectedCheckBox"/>
+    <checkbox_entity label="And an unselected one" selected="false" name="unselectedCheckBox"/>
+    <menu label="Submenu with Radiobuttons" name="radioMenu">
+    <radiobutton_group>
+      <radiobutton_entity label="A radio button" name="radioButton1" selected="false"/>
+      <radiobutton_entity label="A selected radio Button" name="radioButton2" selected="true"/>
+    </radiobutton_group>
+    </menu>
+  </menu>
+
+</menubar>
