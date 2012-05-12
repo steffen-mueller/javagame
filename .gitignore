@@ -1,3 +1,6 @@
 
 /nbproject
 /lib/nblibraries.properties
+/build/
+/dist/
+/nbbuild.xml
