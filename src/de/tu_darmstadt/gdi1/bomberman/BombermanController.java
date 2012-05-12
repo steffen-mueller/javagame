@@ -54,7 +54,6 @@ public class BombermanController extends AbstractBombermanController {
 	protected void initialize() {
 
 		// Erstellt ein GUI Objekt. Wenn die Konfigurationsdateien fehlen, exception.
-		System.out.println("Olla ola! New gui on the go!");
 		gui = new Gui(this);
 		try {
 			// Hole den nächsten Level (oder eben den ersten) ...
@@ -79,6 +78,7 @@ public class BombermanController extends AbstractBombermanController {
 			throw new NullPointerException("Cannot initialize null gamedata.");
 
 		game = new BombermanGame(gamedata, this);
+		game.initialiseTickTimer();
 	}
 
 	// EVENT HANDLING //////////////////////////////////////////////////////////////////////////////

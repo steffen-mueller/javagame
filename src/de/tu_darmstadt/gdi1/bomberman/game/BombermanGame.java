@@ -5,6 +5,8 @@ import de.tu_darmstadt.gdi1.bomberman.game.elements.GameElement;
 import de.tu_darmstadt.gdi1.bomberman.game.levels.BombermanGameData;
 import de.tu_darmstadt.gdi1.bomberman.gui.UIEvent;
 import de.tu_darmstadt.gdi1.framework.interfaces.IBoard;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Das eigentliche Bomberman Spiel. Diese Klasse enthält die Spiellogik. Unsere Implementierung des
@@ -18,12 +20,68 @@ public class BombermanGame implements IBombermanGame {
 	protected BombermanGameData gameData;
 	protected BombermanController controller;
 
+	public static long tickRate = 50;
+	protected Timer tickTimer;
+
 	public BombermanGame (BombermanGameData data, BombermanController ctr) {
 		gameData = data;
 		controller = ctr;
 
 		//say hello to the gui, show the loaded level:
-		sendEventToUi(UIEvent.type.NEW_GAME);
+		sendEventToUI(UIEvent.type.NEW_GAME);
+	}
+
+	// Ticking /////////////////////////////////////////////////////////////////////////////////////
+	
+	/**
+	 * Diese Funktion wird für jedes "Frame" aufgerufen. Per "initialiseTickTimer" Funktion kann
+	 * dies zeitgesteuert ausgeführt und gestartet werden. Die Testfälle führen die tick() Funktion
+	 * aber schneller aus, um zeitabhängige Tests direkt durcharbeiten zu können.
+	 *
+	 * Im "Echtzeitmodus" per Timer kommt der tick 20x in der Sekunde - 20 Ticks sind also eine Sekunde.
+	 */
+	@Override
+	public void tick ()
+	{
+		System.out.println("Tick tock!");
+	}
+
+	/**
+	 * Startet einen Timer, der die Tick Funktion alle tickRate Millisekunden ausführt.
+	 */
+	public void initialiseTickTimer ()
+	{
+		if (tickTimer != null)
+			return;
+
+		// TickTimer anschmeißen. Hail to the closure: die run() Methode in der anonymen TimerTask
+		// Klasse kennt die tick() Funktion des BombermanGame Objekts.
+		tickTimer = new Timer();
+		tickTimer.scheduleAtFixedRate(new TimerTask(){
+			@Override
+			public void run() {
+				tick();
+			}
+		}, tickRate, tickRate);
+	}
+
+	/**
+	 * Stoppt den mit initialiseTickTimer gestarteten Timer wieder.
+	 */
+	public void disposeTickTimer ()
+	{
+		tickTimer.cancel();
+		tickTimer = null;
+	}
+
+	// Gamedata Getter/Setter //////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Gibt das aktuelle Spielfeld IBoard zurück.
+	 */
+	@Override
+	public IBoard<GameElement> getBoard() {
+		return this.gameData.getStepManager().getCurrentBoard();
 	}
 
 	// Event Management ////////////////////////////////////////////////////////////////////////////
@@ -33,18 +91,10 @@ public class BombermanGame implements IBombermanGame {
 	 * da sich Game Object und GUI besser nicht direkt kennen dürfen.
 	 * @param type
 	 */
-	private void sendEventToUi(UIEvent.type type) {
+	private void sendEventToUI(UIEvent.type type) {
 		UIEvent event = new UIEvent(type);
 		event.setBoard(getBoard());
 		//event.setInformationMap(infoMapManager.getInfoMap());
 		controller.sendEventToUI(event);
 	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public IBoard<GameElement> getBoard() {
-		return this.gameData.getStepManager().getCurrentBoard();
-	}
-
 }

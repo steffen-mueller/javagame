@@ -19,23 +19,23 @@ import de.tu_darmstadt.gdi1.framework.utils.Point;
  * Stores undo/redo histories with game boards. Can be used like a game board.
  * Use saveStep() to store an undo step (i.e. probably you want to call that
  * once before (see {@link #saveStep()}) a set of all changes caused by one user action happes).
- * Use undo() or redo() do un- and redo. 
+ * Use undo() or redo() do un- and redo.
  * @author Jan
  */
 public class StepManager<E extends IBoardElement> implements Serializable, IStepManager<E>, Cloneable {
 
 	private static final long serialVersionUID = 6270445872018457456L;
-	
+
 	/**
 	 * The current game board managed by the StepManager.
 	 */
 	private IGameBoard<E> currentBoard;
-	
+
 	/** A stack containing the boards that can be undone,
 	 * in correct order (next to undo on top).<br>
 	 * The first element is always the element we add as last.
 	 */
-	private final Deque<IGameBoard<E>> undoHistory; 
+	private final Deque<IGameBoard<E>> undoHistory;
 
 	/** A stack containing the boards that can be redone,
 	 * in correct order (next to redo on top).<br>
@@ -49,7 +49,7 @@ public class StepManager<E extends IBoardElement> implements Serializable, IStep
 	private int maxUndoHistorySize = DEFAUL_MAX_HISTORY_SIZE;
 	/** the maximal size of the undo history. zero is unlimited. */
 	private int maxRedoHistorySize = DEFAUL_MAX_HISTORY_SIZE;
-	
+
 	/**
 	 * Creates and initializes a step (undo/redo) manager
 	 * containing an empty game board.
@@ -60,7 +60,7 @@ public class StepManager<E extends IBoardElement> implements Serializable, IStep
 	public StepManager(final int sizex, final int sizey) {
 		this(new GameBoard<E>(sizex, sizey));
 	}
-	
+
 	/**
 	 * Creates a new StepManager using the given board.
 	 * <p> StepHistory (undo and redo) will be created with default maximum size, see {@link #setMaxRedoHistorySize(int)} and {@link #setMaxUndoHistorySize(int)}</p>
@@ -69,7 +69,7 @@ public class StepManager<E extends IBoardElement> implements Serializable, IStep
 	public StepManager(IGameBoard<E> newBoard) {
 		this(newBoard, new ArrayDeque<IGameBoard<E>>(), new ArrayDeque<IGameBoard<E>>());
 	}
-	
+
 	/**
 	 * Creates a new StepManager using the given board and histories.
 	 * <p> StepHistory (undo and redo) will be created with default maximum size, see {@link #setMaxRedoHistorySize(int)} and {@link #setMaxUndoHistorySize(int)}</p>
@@ -82,7 +82,7 @@ public class StepManager<E extends IBoardElement> implements Serializable, IStep
 		undoHistory = undoHisto;
 		redoHistory = redoHisto;
 	}
-	
+
 	/** {@inheritDoc} */
 	public StepManager<E> clone() {
 		return new StepManager<E>(
@@ -91,13 +91,13 @@ public class StepManager<E extends IBoardElement> implements Serializable, IStep
 				FrameworkUtils.deepDequeClone(redoHistory)
 		);
 	}
-	
+
 	/** {@inheritDoc} */
 	public IBoard<E> getCurrentBoard() {
 		return currentBoard.clone();
 	}
-	
-	
+
+
 
 	/**
 	 * Retrieves the list of elements on a given square of the current board.
@@ -111,9 +111,9 @@ public class StepManager<E extends IBoardElement> implements Serializable, IStep
 
 	/**
 	 * Sets the list of elements on a given square of the current board.
-	 * 
+	 *
 	 * Note: This clears the redo history.
-	 * 
+	 *
 	 * @param x column of the square
 	 * @param y row of the square
 	 * @param elements the list of elements to be set on the square
@@ -122,7 +122,7 @@ public class StepManager<E extends IBoardElement> implements Serializable, IStep
 		currentBoard.setElements(x, y, elements);
 		redoHistory.clear();
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -136,7 +136,7 @@ public class StepManager<E extends IBoardElement> implements Serializable, IStep
 	public List<E> getElements(final Point coords) {
 		return getElements(coords.getX(), coords.getY());
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -150,21 +150,21 @@ public class StepManager<E extends IBoardElement> implements Serializable, IStep
 	public boolean checkCoordinates(final Point point) {
 		return checkCoordinates(point.getX(), point.getY());
 	}
-	
-	
-	
+
+
+
 	/**
 	 * {@inheritDoc}
 	 */
 	public int getHeight() {
-		return currentBoard.getHeight(); 
+		return currentBoard.getHeight();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	public int getWidth() {
-		return currentBoard.getWidth(); 
+		return currentBoard.getWidth();
 	}
 
 	/**
@@ -177,7 +177,7 @@ public class StepManager<E extends IBoardElement> implements Serializable, IStep
 		}
 		redoHistory.clear();
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -188,9 +188,9 @@ public class StepManager<E extends IBoardElement> implements Serializable, IStep
 		/*
 		 * we perform an undo.
 		 * Means we put the current board into the redo(!)-stack
-		 * and get the last one form the undo-stack. 
+		 * and get the last one form the undo-stack.
 		 */
-		
+
 		redoHistory.addFirst(currentBoard);
 		//zero as maxUndoHistorySize means unlimited history
 		while ((redoHistory.size() > maxRedoHistorySize) && (maxRedoHistorySize > 0)) {
@@ -209,7 +209,7 @@ public class StepManager<E extends IBoardElement> implements Serializable, IStep
 		/*
 		 * we perform an redo.
 		 * Means we put the current board into the undo(!)-stack
-		 * and get the last one form the redo-stack. 
+		 * and get the last one form the redo-stack.
 		 */
 
 		undoHistory.addFirst(currentBoard);
@@ -217,12 +217,12 @@ public class StepManager<E extends IBoardElement> implements Serializable, IStep
 		while ((undoHistory.size() > maxUndoHistorySize) && (maxUndoHistorySize > 0)) {
 			undoHistory.removeLast();
 		}
-		
+
 		currentBoard = redoHistory.removeFirst();
 	}
 
 	/**
-	 * Undoes multiple steps. 
+	 * Undoes multiple steps.
 	 * @param count number of steps to undo
 	 * @throws NoLastStepException if there are not enough steps to restore
 	 */
@@ -233,7 +233,7 @@ public class StepManager<E extends IBoardElement> implements Serializable, IStep
 	}
 
 	/**
-	 * Redoes multiple steps. 
+	 * Redoes multiple steps.
 	 * @param count number of steps to undo
 	 * @throws NoLastStepException if there are not enough steps to restore
 	 */
@@ -242,16 +242,16 @@ public class StepManager<E extends IBoardElement> implements Serializable, IStep
 			redo();
 		}
 	}
-	
+
 	/**
-	 * @return the amount of steps that can be undone 
+	 * @return the amount of steps that can be undone
 	 */
 	public int undoPossible() {
 		return undoHistory.size();
 	}
 
 	/**
-	 * @return the amount of steps that can be redone 
+	 * @return the amount of steps that can be redone
 	 */
 	public int redoPossible() {
 		return redoHistory.size();
@@ -264,7 +264,7 @@ public class StepManager<E extends IBoardElement> implements Serializable, IStep
 	public boolean equals(IBoard<E> other) {
 		return this.currentBoard.equals(other);
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -283,7 +283,7 @@ public class StepManager<E extends IBoardElement> implements Serializable, IStep
 	/**
 	 * @param newMaxUndoHistorySize the maxUndoHistorySize to set<br>
 	 * set zero to have unlimited history
-	 * 
+	 *
 	 */
 	public void setMaxUndoHistorySize(final int newMaxUndoHistorySize) {
 		this.maxUndoHistorySize = newMaxUndoHistorySize;
@@ -304,6 +304,6 @@ public class StepManager<E extends IBoardElement> implements Serializable, IStep
 	public void setMaxRedoHistorySize(final int newMaxRedoHistorySize) {
 		this.maxRedoHistorySize = newMaxRedoHistorySize;
 	}
-	
+
 }
 
