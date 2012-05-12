@@ -1,6 +1,5 @@
 package de.tu_darmstadt.gdi1.bomberman.gui;
 
-import de.tu_darmstadt.gdi1.bomberman.framework.ControllerEvent;
 import de.tu_darmstadt.gdi1.bomberman.framework.AbstractBombermanController;
 import de.tu_darmstadt.gdi1.bomberman.game.elements.GameElement;
 import de.tu_darmstadt.gdi1.framework.interfaces.IUserInterfaceEvent;
@@ -12,7 +11,8 @@ import javax.swing.ImageIcon;
 
 
 /**
- * Das User Interface zum Benutzer.
+ * Das User Interface. Nimmt zwar Benutzereingaben und so weiter entgegen, darf aber nix selbst -
+ * reicht alles an den Controller weiter, der der einzige wirkliche soziale Kontakt des GUI ist.
  */
 public class Gui extends UserInterface<GameElement> {
 
@@ -27,13 +27,13 @@ public class Gui extends UserInterface<GameElement> {
 
 	@Override
 	protected void handleNonFrameworkEvents(IUserInterfaceEvent<GameElement> event) {
-		if (!(event instanceof BombermanUIEvent))
+		if (!(event instanceof UIEvent))
 		{
 			// TODO: mourn around
 			return;
 		}
 
-		BombermanUIEvent bmevent = (BombermanUIEvent) event;
+		UIEvent bmevent = (UIEvent) event;
 		switch (bmevent.getType())
 		{
 			case QUIT_GAME:

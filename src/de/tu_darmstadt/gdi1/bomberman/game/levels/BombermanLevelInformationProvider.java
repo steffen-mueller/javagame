@@ -10,11 +10,17 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Der Level Information Provider erhält vorgeparste Level Informationen und kann diese dann
- * prüfen und parsen, bis ein brauchbarer bomberman Level rauskommt.
+ * Der Level Information Provider ist der Leveldateiparser des Spiels. Er erhält vom Framework
+ * vorverarbeitete Level Informationen und kann diese dann prüfen und parsen.
  */
 public class BombermanLevelInformationProvider implements ILevelInformationProvider<GameElement> {
 
+	/**
+	 * Parst ein Zeichen aus der Datei und gibt die BoardElements für dieses Zeichen zurück.
+	 * @param c Das Zeichen.
+	 * @return
+	 * @throws InvalidLevelDataException
+	 */
 	@Override
 	public List<GameElement> getBoardElementsFor(char c) throws InvalidLevelDataException {
 		// TODO
@@ -22,12 +28,27 @@ public class BombermanLevelInformationProvider implements ILevelInformationProvi
 		return l;
 	}
 
+	/**
+	 * Der letzte Verarbeitungsschritt - setzt die über die anderen Funktionen gewonnenen
+	 * Informationen zu einem Gamedata Objekt zusammen.
+	 * @param gameBoard
+	 * @param lineCount
+	 * @param nonBoardInformations
+	 * @return
+	 * @throws InvalidLevelDataException
+	 */
 	@Override
 	public IGameData<GameElement> verifyGameBoard(IGameBoard<GameElement> gameBoard, int lineCount, Map<Integer, String> nonBoardInformations) throws InvalidLevelDataException {
 		// TODO
 		return new BombermanGameData();
 	}
 
+	/**
+	 *
+	 * @param field
+	 * @return
+	 * @throws InvalidLevelDataException
+	 */
 	@Override
 	public char parseField(List<GameElement> field) throws InvalidLevelDataException {
 		throw new UnsupportedOperationException("Not supported yet.");

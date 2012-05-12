@@ -1,12 +1,12 @@
 package de.tu_darmstadt.gdi1.bomberman;
 
-import de.tu_darmstadt.gdi1.bomberman.framework.ControllerEvent;
+import de.tu_darmstadt.gdi1.bomberman.gui.ControllerEvent;
 import de.tu_darmstadt.gdi1.bomberman.framework.AbstractBombermanController;
 import de.tu_darmstadt.gdi1.bomberman.game.BombermanGame;
 import de.tu_darmstadt.gdi1.bomberman.game.elements.GameElement;
 import de.tu_darmstadt.gdi1.bomberman.game.levels.BombermanGameData;
 import de.tu_darmstadt.gdi1.bomberman.game.levels.BombermanLevelManager;
-import de.tu_darmstadt.gdi1.bomberman.gui.BombermanUIEvent;
+import de.tu_darmstadt.gdi1.bomberman.gui.UIEvent;
 import de.tu_darmstadt.gdi1.bomberman.gui.Gui;
 import de.tu_darmstadt.gdi1.framework.exceptions.InvalidLevelDataException;
 import de.tu_darmstadt.gdi1.framework.exceptions.NoNextLevelException;
@@ -18,7 +18,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Der BombermanController ist unsere Referenzimplementierung eines guten Controllers für Bomberman.
+ * Der BombermanController ist unsere Implementierung eines AbstractBombermanControllers.
  * Der Controller kümmert sich um die Organisation des Projekts und den groben Zusammenbau:
  * - GUI erstellen
  * - Modell erstellen
@@ -89,24 +89,23 @@ public class BombermanController extends AbstractBombermanController {
 			handleControllerEvent((ControllerEvent) event);
 	}
 
-	@Override
 	public void handleControllerEvent (ControllerEvent evt) {
 		switch (evt.getType())
 		{
 			case USER_QUIT:
 				this.stopWorker();
-				sendEventToUI(BombermanUIEvent.create(BombermanUIEvent.type.QUIT_GAME));
+				sendEventToUI(UIEvent.create(UIEvent.type.QUIT_GAME));
 				break;
 		}
 	}
 
 	// UI COMMUNICATION ////////////////////////////////////////////////////////////////////////////
 
-	public void sendEventToUI (BombermanUIEvent evt)
+	public void sendEventToUI (UIEvent evt)
 	{
 		if (gui == null)
 		{
-			
+
 			return;
 		}
 

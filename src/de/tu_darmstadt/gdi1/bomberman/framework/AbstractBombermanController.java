@@ -8,5 +8,5 @@ import de.tu_darmstadt.gdi1.framework.controller.AbstractController;
  * und die abstrakten Methoden implementieren.
  */
 abstract public class AbstractBombermanController extends AbstractController {
-	abstract public void handleControllerEvent (ControllerEvent evt);
+
 }
