@@ -1,13 +1,14 @@
 package de.tu_darmstadt.gdi1.bomberman.gui;
 
+import java.awt.event.KeyEvent;
+import java.util.List;
+import javax.swing.ImageIcon;
+
 import de.tu_darmstadt.gdi1.bomberman.framework.AbstractBombermanController;
 import de.tu_darmstadt.gdi1.bomberman.game.elements.GameElement;
 import de.tu_darmstadt.gdi1.framework.interfaces.IUserInterfaceEvent;
 import de.tu_darmstadt.gdi1.framework.utils.Point;
 import de.tu_darmstadt.gdi1.framework.view.UserInterface;
-import java.awt.event.KeyEvent;
-import java.util.List;
-import javax.swing.ImageIcon;
 
 
 /**
@@ -23,6 +24,7 @@ public class Gui extends UserInterface<GameElement> {
 		controller = ctr;
 
 		setTitle("The amazing TU Darmstadt Bomberman!");
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}
 
 	@Override
@@ -37,7 +39,7 @@ public class Gui extends UserInterface<GameElement> {
 		switch (bmevent.getType())
 		{
 			case QUIT_GAME:
-				this.dispose();
+				dispose();
 				break;
 		}
 	}

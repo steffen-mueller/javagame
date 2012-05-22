@@ -1,21 +1,22 @@
 package de.tu_darmstadt.gdi1.bomberman;
 
-import de.tu_darmstadt.gdi1.bomberman.gui.ControllerEvent;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import de.tu_darmstadt.gdi1.bomberman.framework.AbstractBombermanController;
 import de.tu_darmstadt.gdi1.bomberman.game.BombermanGame;
 import de.tu_darmstadt.gdi1.bomberman.game.elements.GameElement;
 import de.tu_darmstadt.gdi1.bomberman.game.levels.BombermanGameData;
 import de.tu_darmstadt.gdi1.bomberman.game.levels.BombermanLevelManager;
-import de.tu_darmstadt.gdi1.bomberman.gui.UIEvent;
+import de.tu_darmstadt.gdi1.bomberman.gui.ControllerEvent;
 import de.tu_darmstadt.gdi1.bomberman.gui.Gui;
+import de.tu_darmstadt.gdi1.bomberman.gui.UIEvent;
 import de.tu_darmstadt.gdi1.framework.exceptions.InvalidLevelDataException;
 import de.tu_darmstadt.gdi1.framework.exceptions.NoNextLevelException;
 import de.tu_darmstadt.gdi1.framework.exceptions.SoundFailedException;
 import de.tu_darmstadt.gdi1.framework.interfaces.IControllerEvent;
 import de.tu_darmstadt.gdi1.framework.interfaces.IGameData;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Der BombermanController ist unsere Implementierung eines AbstractBombermanControllers.
@@ -94,6 +95,7 @@ public class BombermanController extends AbstractBombermanController {
 		{
 			case USER_QUIT:
 				this.stopWorker();
+				game.disposeTickTimer();
 				sendEventToUI(UIEvent.create(UIEvent.type.QUIT_GAME));
 				break;
 		}
@@ -105,7 +107,6 @@ public class BombermanController extends AbstractBombermanController {
 	{
 		if (gui == null)
 		{
-
 			return;
 		}
 
