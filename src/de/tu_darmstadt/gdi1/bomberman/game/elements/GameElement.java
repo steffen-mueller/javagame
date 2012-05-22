@@ -1,5 +1,7 @@
 package de.tu_darmstadt.gdi1.bomberman.game.elements;
 
+import javax.swing.ImageIcon;
+
 import de.tu_darmstadt.gdi1.framework.interfaces.IBoardElement;
 
 /**
@@ -14,4 +16,10 @@ public abstract class GameElement implements IBoardElement {
 
 	@Override
 	public abstract boolean equals(final Object obj);
+	
+	public ImageIcon getImageIcon () {
+		return new ImageIcon("resource/images/test.png");
+	}
+
+	public abstract String getName ();
 }

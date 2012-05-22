@@ -1,17 +1,19 @@
 package de.tu_darmstadt.gdi1.bomberman.game.levels;
 
 import de.tu_darmstadt.gdi1.bomberman.game.elements.GameElement;
-import de.tu_darmstadt.gdi1.framework.interfaces.IStepManager;
+import de.tu_darmstadt.gdi1.framework.interfaces.IGameBoard;
 import de.tu_darmstadt.gdi1.framework.model.GameData;
+import de.tu_darmstadt.gdi1.framework.model.StepManager;
 
 /**
  * Der gesamte Zustand eines Bomberman Spiels. Hierauf arbeitet die BombermanGame Klasse.
  */
 public class BombermanGameData extends GameData<GameElement> {
 
-	public BombermanGameData () {
-		// Wir werden den Stepmanager nicht los - also initialisieren.
-		super(20,15);
+	public BombermanGameData (IGameBoard<GameElement> gameBoard)
+	{
+		super(new StepManager<GameElement>(gameBoard));
+
 	}
 
 	// Gamedata Interface //////////////////////////////////////////////////////////////////////////

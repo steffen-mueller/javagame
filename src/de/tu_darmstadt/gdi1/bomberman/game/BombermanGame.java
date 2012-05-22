@@ -1,12 +1,14 @@
 package de.tu_darmstadt.gdi1.bomberman.game;
 
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.logging.Logger;
+
 import de.tu_darmstadt.gdi1.bomberman.BombermanController;
 import de.tu_darmstadt.gdi1.bomberman.game.elements.GameElement;
 import de.tu_darmstadt.gdi1.bomberman.game.levels.BombermanGameData;
 import de.tu_darmstadt.gdi1.bomberman.gui.UIEvent;
 import de.tu_darmstadt.gdi1.framework.interfaces.IBoard;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * Das eigentliche Bomberman Spiel. Diese Klasse enthält die Spiellogik. Unsere Implementierung des
@@ -19,6 +21,8 @@ import java.util.TimerTask;
 public class BombermanGame implements IBombermanGame {
 	protected BombermanGameData gameData;
 	protected BombermanController controller;
+
+	Logger logger = Logger.getLogger(BombermanGame.class.getName());
 
 	public static long tickRate = 50;
 	protected Timer tickTimer;
@@ -43,7 +47,7 @@ public class BombermanGame implements IBombermanGame {
 	@Override
 	public void tick ()
 	{
-		System.out.println("Tick tock!");
+		//logger.log(Level.INFO, "Tick tock!");
 	}
 
 	/**

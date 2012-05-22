@@ -31,6 +31,8 @@ public class BombermanController extends AbstractBombermanController {
 	protected BombermanLevelManager levelManager;
 	protected BombermanGame game;
 
+	Logger logger = Logger.getLogger(BombermanController.class.getName());
+
 	// INITIALISIERUNG /////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -64,12 +66,13 @@ public class BombermanController extends AbstractBombermanController {
 
 			// ... und starte ihn!
 			startNewGame((BombermanGameData)gd);
+			logger.log(Level.INFO, "Loaded/active LevelFile: "+gd.getLevelFilename());
 		} catch (NoNextLevelException ex) {
-			Logger.getLogger(BombermanController.class.getName()).log(Level.SEVERE, null, ex);
+			logger.log(Level.SEVERE, null, ex);
 		} catch (InvalidLevelDataException ex) {
-			Logger.getLogger(BombermanController.class.getName()).log(Level.SEVERE, null, ex);
+			logger.log(Level.SEVERE, null, ex);
 		} catch (IOException ex) {
-			Logger.getLogger(BombermanController.class.getName()).log(Level.SEVERE, null, ex);
+			logger.log(Level.SEVERE, null, ex);
 		}
 	}
 
