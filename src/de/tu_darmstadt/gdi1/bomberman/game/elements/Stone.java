@@ -11,12 +11,12 @@ import javax.swing.ImageIcon;
  *
  * @version $Id$
  */
-public class Wall extends GameElement
+public class Stone extends GameElement
 {
 	@Override
 	public GameElement clone ()
 	{
-		return new Wall();
+		return new Stone();
 	}
 
 	@Override
@@ -29,12 +29,12 @@ public class Wall extends GameElement
 	@Override
 	public ImageIcon getImageIcon ()
 	{
-		return new ImageIcon("resource/images/wall.png");
+		return new ImageIcon("resource/images/stone.png");
 	}
 
 	@Override
 	public String getDescription ()
 	{
-		return "Wall";
+		return "Stone";
 	}
 }

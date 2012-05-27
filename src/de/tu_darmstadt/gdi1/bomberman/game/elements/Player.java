@@ -13,11 +13,17 @@ import javax.swing.ImageIcon;
  */
 public class Player extends GameElement
 {
+	private int playerID;
+	
+	public Player (int playerID)
+	{
+		this.playerID = playerID;
+	}
+
 	@Override
 	public GameElement clone ()
 	{
-		// todo: Not yet implemented
-		return new Player();
+		return new Player(this.playerID);
 	}
 
 	@Override
@@ -30,11 +36,20 @@ public class Player extends GameElement
 	@Override
 	public ImageIcon getImageIcon ()
 	{
-		return new ImageIcon("resource/images/player.png");
+		if (playerID == 1)
+			return new ImageIcon("resource/images/player_white.png");
+		else if (playerID == 2)
+			return new ImageIcon("resource/images/player_red.png");
+		else if (playerID == 3)
+			return new ImageIcon("resource/images/player_black.png");
+		else if (playerID == 4)
+			return new ImageIcon("resource/images/player_blue.png");
+
+		return new ImageIcon("resource/images/player_white.png");
 	}
 
 	@Override
-	public String getName ()
+	public String getDescription ()
 	{
 		return "Player";
 	}

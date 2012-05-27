@@ -21,5 +21,5 @@ public abstract class GameElement implements IBoardElement {
 		return new ImageIcon("resource/images/test.png");
 	}
 
-	public abstract String getName ();
+	public abstract String getDescription ();
 }

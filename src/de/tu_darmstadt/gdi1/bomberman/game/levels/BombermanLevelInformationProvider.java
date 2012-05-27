@@ -7,8 +7,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import de.tu_darmstadt.gdi1.bomberman.BombermanController;
+import de.tu_darmstadt.gdi1.bomberman.game.elements.Floor;
 import de.tu_darmstadt.gdi1.bomberman.game.elements.GameElement;
 import de.tu_darmstadt.gdi1.bomberman.game.elements.Player;
+import de.tu_darmstadt.gdi1.bomberman.game.elements.Stone;
 import de.tu_darmstadt.gdi1.bomberman.game.elements.Wall;
 import de.tu_darmstadt.gdi1.framework.exceptions.InvalidLevelDataException;
 import de.tu_darmstadt.gdi1.framework.interfaces.IGameBoard;
@@ -35,16 +37,33 @@ public class BombermanLevelInformationProvider implements ILevelInformationProvi
 		List<GameElement> l = new LinkedList<GameElement>();
 		logger.log(Level.INFO, "Char: "+c);
 
+		// Allgemein Boden
+		l.add(new Floor());
 		switch (c) {
+			// unzerstörbare Wand
 			case '#':
 				l.add(new Wall());
 				break;
-			case '+':
-				l.add(new Wall());
-				l.add(new Player());
+			// zerstörbarer Stein
+			case '*':
+				l.add(new Stone());
 				break;
-			default:
-				l.add(new Wall());
+			// Spieler 1 auf leerem Feld
+			case '1':
+				l.add(new Player(1));
+				break;
+			// Spieler 1 auf leerem Feld
+			case '2':
+				l.add(new Player(2));
+				break;
+			// Spieler 1 auf leerem Feld
+			case '3':
+				l.add(new Player(3));
+				break;
+			// Spieler 1 auf leerem Feld
+			case '4':
+				l.add(new Player(4));
+				break;
 		}
 
 		return l;
