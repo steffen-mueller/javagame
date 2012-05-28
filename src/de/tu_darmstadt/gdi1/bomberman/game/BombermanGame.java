@@ -1,12 +1,16 @@
 package de.tu_darmstadt.gdi1.bomberman.game;
 
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import de.tu_darmstadt.gdi1.bomberman.BombermanController;
+import de.tu_darmstadt.gdi1.bomberman.game.elements.Bomb;
 import de.tu_darmstadt.gdi1.bomberman.game.elements.GameElement;
 import de.tu_darmstadt.gdi1.bomberman.game.levels.BombermanGameData;
+import de.tu_darmstadt.gdi1.bomberman.gui.ControllerEvent;
 import de.tu_darmstadt.gdi1.bomberman.gui.UIEvent;
 import de.tu_darmstadt.gdi1.framework.interfaces.IBoard;
 
@@ -26,6 +30,8 @@ public class BombermanGame implements IBombermanGame {
 
 	public static long tickRate = 50;
 	protected Timer tickTimer;
+	
+	private ArrayList<Bomb> bombs = new ArrayList<Bomb>();
 
 	public BombermanGame (BombermanGameData data, BombermanController ctr) {
 		gameData = data;
@@ -47,11 +53,27 @@ public class BombermanGame implements IBombermanGame {
 	@Override
 	public void tick ()
 	{
-		//logger.log(Level.INFO, "Tick tock!");
+		detonateBombs();
+		// TODO: removeExplosions();
+	}
+
+	private void detonateBombs ()
+	{
+		for (Bomb bomb : bombs) {
+			if (bomb.getTicksTillExplode() == 0) {
+				UIEvent event = new UIEvent(UIEvent.type.DETONATE_BOMB);
+				event.setForceNewPaint(true);
+				controller.sendEventToUI(event);
+				bombs.remove(bomb);
+			}
+			else {
+				bomb.decreaseBombTicks();
+			}
+		}
 	}
 
 	/**
-	 * Startet einen Timer, der die Tick Funktion alle tickRate Millisekunden ausführt.
+	 * Startet einen Timer, der die tick() Funktion alle tickRate Millisekunden ausführt.
 	 */
 	public void initialiseTickTimer ()
 	{
@@ -98,7 +120,19 @@ public class BombermanGame implements IBombermanGame {
 	private void sendEventToUI(UIEvent.type type) {
 		UIEvent event = new UIEvent(type);
 		event.setBoard(getBoard());
-		//event.setInformationMap(infoMapManager.getInfoMap());
 		controller.sendEventToUI(event);
+	}
+
+	public void handleEvent(ControllerEvent event) {
+		switch (event.getType()) {
+			case PLAYERPOSITION_CHANGED:
+				changePlayerPosition(event.getIntOne(),event.getIntTwo());
+				break;
+		}
+	}
+
+	private void changePlayerPosition (int x, int y)
+	{
+		logger.log(Level.INFO,"####PLAYER POSITION CHANGED####");
 	}
 }

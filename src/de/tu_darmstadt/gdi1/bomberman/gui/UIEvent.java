@@ -12,8 +12,10 @@ public class UIEvent extends DefaultUserInterfaceEvent<GameElement> {
 
 	public enum type {
 		NEW_GAME,
-		QUIT_GAME
-	};
+		QUIT_GAME,
+		DETONATE_BOMB,
+		REDRAW
+	}
 
 	private type theType;
 

@@ -37,4 +37,10 @@ public class Floor extends GameElement
 	{
 		return "Floor";
 	}
+
+	@Override
+	public char getParsingSymbol ()
+	{
+		return ' ';
+	}
 }

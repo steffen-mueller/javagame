@@ -37,4 +37,10 @@ public class Wall extends GameElement
 	{
 		return "Wall";
 	}
+
+	@Override
+	public char getParsingSymbol ()
+	{
+		return '#';
+	}
 }

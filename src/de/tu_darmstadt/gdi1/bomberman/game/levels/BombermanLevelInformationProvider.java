@@ -37,7 +37,7 @@ public class BombermanLevelInformationProvider implements ILevelInformationProvi
 		List<GameElement> l = new LinkedList<GameElement>();
 		logger.log(Level.INFO, "Char: "+c);
 
-		// Allgemein Boden
+		// Allgemein: Boden
 		l.add(new Floor());
 		switch (c) {
 			// unzerstörbare Wand
@@ -92,16 +92,8 @@ public class BombermanLevelInformationProvider implements ILevelInformationProvi
 	 */
 	@Override
 	public char parseField(List<GameElement> field) throws InvalidLevelDataException {
-		for (GameElement element : field) {
-			if (element instanceof Wall) {
-				return '#';
-			}
-			else if (element instanceof Player)
-			{
-				return '+';
-			}
-		}
-		return '#';
+		// Das am höchsten gelegene GameElement im Stack entscheidet über das zu parsende Zeichen
+		return field.get(field.size()-1).getParsingSymbol();
 	}
 
 	@Override

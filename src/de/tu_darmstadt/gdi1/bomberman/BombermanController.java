@@ -1,12 +1,14 @@
 package de.tu_darmstadt.gdi1.bomberman;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import de.tu_darmstadt.gdi1.bomberman.framework.AbstractBombermanController;
 import de.tu_darmstadt.gdi1.bomberman.game.BombermanGame;
 import de.tu_darmstadt.gdi1.bomberman.game.elements.GameElement;
+import de.tu_darmstadt.gdi1.bomberman.game.elements.Player;
 import de.tu_darmstadt.gdi1.bomberman.game.levels.BombermanGameData;
 import de.tu_darmstadt.gdi1.bomberman.game.levels.BombermanLevelManager;
 import de.tu_darmstadt.gdi1.bomberman.gui.ControllerEvent;
@@ -30,6 +32,8 @@ public class BombermanController extends AbstractBombermanController {
 	protected Gui gui;
 	protected BombermanLevelManager levelManager;
 	protected BombermanGame game;
+
+	HashMap<Integer,Player> players;
 
 	Logger logger = Logger.getLogger(BombermanController.class.getName());
 
@@ -61,6 +65,7 @@ public class BombermanController extends AbstractBombermanController {
 		try {
 			// Hole den nächsten Level (oder eben den ersten) ...
 			IGameData<GameElement> gd = levelManager.loadNextLevel();
+			players = levelManager.getPlayers();
 			if (gd == null || !(gd instanceof BombermanGameData))
 				throw new InvalidLevelDataException("The game data passed from the level manager where either null or no instance of BombermanGameData.");
 

@@ -37,4 +37,10 @@ public class Stone extends GameElement
 	{
 		return "Stone";
 	}
+
+	@Override
+	public char getParsingSymbol ()
+	{
+		return '*';
+	}
 }

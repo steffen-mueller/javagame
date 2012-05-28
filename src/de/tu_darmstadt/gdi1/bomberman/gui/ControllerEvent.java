@@ -10,7 +10,8 @@ import de.tu_darmstadt.gdi1.framework.events.DefaultControllerEvent;
 public class ControllerEvent extends DefaultControllerEvent {
 	// Die möglichen Arten von Events.
 	public enum type {
-		USER_QUIT
+		USER_QUIT,
+		PLAYERPOSITION_CHANGED
 	};
 
 	protected type myType;

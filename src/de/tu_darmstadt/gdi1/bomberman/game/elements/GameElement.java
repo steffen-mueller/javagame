@@ -17,9 +17,9 @@ public abstract class GameElement implements IBoardElement {
 	@Override
 	public abstract boolean equals(final Object obj);
 	
-	public ImageIcon getImageIcon () {
-		return new ImageIcon("resource/images/test.png");
-	}
+	public abstract ImageIcon getImageIcon ();
 
 	public abstract String getDescription ();
+	
+	public abstract char getParsingSymbol();
 }

@@ -10,6 +10,8 @@ import de.tu_darmstadt.gdi1.framework.model.StepManager;
  */
 public class BombermanGameData extends GameData<GameElement> {
 
+
+
 	public BombermanGameData (IGameBoard<GameElement> gameBoard)
 	{
 		super(new StepManager<GameElement>(gameBoard));

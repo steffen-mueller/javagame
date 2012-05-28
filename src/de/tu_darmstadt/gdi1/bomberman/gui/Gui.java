@@ -5,6 +5,7 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 
@@ -49,6 +50,9 @@ public class Gui extends UserInterface<GameElement> {
 			case QUIT_GAME:
 				dispose();
 				break;
+			case REDRAW:
+				// This does nothing, it is just called to tell the framework, that the UI has work to do and needs repaint
+				break;
 		}
 	}
 
@@ -64,7 +68,37 @@ public class Gui extends UserInterface<GameElement> {
 
 	@Override
 	protected void keyboardKeyPressed(KeyEvent e) {
-		throw new UnsupportedOperationException("Not supported yet.");
+		logger.log(Level.INFO, "Pressed  keyText: " + KeyEvent.getKeyText(e.getKeyCode()) + ",  modifers:"
+				                        + KeyEvent.getModifiersExText(e.getModifiersEx()));
+
+		/*
+		 * This is the method for the keyboard control of the game. The user can work as usual with the mouse and click
+		 * on cells, or as an alternative he can move around with the arrow keys.
+		 *
+		 * Notice: - initial, the focus is in the upper left corner (0,0) - the focus follows the keyboard movements -
+		 * SPACE will remove stones (if possible)
+		 */
+		switch (e.getKeyCode()) {
+			case (KeyEvent.VK_UP): // UP
+				changePlayerPosition(0, -1);
+				break;
+			case (KeyEvent.VK_DOWN): // DOWN
+				changePlayerPosition(0, 1);
+				break;
+			case (KeyEvent.VK_LEFT): // LEFT
+				changePlayerPosition(-1, 0);
+				break;
+			case (KeyEvent.VK_RIGHT): // RIGHT
+				changePlayerPosition(1, 0);
+				break;
+		}
+	}
+
+	public void changePlayerPosition (int changeX, int changeY) {
+		ControllerEvent eventforGame = new ControllerEvent(ControllerEvent.type.PLAYERPOSITION_CHANGED);
+		eventforGame.setIntOne(changeX);
+		eventforGame.setIntTwo(changeY);
+		controller.handleEvent(eventforGame);
 	}
 
 	@Override

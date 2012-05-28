@@ -14,10 +14,17 @@ import javax.swing.ImageIcon;
 public class Player extends GameElement
 {
 	private int playerID;
-	
+	private int x;
+	private int y;
+
 	public Player (int playerID)
 	{
 		this.playerID = playerID;
+	}
+
+	public int getPlayerID ()
+	{
+		return playerID;
 	}
 
 	@Override
@@ -29,7 +36,11 @@ public class Player extends GameElement
 	@Override
 	public boolean equals (Object obj)
 	{
-		// todo: Not yet implemented
+		if (obj instanceof Player) {
+			if (((Player) obj).playerID == this.playerID) {
+				return true;
+			}
+		}
 		return false;
 	}
 
@@ -42,15 +53,39 @@ public class Player extends GameElement
 			return new ImageIcon("resource/images/player_red.png");
 		else if (playerID == 3)
 			return new ImageIcon("resource/images/player_black.png");
-		else if (playerID == 4)
+		else
 			return new ImageIcon("resource/images/player_blue.png");
-
-		return new ImageIcon("resource/images/player_white.png");
 	}
 
 	@Override
 	public String getDescription ()
 	{
-		return "Player";
+		if (playerID == 1)
+			return "Player White";
+		else if (playerID == 2)
+			return "Player Red";
+		else if (playerID == 3)
+			return "Player Black";
+		else
+			return "Player Blue";
+	}
+
+	@Override
+	public char getParsingSymbol ()
+	{
+		if (playerID == 1)
+			return '1';
+		else if (playerID == 2)
+			return '2';
+		else if (playerID == 3)
+			return '3';
+		else
+			return '4';
+	}
+
+	public void setCoordinates (int x, int y)
+	{
+		this.x = x;
+		this.y = y;
 	}
 }
