@@ -12,6 +12,7 @@ import de.tu_darmstadt.gdi1.bomberman.game.elements.Player;
 import de.tu_darmstadt.gdi1.bomberman.game.levels.BombermanGameData;
 import de.tu_darmstadt.gdi1.bomberman.game.levels.BombermanLevelManager;
 import de.tu_darmstadt.gdi1.bomberman.gui.ControllerEvent;
+import de.tu_darmstadt.gdi1.bomberman.gui.ControllerInputEvent;
 import de.tu_darmstadt.gdi1.bomberman.gui.Gui;
 import de.tu_darmstadt.gdi1.bomberman.gui.UIEvent;
 import de.tu_darmstadt.gdi1.framework.exceptions.InvalidLevelDataException;
@@ -19,6 +20,8 @@ import de.tu_darmstadt.gdi1.framework.exceptions.NoNextLevelException;
 import de.tu_darmstadt.gdi1.framework.exceptions.SoundFailedException;
 import de.tu_darmstadt.gdi1.framework.interfaces.IControllerEvent;
 import de.tu_darmstadt.gdi1.framework.interfaces.IGameData;
+import de.tu_darmstadt.gdi1.framework.utils.Point;
+import java.util.ArrayList;
 
 /**
  * Der BombermanController ist unsere Implementierung eines AbstractBombermanControllers.
@@ -90,12 +93,27 @@ public class BombermanController extends AbstractBombermanController {
 		game.initialiseTickTimer();
 	}
 
+	public void addDirtyPoints (ArrayList<Point> points) {
+		gui.addDirtyPoints(points);
+	}
+
+	public void redrawDirtyPoints () {
+		gui.redrawDirty(game.getBoard());
+	}
+
 	// EVENT HANDLING //////////////////////////////////////////////////////////////////////////////
 
 	@Override
 	protected void processEvent(final IControllerEvent event) {
-		if (event instanceof ControllerEvent)
-			handleControllerEvent((ControllerEvent) event);
+		try {
+			if (event instanceof ControllerInputEvent)
+				game.handleInputEvent((ControllerInputEvent)event);
+			else if (event instanceof ControllerEvent)
+				handleControllerEvent((ControllerEvent) event);
+		}
+		catch (Exception ex) {
+			ex.printStackTrace();
+		}
 	}
 
 	public void handleControllerEvent (ControllerEvent evt) {

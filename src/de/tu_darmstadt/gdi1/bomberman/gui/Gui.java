@@ -12,9 +12,12 @@ import javax.swing.ImageIcon;
 import de.tu_darmstadt.gdi1.bomberman.BombermanController;
 import de.tu_darmstadt.gdi1.bomberman.framework.AbstractBombermanController;
 import de.tu_darmstadt.gdi1.bomberman.game.elements.GameElement;
+import de.tu_darmstadt.gdi1.framework.interfaces.IBoard;
 import de.tu_darmstadt.gdi1.framework.interfaces.IUserInterfaceEvent;
 import de.tu_darmstadt.gdi1.framework.utils.Point;
 import de.tu_darmstadt.gdi1.framework.view.UserInterface;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 
 /**
@@ -24,6 +27,8 @@ import de.tu_darmstadt.gdi1.framework.view.UserInterface;
 public class Gui extends UserInterface<GameElement> {
 
 	protected AbstractBombermanController controller;
+
+	protected ArrayList<Point> dirtyPoints = new ArrayList<Point>();
 
 	Logger logger = Logger.getLogger(BombermanController.class.getName());
 
@@ -56,60 +61,137 @@ public class Gui extends UserInterface<GameElement> {
 		}
 	}
 
+	/**
+	 * Sets a coordinate of the game board dirty.
+	 * @param p
+	 */
+	public void setCoordinateDirty (Point p) {
+		System.out.println("Setting dirty "+p);
+		if (!dirtyPoints.contains(p))
+			dirtyPoints.add(p);
+	}
+
+	public synchronized void addDirtyPoints (ArrayList<Point> points) {
+		for (Point p : points) {
+			if (!dirtyPoints.contains(p))
+				dirtyPoints.add(p);
+		}
+	}
+
+	public synchronized void redrawDirty (IBoard<GameElement> board) {
+		if (board == null || dirtyPoints.isEmpty())
+			return;
+
+
+
+		for (Point p : dirtyPoints) {
+			System.out.println("Redrawing "+p);
+
+			JLabel label = boardPanel.getLabelAt(board, p.getX(), p.getY());
+			ImageIcon icon = this.getComponentForBoard(board, p);
+			if (icon != null) {
+				System.out.println ("... setting icon "+icon);
+				label.setIcon(icon);
+			}
+		}
+
+		dirtyPoints.clear();
+	}
+
+	// PLAYER CONTROLS /////////////////////////////////////////////////////////////////////////////
+
 	@Override
 	protected void mouseClicked(int x, int y) {
-		throw new UnsupportedOperationException("Not supported yet.");
+		// We do not (yet) care about clicking.
 	}
+
 
 	@Override
 	protected void keyboardKeyTyped(KeyEvent evt) {
-		throw new UnsupportedOperationException("Not supported yet.");
+		// We do not care about typing.
 	}
 
 	@Override
 	protected void keyboardKeyPressed(KeyEvent e) {
-		logger.log(Level.INFO, "Pressed  keyText: " + KeyEvent.getKeyText(e.getKeyCode()) + ",  modifers:"
-				                        + KeyEvent.getModifiersExText(e.getModifiersEx()));
-
-		/*
-		 * This is the method for the keyboard control of the game. The user can work as usual with the mouse and click
-		 * on cells, or as an alternative he can move around with the arrow keys.
-		 *
-		 * Notice: - initial, the focus is in the upper left corner (0,0) - the focus follows the keyboard movements -
-		 * SPACE will remove stones (if possible)
-		 */
-		switch (e.getKeyCode()) {
-			case (KeyEvent.VK_UP): // UP
-				changePlayerPosition(0, -1);
-				break;
-			case (KeyEvent.VK_DOWN): // DOWN
-				changePlayerPosition(0, 1);
-				break;
-			case (KeyEvent.VK_LEFT): // LEFT
-				changePlayerPosition(-1, 0);
-				break;
-			case (KeyEvent.VK_RIGHT): // RIGHT
-				changePlayerPosition(1, 0);
-				break;
+		ControllerInputEvent evt = createInputEvent(e, ControllerInputEvent.state.PRESSED);
+		if (evt != null) {
+			controller.handleEvent(evt);
 		}
-	}
-
-	public void changePlayerPosition (int changeX, int changeY) {
-		ControllerEvent eventforGame = new ControllerEvent(ControllerEvent.type.PLAYERPOSITION_CHANGED);
-		eventforGame.setIntOne(changeX);
-		eventforGame.setIntTwo(changeY);
-		controller.handleEvent(eventforGame);
 	}
 
 	@Override
 	protected void keyboardKeyReleased(KeyEvent e) {
-		throw new UnsupportedOperationException("Not supported yet.");
+		ControllerInputEvent evt = createInputEvent(e, ControllerInputEvent.state.RELEASED);
+		if (evt != null) {
+			controller.handleEvent(evt);
+		}
 	}
 
-	@Override
-	public void menuItemClicked(String itemName) {
-		throw new UnsupportedOperationException("Not supported yet.");
+	/**
+	 * Mappt ein KeyEvent auf ein Inputevent. Die aktuell hart verdrahtete Tastenbelegung kann hier
+	 * drin später aus einer dynamischen Map gelesen werden.
+	 * Die Methode erzeugt ein Input Event, falls die betätigte Taste eine Bedeutung im Spiel hat.
+	 * Falls nicht, wird null zurückgegeben.
+	 * @param evt Das KeyEvent, das verarbeitet werden soll.
+	 * @param state Ob er Button gedrückt ist oder losgelassen wurde.
+	 * @return
+	 */
+	protected ControllerInputEvent createInputEvent (KeyEvent evt, ControllerInputEvent.state state) {
+		int playerIdx = 0;
+		ControllerInputEvent.button btn = ControllerInputEvent.button.NULL;
+		switch (evt.getKeyCode()) {
+			// PLAYER 1
+			case (KeyEvent.VK_UP): // UP
+				playerIdx = 1;
+				btn = ControllerInputEvent.button.UP;
+				break;
+			case (KeyEvent.VK_DOWN): // DOWN
+				playerIdx = 1;
+				btn = ControllerInputEvent.button.DOWN;
+				break;
+			case (KeyEvent.VK_LEFT): // LEFT
+				playerIdx = 1;
+				btn = ControllerInputEvent.button.LEFT;
+				break;
+			case (KeyEvent.VK_RIGHT): // RIGHT
+				playerIdx = 1;
+				btn = ControllerInputEvent.button.RIGHT;
+				break;
+			case (KeyEvent.VK_SPACE): // BOMB BABY BOMB!
+				playerIdx = 1;
+				btn = ControllerInputEvent.button.BOMB;
+				break;
+
+			// PLAYER 2
+			case (KeyEvent.VK_W): // UP
+				playerIdx = 2;
+				btn = ControllerInputEvent.button.UP;
+				break;
+			case (KeyEvent.VK_S): // DOWN
+				playerIdx = 2;
+				btn = ControllerInputEvent.button.DOWN;
+				break;
+			case (KeyEvent.VK_A): // LEFT
+				playerIdx = 2;
+				btn = ControllerInputEvent.button.LEFT;
+				break;
+			case (KeyEvent.VK_D): // RIGHT
+				playerIdx = 2;
+				btn = ControllerInputEvent.button.RIGHT;
+				break;
+			case (KeyEvent.VK_TAB): // BOMB BABY BOMB!
+				playerIdx = 2;
+				btn = ControllerInputEvent.button.BOMB;
+				break;
+		}
+
+		if (playerIdx < 1)
+			return null;
+
+		return new ControllerInputEvent(playerIdx, btn, state);
 	}
+
+	// GAME MANAGEMENT /////////////////////////////////////////////////////////////////////////////
 
 	@Override
 	protected void closingRequested() {
@@ -118,9 +200,18 @@ public class Gui extends UserInterface<GameElement> {
 	}
 
 	@Override
+	public void menuItemClicked(String itemName) {
+		throw new UnsupportedOperationException("Not supported yet.");
+	}
+
+
+	// GUI CELL RENDERER ///////////////////////////////////////////////////////////////////////////
+
+	@Override
 	public ImageIcon getComponentForList(List<GameElement> aList, Point coordinates) {
 		// TODO
 		ArrayList<ImageIcon> iconList = new ArrayList<ImageIcon>();
+		ImageIcon ret = null;
 		for (GameElement gameElement : aList) {
 			iconList.add(gameElement.getImageIcon());
 		}
@@ -132,7 +223,7 @@ public class Gui extends UserInterface<GameElement> {
 			return combineImages(iconList);
 		}
 	}
-	
+
 	private ImageIcon combineImages(ArrayList<ImageIcon> imageList)
 	{
 		BufferedImage bufferedImage = new BufferedImage(40, 40, BufferedImage.TYPE_INT_ARGB);
@@ -148,5 +239,4 @@ public class Gui extends UserInterface<GameElement> {
 
 		return new ImageIcon(bufferedImage);
 	}
-
 }

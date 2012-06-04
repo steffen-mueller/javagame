@@ -26,11 +26,11 @@ import de.tu_darmstadt.gdi1.framework.utils.Point;
 
 /**
  * Class representing the basic game panel with include pause screen.
- * 
+ *
  * Using the BoardPanel(IGameView) constructor, you'll get an BoardPanel
  * with an empty JPanel as pause screen. To let the framework use your own
  * panel, use the BoardPanel(IGameView, JPanel) constructor.
- * 
+ *
  * @author f_m
  */
 public class BoardPanel<E extends IBoardElement> extends JPanel implements IBoardPanel<E> {
@@ -45,7 +45,7 @@ public class BoardPanel<E extends IBoardElement> extends JPanel implements IBoar
 	private Dimension lastD;
 	private boolean pause = false;
 	private boolean emptyPanel = false;
-	
+
 	/**
 	 * Constructor for an new BoardPanel with default pause screen.
 	 * @param view class implementing IGameView
@@ -53,23 +53,23 @@ public class BoardPanel<E extends IBoardElement> extends JPanel implements IBoar
 	public BoardPanel(final IGameView<E> view) {
 		this(view, null);
 	}
-	
+
 	/**
 	 * Constructor for an new BoardPanel with customized pause screen.
 	 * @param view class implementing IGameView
 	 * @param pausePanel the pause screen
 	 */
 	public BoardPanel(final IGameView<E> view, JPanel pausePanel) {
-		
+
 		if(pausePanel == null) {
 			pausePanel = new JPanel();
 			emptyPanel = true;
 		}
-		
+
 		gameView = view;
 		this.pausePanel = pausePanel;
 		boardPanel = new JPanel();
-		
+
 		layout = new CardLayout(0,0);
 		setLayout(layout);
 		JPanel inBetweenPanel = new JPanel();
@@ -78,25 +78,25 @@ public class BoardPanel<E extends IBoardElement> extends JPanel implements IBoar
 		add(boardPanel, "game");
 		add(this.pausePanel, "pause");
 	}
-	
+
 	/**
-	 * Paint the given board. This method can be used if you want to 
+	 * Paint the given board. This method can be used if you want to
 	 * force a paint of the complete board, which means every single picture.<br><br>
-	 * Notice: to force a repaint of every element will take much more time 
+	 * Notice: to force a repaint of every element will take much more time
 	 * than the ordinary {@link de.tu_darmstadt.gdi1.framework.view.BoardPanel#paintBoard(IBoard)} method, but for certain
 	 * cases we need to offer this possibility to the framework user, who
-	 * can set a flag in any {@link IUserInterfaceEvent} event to make us use 
+	 * can set a flag in any {@link IUserInterfaceEvent} event to make us use
 	 * this method instead of the default one below.
 	 * @param board the board to paint.
 	 * @param forceNewPaint true if you want to paint everything.
 	 */
 	public void paintBoard(IBoard<E> board, final boolean forceNewPaint) {
 		Dimension d = null, d2 = null;
-		
+
 		if (IStepManager.class.isInstance(board)) {
 			board = ((IStepManager<E>)board).getCurrentBoard();
 		}
-		
+
 		// the GridLayout gets filled from left to right from
 		// top to bottom
 		if ((lastBoard != null) && (lastBoard.getHeight() == board.getHeight())
@@ -117,7 +117,7 @@ public class BoardPanel<E extends IBoardElement> extends JPanel implements IBoar
 						}
 					}
 				} else {
-					// everything shall be painted without regarding only changed elements 
+					// everything shall be painted without regarding only changed elements
 					for (int y = 0; y < board.getHeight(); y++) {
 						for (int x = 0; x < board.getWidth(); x++) {
 							d = placeElementGroup(x, y, board, true);
@@ -153,28 +153,28 @@ public class BoardPanel<E extends IBoardElement> extends JPanel implements IBoar
 		boardPanel.setPreferredSize(size);
 		boardPanel.setMinimumSize(size);
 		boardPanel.setMaximumSize(size);
-		
+
 		if (!pause) {
 			setMinimumSize(size);
 			setMaximumSize(size);
 			setPreferredSize(size);
 		}
 	}
-	
+
 	/**
 	 * Paints the given board to this panel.<br><br>
 	 * Notice: for performance issues, only the positions on which elements
 	 * have changed will be painted. If you want to force a complete repaint
 	 * of the board no matter of any changes you should use {@link de.tu_darmstadt.gdi1.framework.view.BoardPanel#paintBoard(IBoard, boolean)}.
-	 * <br><strong>This is the default method to use.</strong> 
-	 * 
+	 * <br><strong>This is the default method to use.</strong>
+	 *
 	 * @param board the board to paint.
 	 * @throws ParameterOutOfRangeException if the images don't have the same sizes.
 	 */
 	public void paintBoard(final IBoard<E> board) {
 		paintBoard(board, false);
 	}
-	
+
 	/**
 	 * Sets the pause mode to the given boolean.
 	 * @param pauseMode the pause mode.
@@ -207,7 +207,7 @@ public class BoardPanel<E extends IBoardElement> extends JPanel implements IBoar
 			//secure an element gets the focus which is listening for keyevents
 		}
 	}
-	
+
 	/**
 	 * Toggles the pause mode.
 	 */
@@ -217,7 +217,7 @@ public class BoardPanel<E extends IBoardElement> extends JPanel implements IBoar
 
 	/**
 	 * Pushes the corresponding icon on a {@link javax.swing.JLabel} with a registered MouseListener to the GridLayout.
-	 * 
+	 *
 	 * @param x
 	 *            the column
 	 * @param y
@@ -234,11 +234,11 @@ public class BoardPanel<E extends IBoardElement> extends JPanel implements IBoar
 		int index = y * board.getWidth() + x;
 
 		ImageIcon icon = gameView.getComponentForBoard(board, new Point(x, y));
-		
+
 		if (icon == null) {
 			throw new FrameworkError("Can't paint an element that has null as image!");
 		}
-		
+
 		if (update) {
 			try { // ... to update the label's icon
 				label = (JLabel) boardPanel.getComponent(index);
@@ -268,7 +268,7 @@ public class BoardPanel<E extends IBoardElement> extends JPanel implements IBoar
 	/**
 	 * This method should be called every time before the panel is redrawn, with the cols and rows of the current Board
 	 * to ensure the panel resizes if the board has changed its size (new level for example.
-	 * 
+	 *
 	 * @param cols
 	 *            the number of columns.
 	 * @param rows
@@ -286,26 +286,36 @@ public class BoardPanel<E extends IBoardElement> extends JPanel implements IBoar
 			boardPanel.setLayout(new GridLayout(0, cols));
 		}
 	}
-	
+
 	/**
-	 * Call this function if you need to know the 
+	 * Call this function if you need to know the
 	 * amount of columns your gameboard currently has.
 	 * <br>Counting starts at 1.
-	 * 
-	 * @return the amount of columns 
+	 *
+	 * @return the amount of columns
 	 */
 	public int getGameColumns() {
 		return columns;
 	}
-	
+
 	/**
-	 * Call this function if you need to know the 
+	 * Call this function if you need to know the
 	 * amount of rows your gameboard currently has.
 	 * <br>Counting starts at 1.
-	 * 
+	 *
 	 * @return the amount of rows
 	 */
 	public int getGameRows() {
 		return rows;
+	}
+
+	/**
+	 * HACK: hinzugefügt von Steffen Müller.
+	 */
+	public JLabel getLabelAt (IBoard<E> board, int x, int y) {
+		if (board != null)
+			return (JLabel) boardPanel.getComponent(y * board.getWidth() + x);
+		else
+			return null;
 	}
 }

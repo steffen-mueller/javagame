@@ -1,9 +1,10 @@
-/*
- * Copyright (c) 2008-2010 by teambits GmbH, Darmstadt, Germany (http://www.teambits.de). All rights reserved.
- * This is CONFIDENTIAL code. Use is subject to license terms.
- */
 package de.tu_darmstadt.gdi1.bomberman.game.elements;
 
+import de.tu_darmstadt.gdi1.framework.interfaces.IGameBoard;
+import de.tu_darmstadt.gdi1.framework.model.GameBoard;
+import de.tu_darmstadt.gdi1.framework.utils.Point;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.ImageIcon;
 
 /**
@@ -13,19 +14,89 @@ import javax.swing.ImageIcon;
  */
 public class Player extends GameElement
 {
+	/**
+	 * In welche Richtung bewegt sich der Spieler aktuell?
+	 */
+	public enum direction {
+		NULL,
+		UP,
+		DOWN,
+		LEFT,
+		RIGHT
+	};
+
+	private direction dir = direction.NULL;
 	private int playerID;
+	private long nextMoveAllowedTick = 0;
+	private long moveDelay = 4;
 	private int x;
 	private int y;
+	private IGameBoard<GameElement> gameBoard = null;
 
 	public Player (int playerID)
 	{
 		this.playerID = playerID;
 	}
 
+	// GETTER SETTER PARTAY ////////////////////////////////////////////////////////////////////////
+
 	public int getPlayerID ()
 	{
 		return playerID;
 	}
+
+	public void setGameBoard (IGameBoard<GameElement> gb) {
+		gameBoard = gb;
+	}
+
+	public direction getDirection () {
+		return dir;
+	}
+
+	public void setDirection (direction d) {
+		dir = d;
+	}
+
+	// LOGIC ///////////////////////////////////////////////////////////////////////////////////////
+
+	public boolean move (long ticknumber, ArrayList<Point> dirtyList) {
+		// Prüfen: darf ich mich überhaupt wieder bewegen?
+		if (dir == direction.NULL || ticknumber < nextMoveAllowedTick)
+			return false;
+
+		// Die Richtung in Koordinaten übersetzen
+		int newX = this.x, newY = this.y;
+		switch (dir) {
+			case UP: newY -= 1; break;
+			case DOWN: newY += 1; break;
+			case LEFT: newX -= 1; break;
+			case RIGHT: newX += 1; break;
+		}
+
+		// Check that we do not walk off the board
+		if (!gameBoard.checkCoordinates(newX, newY))
+			return false;
+
+		// Get who is already where we want to go
+		List<GameElement> present = gameBoard.getElements(this.x, this.y);
+		List<GameElement> target = gameBoard.getElements(newX, newY);
+
+		// Perform the move
+		System.out.println("Player "+getPlayerID()+" moves to ("+newX+","+newY+")");
+		present.remove(this);
+		gameBoard.setElements(x, y, present);
+		dirtyList.add(new Point(x,y));
+		target.add(this);
+		gameBoard.setElements(newX, newY, target);
+		dirtyList.add(new Point(newX,newY));
+		this.x = newX;
+		this.y = newY;
+
+		nextMoveAllowedTick = ticknumber + moveDelay;
+		return true;
+	}
+
+	// STAMMDATEN: PARSING, ICON, CLONING ... //////////////////////////////////////////////////////
 
 	@Override
 	public GameElement clone ()
@@ -87,5 +158,13 @@ public class Player extends GameElement
 	{
 		this.x = x;
 		this.y = y;
+	}
+
+	public int getX () {
+		return x;
+	}
+
+	public int getY () {
+		return y;
 	}
 }

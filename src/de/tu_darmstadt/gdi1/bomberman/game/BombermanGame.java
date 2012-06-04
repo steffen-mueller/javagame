@@ -3,16 +3,17 @@ package de.tu_darmstadt.gdi1.bomberman.game;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import de.tu_darmstadt.gdi1.bomberman.BombermanController;
 import de.tu_darmstadt.gdi1.bomberman.game.elements.Bomb;
 import de.tu_darmstadt.gdi1.bomberman.game.elements.GameElement;
+import de.tu_darmstadt.gdi1.bomberman.game.elements.Player;
 import de.tu_darmstadt.gdi1.bomberman.game.levels.BombermanGameData;
-import de.tu_darmstadt.gdi1.bomberman.gui.ControllerEvent;
+import de.tu_darmstadt.gdi1.bomberman.gui.ControllerInputEvent;
 import de.tu_darmstadt.gdi1.bomberman.gui.UIEvent;
 import de.tu_darmstadt.gdi1.framework.interfaces.IBoard;
+import de.tu_darmstadt.gdi1.framework.utils.Point;
 
 /**
  * Das eigentliche Bomberman Spiel. Diese Klasse enthält die Spiellogik. Unsere Implementierung des
@@ -30,7 +31,9 @@ public class BombermanGame implements IBombermanGame {
 
 	public static long tickRate = 50;
 	protected Timer tickTimer;
-	
+	protected long tickCounter = 0;
+
+
 	private ArrayList<Bomb> bombs = new ArrayList<Bomb>();
 
 	public BombermanGame (BombermanGameData data, BombermanController ctr) {
@@ -41,8 +44,16 @@ public class BombermanGame implements IBombermanGame {
 		sendEventToUI(UIEvent.type.NEW_GAME);
 	}
 
+	// BOMBING /////////////////////////////////////////////////////////////////////////////////////
+
+	public void placeBomb (int playerIndex) throws Exception {
+		if (playerIndex < 1 || playerIndex > 4)
+			throw new Exception("Invalid playerIndex "+playerIndex);
+
+	}
+
 	// Ticking /////////////////////////////////////////////////////////////////////////////////////
-	
+
 	/**
 	 * Diese Funktion wird für jedes "Frame" aufgerufen. Per "initialiseTickTimer" Funktion kann
 	 * dies zeitgesteuert ausgeführt und gestartet werden. Die Testfälle führen die tick() Funktion
@@ -53,8 +64,20 @@ public class BombermanGame implements IBombermanGame {
 	@Override
 	public void tick ()
 	{
+		// Let the gamedata manipulate its state. If it returns true, this indicates that
+		// it repaints.
+		tickCounter++;
+		ArrayList<Point> dirtyPoints = gameData.tick(tickCounter);
+
+		this.controller.addDirtyPoints(dirtyPoints);
+		this.controller.redrawDirtyPoints();
+
 		detonateBombs();
 		// TODO: removeExplosions();
+	}
+
+	public long getTickCount () {
+		return tickCounter;
 	}
 
 	private void detonateBombs ()
@@ -123,16 +146,36 @@ public class BombermanGame implements IBombermanGame {
 		controller.sendEventToUI(event);
 	}
 
-	public void handleEvent(ControllerEvent event) {
-		switch (event.getType()) {
-			case PLAYERPOSITION_CHANGED:
-				changePlayerPosition(event.getIntOne(),event.getIntTwo());
-				break;
-		}
-	}
+	/**
+	 * Verarbeitet ein Input Event.
+	 * @param event
+	 */
+	public void handleInputEvent(ControllerInputEvent event) throws Exception {
+		if (event.getButton() == ControllerInputEvent.button.NULL)
+			return;
 
-	private void changePlayerPosition (int x, int y)
-	{
-		logger.log(Level.INFO,"####PLAYER POSITION CHANGED####");
+		// Either place a bomb or move around.
+		if (event.getButton() == ControllerInputEvent.button.BOMB) {
+			this.placeBomb(event.getPlayerIndex());
+		}
+		else {
+			// We know that it has to be a direction - map the direction from the ControllerInputEvent
+			// to the Players directions (die Wege der losen Kopplung sind unergründlich - hässlich)
+			Player.direction dir = Player.direction.NULL;
+			switch (event.getButton()) {
+				case UP: dir = Player.direction.UP; break;
+				case DOWN: dir = Player.direction.DOWN; break;
+				case LEFT: dir = Player.direction.LEFT; break;
+				case RIGHT: dir = Player.direction.RIGHT; break;
+			}
+
+			if (event.getState() == ControllerInputEvent.state.PRESSED) {
+				ArrayList<Point> dirtyPoints = gameData.movePlayer(event.getPlayerIndex(), dir, tickCounter);
+				this.controller.addDirtyPoints(dirtyPoints);
+				this.controller.redrawDirtyPoints();
+			}
+			else
+				gameData.removePlayerDirection(event.getPlayerIndex(), dir);
+		}
 	}
 }
