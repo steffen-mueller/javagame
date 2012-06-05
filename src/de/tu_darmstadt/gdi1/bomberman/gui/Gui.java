@@ -90,12 +90,9 @@ public class Gui extends UserInterface<GameElement> {
 
 
 		for (Point p : dirtyPoints) {
-			System.out.println("Redrawing "+p);
-
 			JLabel label = boardPanel.getLabelAt(board, p.getX(), p.getY());
 			ImageIcon icon = this.getComponentForBoard(board, p);
 			if (icon != null) {
-				System.out.println ("... setting icon "+icon);
 				label.setIcon(icon);
 			}
 		}
@@ -184,7 +181,7 @@ public class Gui extends UserInterface<GameElement> {
 				playerIdx = 2;
 				btn = ControllerInputEvent.button.RIGHT;
 				break;
-			case (KeyEvent.VK_TAB): // BOMB BABY BOMB!
+			case (KeyEvent.VK_Q): // BOMB BABY BOMB!
 				playerIdx = 2;
 				btn = ControllerInputEvent.button.BOMB;
 				break;

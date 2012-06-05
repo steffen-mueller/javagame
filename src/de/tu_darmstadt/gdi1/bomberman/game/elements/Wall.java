@@ -20,13 +20,6 @@ public class Wall extends GameElement
 	}
 
 	@Override
-	public boolean equals (Object obj)
-	{
-		// todo: Not yet implemented
-		return false;
-	}
-
-	@Override
 	public ImageIcon getImageIcon ()
 	{
 		return new ImageIcon("resource/images/wall.png");

@@ -20,13 +20,6 @@ public class Stone extends GameElement
 	}
 
 	@Override
-	public boolean equals (Object obj)
-	{
-		// todo: Not yet implemented
-		return false;
-	}
-
-	@Override
 	public ImageIcon getImageIcon ()
 	{
 		return new ImageIcon("resource/images/stone.png");
@@ -44,7 +37,13 @@ public class Stone extends GameElement
 		return '*';
 	}
 
+	@Override
 	public boolean isSolid() {
+		return true;
+	}
+
+	@Override
+	public boolean isDestroyable () {
 		return true;
 	}
 }

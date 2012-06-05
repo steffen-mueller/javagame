@@ -29,13 +29,23 @@ public class Player extends GameElement
 	private int playerID;
 	private long nextMoveAllowedTick = 0;
 	private long moveDelay = 4;
-	private int x;
-	private int y;
-	private IGameBoard<GameElement> gameBoard = null;
+
+	private ArrayList<Bomb> myBombs = new ArrayList<Bomb>();
 
 	public Player (int playerID)
 	{
 		this.playerID = playerID;
+	}
+
+	@Override
+	public void destroy() {
+		Player.super.destroy();
+		gameData.removePlayer(playerID);
+		System.out.println("Player "+playerID+" died.");
+	}
+
+	public boolean isDestroyable () {
+		return true;
 	}
 
 	// GETTER SETTER PARTAY ////////////////////////////////////////////////////////////////////////
@@ -43,10 +53,6 @@ public class Player extends GameElement
 	public int getPlayerID ()
 	{
 		return playerID;
-	}
-
-	public void setGameBoard (IGameBoard<GameElement> gb) {
-		gameBoard = gb;
 	}
 
 	public direction getDirection () {
@@ -100,23 +106,40 @@ public class Player extends GameElement
 		return true;
 	}
 
+	public Bomb dropBomb () {
+		// Get the elements we are standing on top of
+		List<GameElement> present = gameBoard.getElements(this.x, this.y);
+
+		// Only one bomb per field!
+		for (GameElement t : present) {
+			if (t instanceof Bomb)
+				return null;
+		}
+
+		// Bomb creation
+		Bomb bomb = new Bomb(this, 60);
+		bomb.setCoordinates(this.x, this.y);
+		bomb.setGameBoard(gameBoard);
+		bomb.setGameData(gameData);
+		myBombs.add(bomb);
+
+		// Perform the dropping
+		present.add(present.indexOf(this), bomb);
+		gameBoard.setElements(x, y, present);
+
+		return bomb;
+	}
+
+	public void removeBombOwnage (Bomb b) {
+		myBombs.remove(b);
+	}
+
 	// STAMMDATEN: PARSING, ICON, CLONING ... //////////////////////////////////////////////////////
 
 	@Override
 	public GameElement clone ()
 	{
 		return new Player(this.playerID);
-	}
-
-	@Override
-	public boolean equals (Object obj)
-	{
-		if (obj instanceof Player) {
-			if (((Player) obj).playerID == this.playerID) {
-				return true;
-			}
-		}
-		return false;
 	}
 
 	@Override
@@ -156,23 +179,5 @@ public class Player extends GameElement
 			return '3';
 		else
 			return '4';
-	}
-
-	public void setCoordinates (int x, int y)
-	{
-		this.x = x;
-		this.y = y;
-	}
-
-	public int getX () {
-		return x;
-	}
-
-	public int getY () {
-		return y;
-	}
-
-	public Point getPoint () {
-		return new Point(x,y);
 	}
 }

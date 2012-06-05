@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 
 import de.tu_darmstadt.gdi1.bomberman.BombermanController;
 import de.tu_darmstadt.gdi1.bomberman.game.elements.Bomb;
+import de.tu_darmstadt.gdi1.bomberman.game.elements.Explosion;
 import de.tu_darmstadt.gdi1.bomberman.game.elements.GameElement;
 import de.tu_darmstadt.gdi1.bomberman.game.elements.Player;
 import de.tu_darmstadt.gdi1.bomberman.game.levels.BombermanGameData;
@@ -14,6 +15,8 @@ import de.tu_darmstadt.gdi1.bomberman.gui.ControllerInputEvent;
 import de.tu_darmstadt.gdi1.bomberman.gui.UIEvent;
 import de.tu_darmstadt.gdi1.framework.interfaces.IBoard;
 import de.tu_darmstadt.gdi1.framework.utils.Point;
+import java.util.Collection;
+import java.util.Iterator;
 
 /**
  * Das eigentliche Bomberman Spiel. Diese Klasse enthält die Spiellogik. Unsere Implementierung des
@@ -33,23 +36,12 @@ public class BombermanGame implements IBombermanGame {
 	protected Timer tickTimer;
 	protected long tickCounter = 0;
 
-
-	private ArrayList<Bomb> bombs = new ArrayList<Bomb>();
-
 	public BombermanGame (BombermanGameData data, BombermanController ctr) {
 		gameData = data;
 		controller = ctr;
 
 		//say hello to the gui, show the loaded level:
 		sendEventToUI(UIEvent.type.NEW_GAME);
-	}
-
-	// BOMBING /////////////////////////////////////////////////////////////////////////////////////
-
-	public void placeBomb (int playerIndex) throws Exception {
-		if (playerIndex < 1 || playerIndex > 4)
-			throw new Exception("Invalid playerIndex "+playerIndex);
-
 	}
 
 	// Ticking /////////////////////////////////////////////////////////////////////////////////////
@@ -68,8 +60,12 @@ public class BombermanGame implements IBombermanGame {
 
 		// Keep on moving players that move due to pressed buttons
 		continueMoving();
-		detonateBombs();
-		// TODO: removeExplosions();
+
+		// Keep on countdowning and exploding bombs
+		continueBombs();
+
+		// Keep on showing crazy pyro explosions
+		continueExplosions();
 
 		// Redraw what became dirty
 		this.controller.redrawDirtyPoints();
@@ -77,21 +73,6 @@ public class BombermanGame implements IBombermanGame {
 
 	public long getTickCount () {
 		return tickCounter;
-	}
-
-	private void detonateBombs ()
-	{
-		for (Bomb bomb : bombs) {
-			if (bomb.getTicksTillExplode() == 0) {
-				UIEvent event = new UIEvent(UIEvent.type.DETONATE_BOMB);
-				event.setForceNewPaint(true);
-				controller.sendEventToUI(event);
-				bombs.remove(bomb);
-			}
-			else {
-				bomb.decreaseBombTicks();
-			}
-		}
 	}
 
 	/**
@@ -137,14 +118,12 @@ public class BombermanGame implements IBombermanGame {
 	public void startPlayerMove (int playerIdx, Player.direction dir) {
 		Player pl = gameData.getPlayer(playerIdx);
 		if (pl != null) {
-			ArrayList<Point> dirtyPoints = new ArrayList<Point>();
 			Point from = pl.getPoint();
 			pl.setDirection(dir);
 			if (pl.move(tickCounter)) {
 				this.controller.addDirtyPoint(from);
 				this.controller.addDirtyPoint(pl.getPoint());
 				this.controller.redrawDirtyPoints();
-
 			}
 		}
 	}
@@ -163,6 +142,63 @@ public class BombermanGame implements IBombermanGame {
 			if (pl.move(tickCounter)) {
 				this.controller.addDirtyPoint(from);
 				this.controller.addDirtyPoint(pl.getPoint());
+			}
+		}
+	}
+
+	// Bombing /////////////////////////////////////////////////////////////////////////////////////
+
+	public void dropBomb (int playerIdx) {
+		Player pl = gameData.getPlayer(playerIdx);
+		if (pl != null) {
+			Bomb b = pl.dropBomb();
+			if (b != null) {
+				gameData.addBomb(b);
+				this.controller.addDirtyPoint(pl.getPoint());
+				this.controller.redrawDirtyPoints();
+			}
+		}
+	}
+
+	public void continueBombs ()
+	{
+		for (int i = 0; i < gameData.getBombs().size(); i++) {
+
+			Bomb bomb = gameData.getBombs().get(i);
+			if (bomb.getTicksTillExplode() == 0) {
+				// Make the bomb explode and get the resulting explosion fields
+				ArrayList<Explosion> explosions = bomb.explode(tickCounter);
+
+				// Make sure all the explosion fields are drawn
+				for (Explosion ex : explosions) {
+					this.controller.addDirtyPoint(ex.getPoint());
+				}
+
+				// Make the gameData know about the explosions
+				gameData.addExplosions(explosions);
+
+				i--;
+			}
+			else {
+				// Tick tack
+				bomb.decreaseBombTicks();
+
+				// Give the bomb a chance to be redrawn before it explodes. Might be used for
+				// animations.
+				if (bomb.isDirty())
+					this.controller.addDirtyPoint(bomb.getPoint());
+			}
+		}
+	}
+
+	// Explosions //////////////////////////////////////////////////////////////////////////////////
+
+	public void continueExplosions () {
+		for (int i = 0; i < gameData.getExplosions().size(); i++) {
+			Explosion ex = (Explosion) gameData.getExplosions().get(i);
+			if (ex.remove(tickCounter)) {
+				this.controller.addDirtyPoint(ex.getPoint());
+				i--;
 			}
 		}
 	}
@@ -190,7 +226,7 @@ public class BombermanGame implements IBombermanGame {
 
 		// Either place a bomb or move around.
 		if (event.getButton() == ControllerInputEvent.button.BOMB) {
-			this.placeBomb(event.getPlayerIndex());
+			this.dropBomb(event.getPlayerIndex());
 		}
 		else {
 			// We know that it has to be a direction - map the direction from the ControllerInputEvent

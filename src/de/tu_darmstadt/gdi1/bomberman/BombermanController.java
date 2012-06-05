@@ -1,6 +1,7 @@
 package de.tu_darmstadt.gdi1.bomberman;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
