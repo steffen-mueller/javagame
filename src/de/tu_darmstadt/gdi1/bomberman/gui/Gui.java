@@ -78,6 +78,11 @@ public class Gui extends UserInterface<GameElement> {
 		}
 	}
 
+	public synchronized void addDirtyPoint (Point point) {
+		if (!dirtyPoints.contains(point))
+			dirtyPoints.add(point);
+	}
+
 	public synchronized void redrawDirty (IBoard<GameElement> board) {
 		if (board == null || dirtyPoints.isEmpty())
 			return;

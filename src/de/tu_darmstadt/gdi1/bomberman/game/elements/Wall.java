@@ -43,4 +43,8 @@ public class Wall extends GameElement
 	{
 		return '#';
 	}
+
+	public boolean isSolid() {
+		return true;
+	}
 }

@@ -79,4 +79,10 @@ public class Bomb extends GameElement
 	{
 		setTicksTillExplode(getTicksTillExplode()-1);
 	}
+
+	
+	public boolean isSolid() {
+		return true;
+	}
+
 }

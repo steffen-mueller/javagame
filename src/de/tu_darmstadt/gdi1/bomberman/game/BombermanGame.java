@@ -64,16 +64,15 @@ public class BombermanGame implements IBombermanGame {
 	@Override
 	public void tick ()
 	{
-		// Let the gamedata manipulate its state. If it returns true, this indicates that
-		// it repaints.
 		tickCounter++;
-		ArrayList<Point> dirtyPoints = gameData.tick(tickCounter);
 
-		this.controller.addDirtyPoints(dirtyPoints);
-		this.controller.redrawDirtyPoints();
-
+		// Keep on moving players that move due to pressed buttons
+		continueMoving();
 		detonateBombs();
 		// TODO: removeExplosions();
+
+		// Redraw what became dirty
+		this.controller.redrawDirtyPoints();
 	}
 
 	public long getTickCount () {
@@ -133,6 +132,41 @@ public class BombermanGame implements IBombermanGame {
 		return this.gameData.getStepManager().getCurrentBoard();
 	}
 
+	// Player movement /////////////////////////////////////////////////////////////////////////////
+
+	public void startPlayerMove (int playerIdx, Player.direction dir) {
+		Player pl = gameData.getPlayer(playerIdx);
+		if (pl != null) {
+			ArrayList<Point> dirtyPoints = new ArrayList<Point>();
+			Point from = pl.getPoint();
+			pl.setDirection(dir);
+			if (pl.move(tickCounter)) {
+				this.controller.addDirtyPoint(from);
+				this.controller.addDirtyPoint(pl.getPoint());
+				this.controller.redrawDirtyPoints();
+
+			}
+		}
+	}
+
+	public void stopPlayerMove (int playerIdx, Player.direction dir) {
+		Player pl = gameData.getPlayer(playerIdx);
+		if (pl != null && pl.getDirection() == dir) {
+			pl.setDirection(Player.direction.NULL);
+		}
+	}
+
+	public void continueMoving () {
+		// Make each player move if he needs to
+		for (Player pl : gameData.getPlayers()) {
+			Point from = pl.getPoint();
+			if (pl.move(tickCounter)) {
+				this.controller.addDirtyPoint(from);
+				this.controller.addDirtyPoint(pl.getPoint());
+			}
+		}
+	}
+
 	// Event Management ////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -170,12 +204,11 @@ public class BombermanGame implements IBombermanGame {
 			}
 
 			if (event.getState() == ControllerInputEvent.state.PRESSED) {
-				ArrayList<Point> dirtyPoints = gameData.movePlayer(event.getPlayerIndex(), dir, tickCounter);
-				this.controller.addDirtyPoints(dirtyPoints);
-				this.controller.redrawDirtyPoints();
+				this.startPlayerMove(event.getPlayerIndex(), dir);
 			}
-			else
-				gameData.removePlayerDirection(event.getPlayerIndex(), dir);
+			else {
+				this.stopPlayerMove(event.getPlayerIndex(), dir);
+			}
 		}
 	}
 }

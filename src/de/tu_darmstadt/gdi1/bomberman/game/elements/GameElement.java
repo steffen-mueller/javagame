@@ -16,7 +16,19 @@ public abstract class GameElement implements IBoardElement {
 
 	@Override
 	public abstract boolean equals(final Object obj);
-	
+
+	// Behavior ////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns whether players are blocked by this element, e.g. cannot pass.
+	 * @return
+	 */
+	public boolean isSolid() {
+		return false;
+	}
+
+	// Appearance //////////////////////////////////////////////////////////////////////////////////
+
 	public abstract ImageIcon getImageIcon ();
 
 	public abstract String getDescription ();

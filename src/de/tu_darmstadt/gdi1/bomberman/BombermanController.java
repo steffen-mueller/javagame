@@ -97,6 +97,10 @@ public class BombermanController extends AbstractBombermanController {
 		gui.addDirtyPoints(points);
 	}
 
+	public void addDirtyPoint (Point point) {
+		gui.addDirtyPoint(point);
+	}
+
 	public void redrawDirtyPoints () {
 		gui.redrawDirty(game.getBoard());
 	}

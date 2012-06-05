@@ -59,7 +59,7 @@ public class Player extends GameElement
 
 	// LOGIC ///////////////////////////////////////////////////////////////////////////////////////
 
-	public boolean move (long ticknumber, ArrayList<Point> dirtyList) {
+	public boolean move (long ticknumber) {
 		// Prüfen: darf ich mich überhaupt wieder bewegen?
 		if (dir == direction.NULL || ticknumber < nextMoveAllowedTick)
 			return false;
@@ -81,14 +81,18 @@ public class Player extends GameElement
 		List<GameElement> present = gameBoard.getElements(this.x, this.y);
 		List<GameElement> target = gameBoard.getElements(newX, newY);
 
+		// Collision detection baby!
+		for (GameElement t : target) {
+			if (t.isSolid())
+				return false;
+		}
+
 		// Perform the move
 		System.out.println("Player "+getPlayerID()+" moves to ("+newX+","+newY+")");
 		present.remove(this);
 		gameBoard.setElements(x, y, present);
-		dirtyList.add(new Point(x,y));
 		target.add(this);
 		gameBoard.setElements(newX, newY, target);
-		dirtyList.add(new Point(newX,newY));
 		this.x = newX;
 		this.y = newY;
 
@@ -166,5 +170,9 @@ public class Player extends GameElement
 
 	public int getY () {
 		return y;
+	}
+
+	public Point getPoint () {
+		return new Point(x,y);
 	}
 }

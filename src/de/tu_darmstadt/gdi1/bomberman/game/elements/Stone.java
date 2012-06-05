@@ -43,4 +43,8 @@ public class Stone extends GameElement
 	{
 		return '*';
 	}
+
+	public boolean isSolid() {
+		return true;
+	}
 }
