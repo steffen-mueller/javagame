@@ -4,6 +4,7 @@
  */
 package de.tu_darmstadt.gdi1.bomberman.game.elements;
 
+import de.tu_darmstadt.gdi1.bomberman.game.elements.Explosion.style;
 import de.tu_darmstadt.gdi1.framework.utils.Point;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -121,7 +122,8 @@ public class Bomb extends GameElement
 		// Remove myself
 		destroy();
 
-		// Spread the explosion in all 4 directions.
+		// Spread the explosion in all 4 directions + center.
+		list.addAll(propagateExplosion(new Point(x,y), new Point(0,0), Explosion.style.CENTER, detonationRadius, tickCount));
 		list.addAll(propagateExplosion(new Point(x,y), new Point(-1,0), Explosion.style.HORIZONTAL, detonationRadius, tickCount));
 		list.addAll(propagateExplosion(new Point(x,y), new Point(1,0), Explosion.style.HORIZONTAL, detonationRadius, tickCount));
 		list.addAll(propagateExplosion(new Point(x,y), new Point(0,-1), Explosion.style.VERTICAL, detonationRadius, tickCount));

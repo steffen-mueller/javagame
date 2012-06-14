@@ -63,6 +63,8 @@ public class BombermanGameData extends GameData<GameElement> {
 
 	public void removePlayer (int playerIdx) {
 		players.remove(playerIdx);
+			isWon();
+		
 	}
 
 	// Bombs ///////////////////////////////////////////////////////////////////////////////////////
@@ -112,9 +114,14 @@ public class BombermanGameData extends GameData<GameElement> {
 		return true;
 	}
 
-	@Override
+	
 	public boolean isWon() {
-		return false;
+		boolean won = false;
+		if (players.size() == 1){
+			won = true;
+			System.out.println("Player: " + players.toString().charAt(1) + " wins the game.");
+		}
+		return won;
 	}
 
 }

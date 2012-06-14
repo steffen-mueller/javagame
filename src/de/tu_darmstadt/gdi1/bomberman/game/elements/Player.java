@@ -40,8 +40,9 @@ public class Player extends GameElement
 	@Override
 	public void destroy() {
 		Player.super.destroy();
-		gameData.removePlayer(playerID);
 		System.out.println("Player "+playerID+" died.");
+		gameData.removePlayer(playerID);
+		
 	}
 
 	public boolean isDestroyable () {
