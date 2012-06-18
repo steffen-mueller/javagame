@@ -1,7 +1,5 @@
 package de.tu_darmstadt.gdi1.bomberman.gui;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
@@ -42,12 +40,8 @@ public class Gui extends UserInterface<GameElement> {
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
 		// Creating Main Menu
-		mainMenu = new MainMenu();
-		mainMenu.setLayout(new BorderLayout());
-		mainMenu.setPreferredSize(new Dimension(200,200));
+		mainMenu = new MainMenu(this);
 		mainMenu.setDefaultCloseOperation(HIDE_ON_CLOSE);
-		JLabel text = new JLabel("The amazing TU-Darmstadt Bomberman");
-		mainMenu.add(text);
 	}
 
 	@Override
@@ -62,8 +56,7 @@ public class Gui extends UserInterface<GameElement> {
 		switch (bmevent.getType())
 		{
 			case QUIT_GAME:
-				mainMenu.dispose();
-				dispose();
+				quitGameGUI();
 				break;
 			case MAIN_MENU:
 				showMainMenu();
@@ -72,6 +65,13 @@ public class Gui extends UserInterface<GameElement> {
 				// This does nothing, it is just called to tell the framework, that the UI has work to do and needs repaint
 				break;
 		}
+	}
+
+	void quitGameGUI ()
+	{
+		System.out.println("Disposing GUI...");
+		mainMenu.dispose();
+		dispose();
 	}
 
 	public void showMainMenu ()
@@ -105,8 +105,6 @@ public class Gui extends UserInterface<GameElement> {
 	public synchronized void redrawDirty (IBoard<GameElement> board) {
 		if (board == null || dirtyPoints.isEmpty())
 			return;
-
-
 
 		for (Point p : dirtyPoints) {
 			JLabel label = boardPanel.getLabelAt(board, p.getX(), p.getY());

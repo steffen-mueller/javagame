@@ -7,6 +7,7 @@
 package de.tu_darmstadt.gdi1.bomberman.gui;
 
 import java.awt.*;
+import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.*;
 
@@ -15,9 +16,23 @@ import javax.swing.border.*;
  */
 public class MainMenu extends JFrame
 {
-	public MainMenu ()
+	// WICHTIG!!!
+	// Diese Datei bitte nur in Absprache mit mir (Fabian) ändern, da ich einen Designer verwendet habe
+	// Sonst muss ich die Datei neu machen... Wenn ihr irgendwas haben wollt, ruft mich kurz an!
+	private Gui gui;
+	
+	public MainMenu (Gui gui)
 	{
+		this.gui = gui;
 		initComponents();
+	}
+
+	private void QuitButtonActionPerformed(ActionEvent e) {
+		gui.quitGameGUI();
+	}
+
+	private void PlayButtonActionPerformed(ActionEvent e) {
+		// TODO add your code here
 	}
 
 	private void initComponents ()
@@ -62,6 +77,12 @@ public class MainMenu extends JFrame
 		button1.setText(">> Play >>");
 		button1.setFont(button1.getFont().deriveFont(button1.getFont().getStyle() | Font.BOLD));
 		button1.setName("button1");
+		button1.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				PlayButtonActionPerformed(e);
+			}
+		});
 		panel2.add(button1, new GridBagConstraints(0, 0, 2, 1, 0.0, 0.0,
 			GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 			new Insets(0, 0, 5, 0), 0, 0));
@@ -74,6 +95,12 @@ public class MainMenu extends JFrame
 
 		button2.setText("Quit");
 		button2.setName("button2");
+		button2.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				QuitButtonActionPerformed(e);
+			}
+		});
 		panel2.add(button2, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
 			GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 			new Insets(0, 0, 0, 0), 0, 0));
