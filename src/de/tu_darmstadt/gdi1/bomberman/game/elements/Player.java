@@ -94,7 +94,8 @@ public class Player extends GameElement
 			if (t.isSolid())
 				return false;
 		}
-
+		
+		
 		// Perform the move
 		System.out.println("Player "+getPlayerID()+" moves to ("+newX+","+newY+")");
 		present.remove(this);
@@ -105,6 +106,16 @@ public class Player extends GameElement
 		this.y = newY;
 
 		nextMoveAllowedTick = ticknumber + moveDelay;
+	
+		//Update?
+		GameElement update = target.get(target.size() -1);
+		if (update instanceof PowerUp){
+			PowerUp up = ((PowerUp) update);
+			up.doUpGrade();
+			
+			
+			}
+		
 		return true;
 	}
 
