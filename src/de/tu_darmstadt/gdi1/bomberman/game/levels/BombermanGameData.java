@@ -1,5 +1,10 @@
 package de.tu_darmstadt.gdi1.bomberman.game.levels;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+
 import de.tu_darmstadt.gdi1.bomberman.game.elements.Bomb;
 import de.tu_darmstadt.gdi1.bomberman.game.elements.Explosion;
 import de.tu_darmstadt.gdi1.bomberman.game.elements.GameElement;
@@ -7,11 +12,6 @@ import de.tu_darmstadt.gdi1.bomberman.game.elements.Player;
 import de.tu_darmstadt.gdi1.framework.interfaces.IGameBoard;
 import de.tu_darmstadt.gdi1.framework.model.GameData;
 import de.tu_darmstadt.gdi1.framework.model.StepManager;
-import de.tu_darmstadt.gdi1.framework.utils.Point;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
 
 /**
  * Der gesamte Zustand eines Bomberman Spiels. Hierauf arbeitet die BombermanGame Klasse.
@@ -119,7 +119,9 @@ public class BombermanGameData extends GameData<GameElement> {
 		boolean won = false;
 		if (players.size() == 1){
 			won = true;
-			System.out.println("Player: " + players.toString().charAt(1) + " wins the game.");
+			for (Player player : players.values()) {
+				System.out.println(player.getDescription() + " wins the game.");
+			}
 		}
 		return won;
 	}

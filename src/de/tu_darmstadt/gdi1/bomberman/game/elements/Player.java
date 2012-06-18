@@ -1,8 +1,5 @@
 package de.tu_darmstadt.gdi1.bomberman.game.elements;
 
-import de.tu_darmstadt.gdi1.framework.interfaces.IGameBoard;
-import de.tu_darmstadt.gdi1.framework.model.GameBoard;
-import de.tu_darmstadt.gdi1.framework.utils.Point;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.ImageIcon;
@@ -46,6 +43,10 @@ public class Player extends GameElement
 	}
 
 	public boolean isDestroyable () {
+		return true;
+	}
+
+	public boolean isSolid() {
 		return true;
 	}
 
