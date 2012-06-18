@@ -226,6 +226,9 @@ public class BombermanGame implements IBombermanGame {
 		if (event.getButton() == ControllerInputEvent.button.BOMB) {
 			this.dropBomb(event.getPlayerIndex());
 		}
+		else if (event.getButton() == ControllerInputEvent.button.MAIN_MENU) {
+			sendEventToUI(UIEvent.type.MAIN_MENU);
+		}
 		else {
 			// We know that it has to be a direction - map the direction from the ControllerInputEvent
 			// to the Players directions (die Wege der losen Kopplung sind unergründlich - hässlich)

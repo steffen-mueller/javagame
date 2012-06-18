@@ -1,13 +1,15 @@
 package de.tu_darmstadt.gdi1.bomberman.gui;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 
 import de.tu_darmstadt.gdi1.bomberman.BombermanController;
 import de.tu_darmstadt.gdi1.bomberman.framework.AbstractBombermanController;
@@ -16,8 +18,6 @@ import de.tu_darmstadt.gdi1.framework.interfaces.IBoard;
 import de.tu_darmstadt.gdi1.framework.interfaces.IUserInterfaceEvent;
 import de.tu_darmstadt.gdi1.framework.utils.Point;
 import de.tu_darmstadt.gdi1.framework.view.UserInterface;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 
 /**
@@ -27,6 +27,7 @@ import javax.swing.JPanel;
 public class Gui extends UserInterface<GameElement> {
 
 	protected AbstractBombermanController controller;
+	private MainMenu mainMenu;
 
 	protected ArrayList<Point> dirtyPoints = new ArrayList<Point>();
 
@@ -39,6 +40,14 @@ public class Gui extends UserInterface<GameElement> {
 
 		setTitle("The amazing TU Darmstadt Bomberman!");
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
+		// Creating Main Menu
+		mainMenu = new MainMenu();
+		mainMenu.setLayout(new BorderLayout());
+		mainMenu.setPreferredSize(new Dimension(200,200));
+		mainMenu.setDefaultCloseOperation(HIDE_ON_CLOSE);
+		JLabel text = new JLabel("The amazing TU-Darmstadt Bomberman");
+		mainMenu.add(text);
 	}
 
 	@Override
@@ -53,12 +62,22 @@ public class Gui extends UserInterface<GameElement> {
 		switch (bmevent.getType())
 		{
 			case QUIT_GAME:
+				mainMenu.dispose();
 				dispose();
+				break;
+			case MAIN_MENU:
+				showMainMenu();
 				break;
 			case REDRAW:
 				// This does nothing, it is just called to tell the framework, that the UI has work to do and needs repaint
 				break;
 		}
+	}
+
+	public void showMainMenu ()
+	{
+		System.out.println("Displaying main menu...");
+		mainMenu.setVisible(true);
 	}
 
 	/**
@@ -184,6 +203,12 @@ public class Gui extends UserInterface<GameElement> {
 			case (KeyEvent.VK_Q): // BOMB BABY BOMB!
 				playerIdx = 2;
 				btn = ControllerInputEvent.button.BOMB;
+				break;
+
+			// Menu Buttons
+			case (KeyEvent.VK_M): // MAIN MENU
+				playerIdx = 1;
+				btn = ControllerInputEvent.button.MAIN_MENU;
 				break;
 		}
 
