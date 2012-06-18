@@ -117,6 +117,8 @@ public class BombermanGameData extends GameData<GameElement> {
 	
 	public boolean isWon() {
 		boolean won = false;
+
+		// Game Mode "Multiplayer"
 		if (players.size() == 1){
 			won = true;
 			for (Player player : players.values()) {

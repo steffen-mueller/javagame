@@ -25,7 +25,7 @@ public class Player extends GameElement
 	private direction dir = direction.NULL;
 	private int playerID;
 	private long nextMoveAllowedTick = 0;
-	private long moveDelay = 4;
+	private long moveDelay = 5;
 
 	private ArrayList<Bomb> myBombs = new ArrayList<Bomb>();
 

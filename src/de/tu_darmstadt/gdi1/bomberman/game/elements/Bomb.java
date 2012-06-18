@@ -1,15 +1,10 @@
-/*
- * Copyright (c) 2008-2010 by teambits GmbH, Darmstadt, Germany (http://www.teambits.de). All rights reserved.
- * This is CONFIDENTIAL code. Use is subject to license terms.
- */
 package de.tu_darmstadt.gdi1.bomberman.game.elements;
 
-import de.tu_darmstadt.gdi1.bomberman.game.elements.Explosion.style;
-import de.tu_darmstadt.gdi1.framework.utils.Point;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import javax.swing.ImageIcon;
+
+import de.tu_darmstadt.gdi1.framework.utils.Point;
 
 /**
  * javadoc: Not yet commented
@@ -19,7 +14,7 @@ import javax.swing.ImageIcon;
 public class Bomb extends GameElement
 {
 	private int ticksTillExplode;
-	private int detonationRadius = 1;
+	private int detonationRadius = 0;
 	private int explosionLastingTicks = 5;
 	private int explosionLastingDamping = 1;
 

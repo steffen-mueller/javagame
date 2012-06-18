@@ -15,8 +15,6 @@ import de.tu_darmstadt.gdi1.bomberman.gui.ControllerInputEvent;
 import de.tu_darmstadt.gdi1.bomberman.gui.UIEvent;
 import de.tu_darmstadt.gdi1.framework.interfaces.IBoard;
 import de.tu_darmstadt.gdi1.framework.utils.Point;
-import java.util.Collection;
-import java.util.Iterator;
 
 /**
  * Das eigentliche Bomberman Spiel. Diese Klasse enthält die Spiellogik. Unsere Implementierung des
