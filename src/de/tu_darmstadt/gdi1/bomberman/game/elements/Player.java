@@ -26,6 +26,7 @@ public class Player extends GameElement
 	private int playerID;
 	private long nextMoveAllowedTick = 0;
 	private long moveDelay = 5;
+	public int bombradius = -1;
 
 	private ArrayList<Bomb> myBombs = new ArrayList<Bomb>();
 
@@ -63,6 +64,10 @@ public class Player extends GameElement
 
 	public void setDirection (direction d) {
 		dir = d;
+	}
+	
+	public void increaseBombRadius(){
+		bombradius = bombradius++;
 	}
 
 	// LOGIC ///////////////////////////////////////////////////////////////////////////////////////
@@ -107,14 +112,26 @@ public class Player extends GameElement
 
 		nextMoveAllowedTick = ticknumber + moveDelay;
 	
-		//Update?
-		GameElement update = target.get(target.size() -1);
-		if (update instanceof PowerUp){
-			PowerUp up = ((PowerUp) update);
-			up.doUpGrade();
+		//found an PowerUp?
+		for (int i = 0; i < target.size() -1; i++) {
+			if(target.get(i) instanceof PowerUp){
+			PowerUp up = ((PowerUp) target.get(i));
+			
+			System.out.println("YOu god an power up");
+			switch(up.getpowerupID()){
+			
+			case 1: increaseBombRadius() ;break;
 			
 			
 			}
+			//PowerUp wurde verbraucht
+			target.remove(i);
+			gameBoard.setElements(x, y, target);	
+			}
+
+		}
+		
+			
 		
 		return true;
 	}
@@ -128,9 +145,9 @@ public class Player extends GameElement
 			if (t instanceof Bomb)
 				return null;
 		}
-
+		
 		// Bomb creation
-		Bomb bomb = new Bomb(this, 60);
+		Bomb bomb = new Bomb(this, 60, bombradius);
 		bomb.setCoordinates(this.x, this.y);
 		bomb.setGameBoard(gameBoard);
 		bomb.setGameData(gameData);

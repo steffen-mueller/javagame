@@ -1,22 +1,21 @@
 package de.tu_darmstadt.gdi1.bomberman.game.elements;
 
 import javax.swing.ImageIcon;
+import java.util.Random;
 
 
 public class PowerUp extends GameElement
 {
-	private int powerID;
+	protected int powerID;
 	
 	public int getpowerupID(){
 		return powerID;
 	}
-	public void doUpGrade(){
-		
-	}
+
 	
-	public PowerUp (int powerID)
+	public PowerUp ()
 	{
-		this.powerID = powerID;
+		powerID = 1;
 	}
 	
 	
@@ -32,7 +31,7 @@ public class PowerUp extends GameElement
 	
 	public GameElement clone() {
 	
-		return new PowerUp(this.powerID);
+		return new PowerUp();
 	}
 
 	
@@ -55,7 +54,7 @@ public class PowerUp extends GameElement
 	
 	public char getParsingSymbol() {
 		
-		return ' ';
+		return 'p';
 	}
 
 	
