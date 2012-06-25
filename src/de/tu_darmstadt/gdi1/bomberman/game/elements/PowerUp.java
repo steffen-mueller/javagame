@@ -19,8 +19,8 @@ public class PowerUp extends GameElement
 	public PowerUp ()
 	{	
 		Random generator = new Random();
-		int rand = generator.nextInt( 4 );
-		powerID =  1;
+		int rand = generator.nextInt( 3 ) + 1;
+		powerID =  rand;
 	}
 
 	public boolean isDestroyable () {
@@ -41,7 +41,10 @@ public class PowerUp extends GameElement
 		switch(powerID){
 			case 1:
 				return new ImageIcon("resource/images/increase_radius.png");
-		
+			case 2:
+				return new ImageIcon("resource/images/increase_radius.png");
+			case 3:
+				return new ImageIcon("resource/images/increase_radius.png");
 			default:
 				return new ImageIcon("resource/images/increase_radius.png");
 		}
@@ -53,7 +56,12 @@ public class PowerUp extends GameElement
 		switch(powerID){
 			case 1:
 				return "Increase Radius - PowerUp";
-
+			case 2: 
+				return "Increase Speed - PowerUp"; 
+			case 3: 
+				return "Increase bomb count - PowerUp";
+			case 4: 
+				return "SuperBomb - PowerUp";
 			default:
 				return "Unknown - PowerUp";
 		}
