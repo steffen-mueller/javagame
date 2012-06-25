@@ -5,6 +5,11 @@ import javax.swing.ImageIcon;
 
 public class PowerUp extends GameElement
 {
+	// PowerID decides of which PowerUp-Type this is
+	// 1 = Increase detonation radius
+	// 2 = Increase speed
+	// 3 = Increase bomb count
+	// 4 = SuperBomb
 	protected int powerID;
 	
 	public int getpowerupID(){
@@ -32,20 +37,34 @@ public class PowerUp extends GameElement
 	public ImageIcon getImageIcon() {
 	
 		switch(powerID){
-		case 1: return new ImageIcon("resource/images/increase_radius.png"); 
+			case 1:
+				return new ImageIcon("resource/images/increase_radius.png");
 		
-		default: return new ImageIcon("resource/images/increase_radius.png");
+			default:
+				return new ImageIcon("resource/images/increase_radius.png");
 		}
 		
 	}
 
 	public String getDescription() {
-		
-		return "PowerUp";
+
+		switch(powerID){
+			case 1:
+				return "Increase Radius - PowerUp";
+
+			default:
+				return "Unknown - PowerUp";
+		}
 	}
 
 	public char getParsingSymbol() {
 		
 		return ' ';
+	}
+
+	@Override
+	public void destroy() {
+		PowerUp.super.destroy();
+		System.out.println(getDescription() + " died.");
 	}
 }

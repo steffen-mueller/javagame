@@ -53,5 +53,7 @@ public class Stone extends GameElement
 		present.add(powerUp);
 		gameBoard.setElements(x, y, present);
 		powerUp.setGameBoard(gameBoard);
+		powerUp.setGameData(gameData);
+		powerUp.setCoordinates(x,y);
 	}
 }
