@@ -1,12 +1,12 @@
 package de.tu_darmstadt.gdi1.bomberman.game.elements;
 
-import de.tu_darmstadt.gdi1.bomberman.game.levels.BombermanGameData;
+import java.util.List;
 import javax.swing.ImageIcon;
 
+import de.tu_darmstadt.gdi1.bomberman.game.levels.BombermanGameData;
 import de.tu_darmstadt.gdi1.framework.interfaces.IBoardElement;
 import de.tu_darmstadt.gdi1.framework.interfaces.IGameBoard;
 import de.tu_darmstadt.gdi1.framework.utils.Point;
-import java.util.List;
 
 /**
  * Basisklasse für alle Boardelemente, also die Dinge, die auf dem Spielfeld sein können. Jede der
