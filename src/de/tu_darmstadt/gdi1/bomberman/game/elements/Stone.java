@@ -1,5 +1,6 @@
 package de.tu_darmstadt.gdi1.bomberman.game.elements;
 
+import java.util.List;
 import javax.swing.ImageIcon;
 
 /**
@@ -41,5 +42,15 @@ public class Stone extends GameElement
 	@Override
 	public boolean isDestroyable () {
 		return true;
+	}
+
+	@Override
+	public void destroy ()
+	{
+		super.destroy();
+		List<GameElement> present = gameBoard.getElements(x, y);
+		PowerUp powerUp = new PowerUp(1);
+		present.add(powerUp);
+		gameBoard.setElements(x, y, present);
 	}
 }
