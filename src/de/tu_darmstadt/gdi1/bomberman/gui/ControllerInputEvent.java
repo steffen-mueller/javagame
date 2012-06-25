@@ -20,7 +20,8 @@ public class ControllerInputEvent extends ControllerEvent {
 		LEFT,
 		RIGHT,
 		BOMB,
-		MAIN_MENU
+		MAIN_MENU,
+		X_BUTTON
 	};
 
 	/**

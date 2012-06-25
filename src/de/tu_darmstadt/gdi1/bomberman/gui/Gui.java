@@ -203,6 +203,12 @@ public class Gui extends UserInterface<GameElement> {
 				btn = ControllerInputEvent.button.BOMB;
 				break;
 
+			// DEBUG Buttons
+			case (KeyEvent.VK_X): // Kill all Stones
+				playerIdx = 1;
+				btn = ControllerInputEvent.button.X_BUTTON;
+				break;
+
 			// Menu Buttons
 			case (KeyEvent.VK_M): // MAIN MENU
 				playerIdx = 1;

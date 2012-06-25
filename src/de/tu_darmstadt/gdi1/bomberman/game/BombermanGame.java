@@ -1,6 +1,7 @@
 package de.tu_darmstadt.gdi1.bomberman.game;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Logger;
@@ -228,6 +229,13 @@ public class BombermanGame implements IBombermanGame {
 		}
 		else if (event.getButton() == ControllerInputEvent.button.MAIN_MENU) {
 			sendEventToUI(UIEvent.type.MAIN_MENU);
+		}
+		else if (event.getButton() == ControllerInputEvent.button.X_BUTTON) {
+			List<GameElement> list = gameData.getPlayer(1).mightyBlow();
+			for (GameElement gE : list) {
+				controller.addDirtyPoint(gE.getPoint());
+			}
+			controller.redrawDirtyPoints();
 		}
 		else {
 			// We know that it has to be a direction - map the direction from the ControllerInputEvent

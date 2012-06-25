@@ -27,7 +27,7 @@ public class Player extends GameElement
 	private long nextMoveAllowedTick = 0;
 	private long moveDelay = 5;
 	private int bombRadius = 0;
-	private int  myMaxBombs=  1;
+	private int myMaxBombs=  1;
 
 	private ArrayList<Bomb> myBombs = new ArrayList<Bomb>();
 
@@ -193,6 +193,28 @@ public class Player extends GameElement
 		gameBoard.setElements(x, y, present);
 
 		return bomb;
+	}
+	
+	public List<GameElement> mightyBlow() {
+		ArrayList<GameElement> list = new ArrayList<GameElement>();
+		ArrayList<Stone> toExplode = new ArrayList<Stone>();
+		for (int i = 0; i < gameBoard.getWidth(); i++) {
+			for (int j = 0; j < gameBoard.getHeight(); j++) {
+				List<GameElement> gE = gameBoard.getElements(i,j);
+				for (GameElement elem : gE) {
+					if (elem instanceof Stone) {
+						toExplode.add((Stone) elem);
+						list.add(elem);
+					}
+				}
+			}
+		}
+
+		for (Stone e : toExplode) {
+			e.destroy();
+		}
+
+		return list;
 	}
 
 	public void removeBombOwnage (Bomb b) {
