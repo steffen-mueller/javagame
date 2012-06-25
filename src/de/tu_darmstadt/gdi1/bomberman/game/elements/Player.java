@@ -68,22 +68,13 @@ public class Player extends GameElement
 		dir = d;
 	}
 	
-	public void increaseBombRadius(){
-		if (getBombradius() < 9) {
-			setBombRadius(getBombradius()+1);
-			System.out.println("Bombradius: "+getBombradius());
-		}
-		else
-			System.out.println("Bombradius: max. reached! (9)");
+	public long getMoveDelay(){
+	return moveDelay;	
 	}
 	
-	public void increaseBombCount(){
-		if (getmymaxbombs() < 9) {
-			setmyMaxBombs(getmymaxbombs()+1);
-			System.out.println("BombCount: "+ getmymaxbombs());
-		}
-		else
-			System.out.println("BombCount: max. reached! (9)");
+	public void setMoveDelay(long moveDelay){
+		this.moveDelay = moveDelay;
+		
 	}
 	
 	public int getBombradius ()
@@ -159,7 +150,7 @@ public class Player extends GameElement
 						increaseBombRadius(); break;
 					case 2:
 						//Speed wird erhöht
-						
+						increaseSpeed(); break;
 					case 3:
 						//Anzahl der legbaren Bomben wird erhöht
 						increaseBombCount(); break;
@@ -253,5 +244,34 @@ public class Player extends GameElement
 			return '3';
 		else
 			return '4';
+	}
+	
+	// POWERUP ////////////////////////////////////////////////////////////////////////////
+	
+	public void increaseBombRadius(){
+		if (getBombradius() < 9) {
+			setBombRadius(getBombradius()+1);
+			System.out.println("Bombradius: "+getBombradius());
+		}
+		else
+			System.out.println("Bombradius: max. reached! (9)");
+	}
+	
+	public void increaseBombCount(){
+		if (getmymaxbombs() < 9) {
+			setmyMaxBombs(getmymaxbombs()+1);
+			System.out.println("BombCount: "+ getmymaxbombs());
+		}
+		else
+			System.out.println("BombCount: max. reached! (9)");
+	}
+
+public void increaseSpeed(){
+	if (getMoveDelay() > 2){
+		setMoveDelay(getMoveDelay() - 1);
+		System.out.println("MoveDelay: "+ getMoveDelay());
+}
+else
+	System.out.println("MaxSpeed was reached!");
 	}
 }
