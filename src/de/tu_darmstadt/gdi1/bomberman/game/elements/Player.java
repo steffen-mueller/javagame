@@ -82,9 +82,9 @@ public class Player extends GameElement
 		return bombRadius;
 	}
 
-	public void setBombRadius (int bombradius)
+	public void setBombRadius (int bombRadius)
 	{
-		this.bombRadius = bombradius;
+		this.bombRadius = bombRadius;
 	}
 
 	public int getmymaxbombs(){
@@ -156,7 +156,8 @@ public class Player extends GameElement
 						increaseBombCount(); break;
 					case 4: 
 						// Superbombe Bombenradius = max
-						setBombRadius(9); break;
+						setSuperBomb();
+						
 						
 				}
 				//PowerUp wurde verbraucht
@@ -274,4 +275,9 @@ public void increaseSpeed(){
 else
 	System.out.println("MaxSpeed was reached!");
 	}
+
+public void setSuperBomb(){
+	System.out.println("SUPERBOMBE");
+	setBombRadius(9); 	
+}
 }

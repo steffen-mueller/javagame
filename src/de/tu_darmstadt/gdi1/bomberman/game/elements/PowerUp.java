@@ -19,8 +19,8 @@ public class PowerUp extends GameElement
 	public PowerUp ()
 	{	
 		Random generator = new Random();
-		int rand = generator.nextInt( 3 ) + 1;
-		powerID =  rand;
+		powerID = generator.nextInt( 4 ) + 1;
+		
 	}
 	
 	public PowerUp (int rand){
