@@ -119,7 +119,7 @@ public class Bomb extends GameElement
 		destroy();
 
 		// Spread the explosion in all 4 directions + center.
-		list.addAll(propagateExplosion(new Point(x,y), new Point(0,0), Explosion.style.CENTER, detonationRadius, tickCount));
+		list.addAll(propagateExplosion(new Point(x,y), new Point(0,0), Explosion.style.CENTER, 1, tickCount));
 		list.addAll(propagateExplosion(new Point(x,y), new Point(-1,0), Explosion.style.HORIZONTAL, detonationRadius, tickCount));
 		list.addAll(propagateExplosion(new Point(x,y), new Point(1,0), Explosion.style.HORIZONTAL, detonationRadius, tickCount));
 		list.addAll(propagateExplosion(new Point(x,y), new Point(0,-1), Explosion.style.VERTICAL, detonationRadius, tickCount));

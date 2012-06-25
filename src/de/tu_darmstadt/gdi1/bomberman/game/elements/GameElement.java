@@ -78,6 +78,7 @@ public abstract class GameElement implements IBoardElement {
 		present.remove(this);
 		gameBoard.setElements(x, y, present);
 	}
+	
 
 	// Appearance //////////////////////////////////////////////////////////////////////////////////
 

@@ -1,7 +1,7 @@
 package de.tu_darmstadt.gdi1.bomberman.game.elements;
 
 import javax.swing.ImageIcon;
-
+import java.util.Random;
 
 public class PowerUp extends GameElement
 {
@@ -13,8 +13,10 @@ public class PowerUp extends GameElement
 
 	
 	public PowerUp ()
-	{
-		powerID = 1;
+	{	
+		Random generator = new Random();
+		int rand = generator.nextInt( 4 );
+		powerID =  1;
 	}
 	
 	
