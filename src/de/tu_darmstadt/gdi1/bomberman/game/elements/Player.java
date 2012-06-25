@@ -267,7 +267,7 @@ public class Player extends GameElement
 	}
 
 public void increaseSpeed(){
-	if (getMoveDelay() > 2){
+	if (getMoveDelay() > 3){
 		setMoveDelay(getMoveDelay() - 1);
 		System.out.println("MoveDelay: "+ getMoveDelay());
 }
