@@ -14,17 +14,22 @@ import de.tu_darmstadt.gdi1.framework.utils.Point;
 public class Bomb extends GameElement
 {
 	private int ticksTillExplode;
-	private int detonationRadius = 0;
+	private int detonationRadius;
 	private int explosionLastingTicks = 5;
 	private int explosionLastingDamping = 1;
 
 	protected Player player;
 
-	public Bomb (Player player, int ticksTillExplode)
+	public Bomb (Player player, int ticksTillExplode, int detonationRadius)
 	{
 		this.ticksTillExplode = ticksTillExplode;
 		this.player = player;
+		this.detonationRadius = detonationRadius;
 	}
+	
+	//public void setdetonationRadius(int newRadius){
+	//	detonationRadius = newRadius;
+	//}
 
 	public int getTicksTillExplode ()
 	{
@@ -36,20 +41,16 @@ public class Bomb extends GameElement
 		this.ticksTillExplode = ticksTillExplode;
 	}
 
-	public int getDetonationRadius ()
-	{
-		return detonationRadius;
-	}
+	//public int getDetonationRadius ()
+	//{
+	//	return detonationRadius;
+	//}
 
-	public void setDetonationRadius (int detonationRadius)
-	{
-		this.detonationRadius = detonationRadius;
-	}
 
 	@Override
 	public GameElement clone ()
 	{
-		return new Bomb(player, this.ticksTillExplode);
+		return new Bomb(player, this.ticksTillExplode, player.bombradius);
 	}
 
 	@Override
