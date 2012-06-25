@@ -186,7 +186,7 @@ public class Player extends GameElement
 
 		// Only one bomb per field!
 		for (GameElement t : present) {
-			if (t instanceof Bomb)
+			if (t instanceof Bomb || myBombs.size() == myMaxBombs)
 				return null;
 		}
 		
