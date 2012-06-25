@@ -1,7 +1,7 @@
 package de.tu_darmstadt.gdi1.bomberman.game.elements;
 
-import javax.swing.ImageIcon;
 import java.util.Random;
+import javax.swing.ImageIcon;
 
 public class PowerUp extends GameElement
 {
@@ -42,11 +42,11 @@ public class PowerUp extends GameElement
 			case 1:
 				return new ImageIcon("resource/images/increase_radius.png");
 			case 2:
-				return new ImageIcon("resource/images/increase_radius.png");
+				return new ImageIcon("resource/images/increase_speed.png");
 			case 3:
-				return new ImageIcon("resource/images/increase_radius.png");
+				return new ImageIcon("resource/images/increase_bombcount.png");
 			default:
-				return new ImageIcon("resource/images/increase_radius.png");
+				return new ImageIcon("resource/images/superbomb.png");
 		}
 		
 	}

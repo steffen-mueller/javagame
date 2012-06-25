@@ -146,13 +146,13 @@ public class Player extends GameElement
 				System.out.println("You got a power up");
 				switch(up.getpowerupID()){
 					case 1: 
-						// Radius der Bomben wird erhöht
+						// Radius der Bomben wird erhÃ¶ht
 						increaseBombRadius(); break;
 					case 2:
-						//Speed wird erhöht
+						//Speed wird erhÃ¶ht
 						increaseSpeed(); break;
 					case 3:
-						//Anzahl der legbaren Bomben wird erhöht
+						//Anzahl der legbaren Bomben wird erhÃ¶ht
 						increaseBombCount(); break;
 					case 4: 
 						// Superbombe Bombenradius = max
