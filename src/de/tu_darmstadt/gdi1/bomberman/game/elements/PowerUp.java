@@ -47,7 +47,7 @@ public class PowerUp extends GameElement
 			case 1:
 				return new ImageIcon("resource/images/increase_radius.png");
 			case 2:
-				return new ImageIcon("resource/images/increase_speed.png");
+				return new ImageIcon("resource/images/increase_speed_2.png");
 			case 3:
 				return new ImageIcon("resource/images/increase_bombcount.png");
 			default:
