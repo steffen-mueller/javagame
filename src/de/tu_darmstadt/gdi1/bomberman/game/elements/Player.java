@@ -143,7 +143,7 @@ public class Player extends GameElement
 			if (target.get(i) instanceof PowerUp){
 				PowerUp up = ((PowerUp) target.get(i));
 
-				System.out.println("You got a power up");
+				System.out.println(getDescription() + " got a power up");
 				switch(up.getpowerupID()){
 					case 1: 
 						// Radius der Bomben wird erhöht
@@ -156,7 +156,7 @@ public class Player extends GameElement
 						increaseBombCount(); break;
 					case 4: 
 						// Superbombe Bombenradius = max
-						setBombRadius (9); break;
+						setBombRadius(9); break;
 						
 				}
 				//PowerUp wurde verbraucht

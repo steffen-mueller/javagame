@@ -54,11 +54,11 @@ public class Stone extends GameElement
 		if (generator.nextInt(4) == 0)
 		{
 			PowerUp powerUp = new PowerUp();
-			present.add(powerUp);
-			gameBoard.setElements(x, y, present);
 			powerUp.setGameBoard(gameBoard);
 			powerUp.setGameData(gameData);
 			powerUp.setCoordinates(x, y);
+			present.add(powerUp);
+			gameBoard.setElements(x, y, present);
 		}
 	}
 }
