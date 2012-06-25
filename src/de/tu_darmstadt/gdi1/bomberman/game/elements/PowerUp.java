@@ -73,7 +73,7 @@ public class PowerUp extends GameElement
 			case 3: 
 				return "Increase bomb count - PowerUp";
 			case 4: 
-				return "SuperBomb - PowerUp";
+				return "Superbomb - PowerUp";
 			default:
 				return "Unknown - PowerUp";
 		}

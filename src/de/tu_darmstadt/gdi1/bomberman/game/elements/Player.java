@@ -299,7 +299,7 @@ else
 	}
 
 public void setSuperBomb(){
-	System.out.println("SUPERBOMBE");
+	System.out.println("SUPERBOMB");
 	setBombRadius(9); 	
 }
 }
