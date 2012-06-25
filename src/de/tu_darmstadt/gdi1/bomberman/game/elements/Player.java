@@ -26,7 +26,8 @@ public class Player extends GameElement
 	private int playerID;
 	private long nextMoveAllowedTick = 0;
 	private long moveDelay = 5;
-	private int bombradius = 0;
+	private int bombRadius = 0;
+	private int  myMaxBombs=  1;
 
 	private ArrayList<Bomb> myBombs = new ArrayList<Bomb>();
 
@@ -35,16 +36,7 @@ public class Player extends GameElement
 		this.playerID = playerID;
 	}
 
-	public int getBombradius ()
-	{
-		return bombradius;
-	}
-
-	public void setBombradius (int bombradius)
-	{
-		this.bombradius = bombradius;
-	}
-
+	
 	@Override
 	public void destroy() {
 		Player.super.destroy();
@@ -78,12 +70,40 @@ public class Player extends GameElement
 	
 	public void increaseBombRadius(){
 		if (getBombradius() < 9) {
-			setBombradius(getBombradius()+1);
+			setBombRadius(getBombradius()+1);
 			System.out.println("Bombradius: "+getBombradius());
 		}
 		else
 			System.out.println("Bombradius: max. reached! (9)");
 	}
+	
+	public void increaseBombCount(){
+		if (getmymaxbombs() < 9) {
+			setmyMaxBombs(getmymaxbombs()+1);
+			System.out.println("BombCount: "+ getmymaxbombs());
+		}
+		else
+			System.out.println("BombCount: max. reached! (9)");
+	}
+	
+	public int getBombradius ()
+	{
+		return bombRadius;
+	}
+
+	public void setBombRadius (int bombradius)
+	{
+		this.bombRadius = bombradius;
+	}
+
+	public int getmymaxbombs(){
+		return myMaxBombs;
+	}
+		
+	public void setmyMaxBombs(int myMaxBombs){
+		this.myMaxBombs = myMaxBombs;
+	}
+	
 
 	// LOGIC ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -134,8 +154,19 @@ public class Player extends GameElement
 
 				System.out.println("You got a power up");
 				switch(up.getpowerupID()){
-					case 1:
-						increaseBombRadius();
+					case 1: 
+						// Radius der Bomben wird erhöht
+						increaseBombRadius(); break;
+					case 2:
+						//Speed wird erhöht
+						
+					case 3:
+						//Anzahl der legbaren Bomben wird erhöht
+						increaseBombCount(); break;
+					case 4: 
+						// Superbombe Bombenradius = max
+						setBombRadius (9); break;
+						
 				}
 				//PowerUp wurde verbraucht
 				target.remove(i);
@@ -155,7 +186,7 @@ public class Player extends GameElement
 
 		// Only one bomb per field!
 		for (GameElement t : present) {
-			if (t instanceof Bomb)
+			if (t instanceof Bomb || myBombs.size() == myMaxBombs)
 				return null;
 		}
 		
