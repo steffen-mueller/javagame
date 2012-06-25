@@ -19,9 +19,14 @@ public class PowerUp extends GameElement
 	public PowerUp ()
 	{	
 		Random generator = new Random();
-		int rand = generator.nextInt( 3 ) + 1;
-		powerID =  rand;
+		powerID = generator.nextInt( 4 ) + 1;
+		
 	}
+	
+	public PowerUp (int rand){
+		powerID = rand;
+	}
+	
 
 	public boolean isDestroyable () {
 		return true;
@@ -33,7 +38,7 @@ public class PowerUp extends GameElement
 
 	public GameElement clone() {
 	
-		return new PowerUp();
+		return new PowerUp(powerID);
 	}
 
 	public ImageIcon getImageIcon() {
