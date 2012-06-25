@@ -11,29 +11,24 @@ public class PowerUp extends GameElement
 		return powerID;
 	}
 
-	
 	public PowerUp ()
 	{
 		powerID = 1;
 	}
-	
-	
+
 	public boolean isDestroyable () {
 		return true;
 	}
-	
 
 	public boolean isSolid() {
 		return false;
 	}
 
-	
 	public GameElement clone() {
 	
 		return new PowerUp();
 	}
 
-	
 	public ImageIcon getImageIcon() {
 	
 		switch(powerID){
@@ -44,18 +39,13 @@ public class PowerUp extends GameElement
 		
 	}
 
-	
 	public String getDescription() {
 		
 		return "PowerUp";
 	}
 
-	
 	public char getParsingSymbol() {
 		
 		return ' ';
 	}
-
-	
-	
 }

@@ -52,5 +52,6 @@ public class Stone extends GameElement
 		PowerUp powerUp = new PowerUp();
 		present.add(powerUp);
 		gameBoard.setElements(x, y, present);
+		powerUp.setGameBoard(gameBoard);
 	}
 }

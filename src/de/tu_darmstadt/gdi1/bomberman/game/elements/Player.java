@@ -77,8 +77,12 @@ public class Player extends GameElement
 	}
 	
 	public void increaseBombRadius(){
-		setBombradius(getBombradius()+1);
-		System.out.println("Bombradius: "+getBombradius());
+		if (getBombradius() < 9) {
+			setBombradius(getBombradius()+1);
+			System.out.println("Bombradius: "+getBombradius());
+		}
+		else
+			System.out.println("Bombradius: max. reached! (9)");
 	}
 
 	// LOGIC ///////////////////////////////////////////////////////////////////////////////////////
