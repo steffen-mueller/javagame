@@ -19,8 +19,15 @@ public class PowerUp extends GameElement
 	public PowerUp ()
 	{	
 		Random generator = new Random();
-		powerID = generator.nextInt( 4 ) + 1;
-		
+		int rnd = generator.nextInt( 99 ) + 1;
+		if (rnd <= 35){
+			powerID = 1;
+		}else if (rnd <= 55 ){
+			powerID =2;
+		}else if(rnd <=90){
+			powerID =3;
+		}else 
+			powerID =4;
 	}
 	
 	public PowerUp (int rand){
