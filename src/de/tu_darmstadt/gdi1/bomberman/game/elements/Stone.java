@@ -49,7 +49,7 @@ public class Stone extends GameElement
 	{
 		super.destroy();
 		List<GameElement> present = gameBoard.getElements(x, y);
-		PowerUp powerUp = new PowerUp(1);
+		PowerUp powerUp = new PowerUp();
 		present.add(powerUp);
 		gameBoard.setElements(x, y, present);
 	}
