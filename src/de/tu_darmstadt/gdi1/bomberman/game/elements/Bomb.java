@@ -20,11 +20,11 @@ public class Bomb extends GameElement
 
 	protected Player player;
 
-	public Bomb (Player player, int ticksTillExplode, int detonationRadius)
+	public Bomb (Player player, int ticksTillExplode)
 	{
 		this.ticksTillExplode = ticksTillExplode;
 		this.player = player;
-		this.detonationRadius = detonationRadius;
+		this.detonationRadius = player.getBombradius();
 	}
 	
 	//public void setdetonationRadius(int newRadius){
@@ -50,7 +50,7 @@ public class Bomb extends GameElement
 	@Override
 	public GameElement clone ()
 	{
-		return new Bomb(player, this.ticksTillExplode, player.bombradius);
+		return new Bomb(player, this.ticksTillExplode);
 	}
 
 	@Override

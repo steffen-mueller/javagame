@@ -26,13 +26,23 @@ public class Player extends GameElement
 	private int playerID;
 	private long nextMoveAllowedTick = 0;
 	private long moveDelay = 5;
-	public int bombradius = -1;
+	private int bombradius = 0;
 
 	private ArrayList<Bomb> myBombs = new ArrayList<Bomb>();
 
 	public Player (int playerID)
 	{
 		this.playerID = playerID;
+	}
+
+	public int getBombradius ()
+	{
+		return bombradius;
+	}
+
+	public void setBombradius (int bombradius)
+	{
+		this.bombradius = bombradius;
 	}
 
 	@Override
@@ -67,7 +77,8 @@ public class Player extends GameElement
 	}
 	
 	public void increaseBombRadius(){
-		bombradius = bombradius++;
+		setBombradius(getBombradius()+1);
+		System.out.println("Bombradius: "+getBombradius());
 	}
 
 	// LOGIC ///////////////////////////////////////////////////////////////////////////////////////
@@ -112,21 +123,19 @@ public class Player extends GameElement
 
 		nextMoveAllowedTick = ticknumber + moveDelay;
 	
-		//found an PowerUp?
-		for (int i = 0; i < target.size() -1; i++) {
-			if(target.get(i) instanceof PowerUp){
-			PowerUp up = ((PowerUp) target.get(i));
-			
-			System.out.println("YOu god an power up");
-			switch(up.getpowerupID()){
-			
-			case 1: increaseBombRadius() ;break;
-			
-			
-			}
-			//PowerUp wurde verbraucht
-			target.remove(i);
-			gameBoard.setElements(x, y, target);	
+		//found a PowerUp?
+		for (int i = 0; i < target.size()-1; i++) {
+			if (target.get(i) instanceof PowerUp){
+				PowerUp up = ((PowerUp) target.get(i));
+
+				System.out.println("You got a power up");
+				switch(up.getpowerupID()){
+					case 1:
+						increaseBombRadius();
+				}
+				//PowerUp wurde verbraucht
+				target.remove(i);
+				gameBoard.setElements(x, y, target);
 			}
 
 		}
@@ -147,7 +156,7 @@ public class Player extends GameElement
 		}
 		
 		// Bomb creation
-		Bomb bomb = new Bomb(this, 60, bombradius);
+		Bomb bomb = new Bomb(this, 60);
 		bomb.setCoordinates(this.x, this.y);
 		bomb.setGameBoard(gameBoard);
 		bomb.setGameData(gameData);

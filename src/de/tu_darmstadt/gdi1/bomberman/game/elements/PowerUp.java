@@ -1,7 +1,6 @@
 package de.tu_darmstadt.gdi1.bomberman.game.elements;
 
 import javax.swing.ImageIcon;
-import java.util.Random;
 
 
 public class PowerUp extends GameElement
@@ -54,7 +53,7 @@ public class PowerUp extends GameElement
 	
 	public char getParsingSymbol() {
 		
-		return 'p';
+		return ' ';
 	}
 
 	
