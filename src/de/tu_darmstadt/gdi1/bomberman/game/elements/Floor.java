@@ -9,6 +9,7 @@ import javax.swing.ImageIcon;
  */
 public class Floor extends GameElement
 {
+    public static final String DESCRITION = "Floor";
 	@Override
 	public GameElement clone ()
 	{
@@ -24,7 +25,7 @@ public class Floor extends GameElement
 	@Override
 	public String getDescription ()
 	{
-		return "Floor";
+		return DESCRITION;
 	}
 
 	@Override

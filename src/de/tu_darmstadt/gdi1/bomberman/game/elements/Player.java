@@ -11,6 +11,9 @@ import javax.swing.ImageIcon;
  */
 public class Player extends GameElement
 {
+
+    public static final String DESCRITION = "Player";
+    public static final String PATTERN = DESCRITION+".+";
 	/**
 	 * In welche Richtung bewegt sich der Spieler aktuell?
 	 */
@@ -246,14 +249,17 @@ public class Player extends GameElement
 	@Override
 	public String getDescription ()
 	{
-		if (playerID == 1)
-			return "Player White";
-		else if (playerID == 2)
-			return "Player Red";
-		else if (playerID == 3)
-			return "Player Black";
-		else
-			return "Player Blue";
+        //FIXME ist das nötig?
+        // kann man nich sagen plyer und die farbe mit der id berechenen ??
+        if (playerID == 1) {
+            return DESCRITION+" White";
+        } else if (playerID == 2) {
+            return DESCRITION+" Red";
+        } else if (playerID == 3) {
+            return DESCRITION+" Black";
+        } else {
+            return DESCRITION+" Blue";
+        }
 	}
 
 	@Override
