@@ -37,7 +37,7 @@ public class BombermanController extends AbstractBombermanController {
 	protected BombermanLevelManager levelManager;
 	protected BombermanGame game;
 
-	HashMap<Integer,Player> players;
+	public HashMap<Integer,Player> players;
 
 	Logger logger = Logger.getLogger(BombermanController.class.getName());
 

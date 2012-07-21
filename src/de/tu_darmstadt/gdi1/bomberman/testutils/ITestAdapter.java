@@ -7,11 +7,89 @@ package de.tu_darmstadt.gdi1.bomberman.testutils;
  */
 public interface ITestAdapter {
 
+	// ENUMS UND HILFSKLASSEN //////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Die Himmelsrichtungen für das Laufen lassen.
+	 */
+	enum Direction {UP,DOWN,LEFT,RIGHT,NULL};
+
+	/**
+	 * Die möglichen Elemente, die in FieldStatus zurück gegeben werden können.
+	 */
+	enum Element {PLAYER1, PLAYER2, PLAYER3, PLAYER4, BOMB, STONE, WALL, EXPLOSION, POWERUP};
+
+	/**
+	 * Der Status eines einzelnen Spielfeldes, erheblich vereinfacht.
+	 */
+	public class FieldStatus {
+		Element[] elements;
+
+		public boolean contains (Element c) {
+			for (int i = 0; i < elements.length; i++) {
+				if (elements[i] == c)
+					return true;
+			}
+			return false;
+		}
+	}
+
+	// LEVEL LOADING ///////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Lädt einen Level aus der angegebenen Datei.
+	 * @param path
+	 * @return Ob es geklappt hat.
+	 */
 	public boolean loadLevelFromFile (String path);
+
+	/**
+	 * Lädt einen Level aus dem übergebenen String, als wäre der String der Inhalt der Datei.
+	 * Praktisch für Inline Levels.
+	 * @param data Der Levelstring
+	 * @return Ob es geklappt hat.
+	 */
 	public boolean loadLevelFromString (String data);
 
-	
+	// SIMULATING PLAYER CONTROLS //////////////////////////////////////////////////////////////////
 
+	/**
+	 * Äquivalent zum normalen Richtungs-Tastendruck. Gibt die Richtung an, in die sich der
+	 * angegebene Spieler bewegen WILL in den kommenden Ticks. Wenn er damit aufhören soll, muss
+	 * die Methode attemptStopPlayer aufgerufen werden.
+	 * Die eigentliche Bewegung erfolgt erst zum nächsten Tick (vorher passiert nichts).
+	 * @param playerIndex 1-4
+	 * @param dir
+	 */
+	public void attemptMovePlayer (int playerIndex, Direction dir);
+
+	/**
+	 * Lässt den angegebenen Spieler stehen bleiben, falls er sich denn bewegte.
+	 * @param playerIndex
+	 */
+	public void attemptStopPlayer (int playerIndex);
+
+	/**
+	 * Lässt den Spieler eine Bombe legen lassen WOLLEN. Äquivalent zum normalen Tastendruck.
+	 * Die eigentliche Aktion erfolgt erst zum nächsten Tick (vorher passiert nichts).
+	 * @param playerIndex
+	 */
+	public void attemptPlaceBomb (int playerIndex);
+
+	// SIMULATING TIME /////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Lässt die angegebene Anzahl Ticks vergehen.
+	 * @param count
+	 */
 	public void tick (int count);
-	public void tick ();
+
+	// FEEDBACK ////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Liefert ein zweidimensionales Array (erste Dimension die Breite des Spielfeldes, zweite die
+	 * Höhe) von Feldinformationen. Der einzige Feedbackkanal für die Tests.
+	 * @return
+	 */
+	public FieldStatus[][] getLevelStatus();
 }
