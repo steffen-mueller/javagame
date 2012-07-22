@@ -36,6 +36,7 @@ public class BombermanController extends AbstractBombermanController {
 	protected Gui gui;
 	protected BombermanLevelManager levelManager;
 	protected BombermanGame game;
+	protected boolean testMode = false;
 
 	public HashMap<Integer,Player> players;
 
@@ -59,10 +60,21 @@ public class BombermanController extends AbstractBombermanController {
 	}
 
 	/**
+	 * Startet den Controller im Testmodus, der die Eventqueue und GUI nicht startet.
+	 * @param testmode
+	 */
+	public BombermanController (boolean testmode) {
+		levelManager = new BombermanLevelManager();
+		testMode = testmode;
+	}
+
+	/**
 	 * Erstellt die GUI.
 	 */
 	@Override
 	protected void initialize() {
+		if (testMode == true)
+			return;
 
 		// Erstellt ein GUI Objekt. Wenn die Konfigurationsdateien fehlen, exception.
 		gui = new Gui(this);
@@ -94,16 +106,23 @@ public class BombermanController extends AbstractBombermanController {
 		game.initialiseTickTimer();
 	}
 
+	public void setGame (BombermanGame game) {
+		this.game = game;
+	}
+
 	public void addDirtyPoints (ArrayList<Point> points) {
-		gui.addDirtyPoints(points);
+		if (gui != null)
+			gui.addDirtyPoints(points);
 	}
 
 	public void addDirtyPoint (Point point) {
-		gui.addDirtyPoint(point);
+		if (gui != null)
+			gui.addDirtyPoint(point);
 	}
 
 	public void redrawDirtyPoints () {
-		gui.redrawDirty(game.getBoard());
+		if (gui != null)
+			gui.redrawDirty(game.getBoard());
 	}
 
 	// EVENT HANDLING //////////////////////////////////////////////////////////////////////////////
@@ -130,6 +149,16 @@ public class BombermanController extends AbstractBombermanController {
 				sendEventToUI(UIEvent.create(UIEvent.type.QUIT_GAME));
 				break;
 		}
+	}
+
+	/**
+	 * Ruft processEvent synchron und direkt mit dem übergebenen Event auf und umgeht dabei die
+	 * Eventqueue des AbstractControllers, da diese im Testszenario Probleme macht.
+	 * !!! NUR IN TESTS AUFRUFEN, NICHT IM ECHTEN CODE !!!
+	 * @param event
+	 */
+	public void testProcessEvent (final IControllerEvent event) {
+		processEvent(event);
 	}
 
 	// UI COMMUNICATION ////////////////////////////////////////////////////////////////////////////

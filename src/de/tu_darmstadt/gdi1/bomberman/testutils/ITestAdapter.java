@@ -17,7 +17,13 @@ public interface ITestAdapter {
 	/**
 	 * Die möglichen Elemente, die in FieldStatus zurück gegeben werden können.
 	 */
-	enum Element {PLAYER1, PLAYER2, PLAYER3, PLAYER4, BOMB, STONE, WALL, EXPLOSION, POWERUP};
+	enum Element {PLAYER1, PLAYER2, PLAYER3, PLAYER4, FLOOR, BOMB, STONE, WALL, EXPLOSION, POWERUP};
+
+	/**
+	 * Parameter, die zurückgeliefert werden können.
+	 * PLAYER_SPEED: wie viele Ticks benötigt ein Spieler, um ein Feld zurück zu legen? / Der Delay.
+	 */
+	enum Parameter {PLAYER_SPEED};
 
 	/**
 	 * Der Status eines einzelnen Spielfeldes, erheblich vereinfacht.
@@ -31,6 +37,12 @@ public interface ITestAdapter {
 					return true;
 			}
 			return false;
+		}
+
+		public void debugOut () {
+			for (int i = 0; i < elements.length; i++) {
+				System.out.println("... "+elements[i]);
+			}
 		}
 	}
 
@@ -83,6 +95,11 @@ public interface ITestAdapter {
 	 * @param count
 	 */
 	public void tick (int count);
+
+	/**
+	 * Gibt Informationen über die Konfiguration zurück - bspw. wie schnell Spieler laufen können.
+	 */
+	public int getIntParameter (Parameter p);
 
 	// FEEDBACK ////////////////////////////////////////////////////////////////////////////////////
 

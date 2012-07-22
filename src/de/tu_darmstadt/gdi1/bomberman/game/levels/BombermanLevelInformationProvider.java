@@ -38,7 +38,7 @@ public class BombermanLevelInformationProvider implements ILevelInformationProvi
     public List<GameElement> getBoardElementsFor(char c) throws InvalidLevelDataException {
         // Liste zum stacken der Dinge auf einem Grid (Bsp.: Bodenelement + PowerUp + Stein)
         List<GameElement> l = new LinkedList<GameElement>();
-        logger.log(Level.INFO, "Char: " + c);
+        // logger.log(Level.INFO, "Char: " + c);
 
         // Allgemein: Boden
         l.add(new Floor());

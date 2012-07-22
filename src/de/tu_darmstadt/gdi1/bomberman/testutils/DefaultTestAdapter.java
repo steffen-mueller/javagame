@@ -12,6 +12,7 @@ import de.tu_darmstadt.gdi1.framework.interfaces.IGameData;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.jar.Attributes.Name;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -78,8 +79,9 @@ public class DefaultTestAdapter implements ITestAdapter {
 		if (gd == null)
 			throw new NullPointerException("Cannot initialize null gamedata.");
 
-		controller = new BombermanController();
+		controller = new BombermanController(true);
 		game = new BombermanGame(gd, controller);
+		controller.setGame(game);
 	}
 
 	// SIMULATING PLAYER CONTROLS //////////////////////////////////////////////////////////////////
@@ -104,7 +106,7 @@ public class DefaultTestAdapter implements ITestAdapter {
 		}
 
 		ControllerInputEvent ev = new ControllerInputEvent(playerIndex, btn, ControllerInputEvent.state.PRESSED);
-		controller.handleEvent(ev);
+		controller.testProcessEvent(ev);
 		lastButtons[playerIndex-1] = btn;
 	}
 
@@ -117,7 +119,7 @@ public class DefaultTestAdapter implements ITestAdapter {
 			return;
 
 		ControllerInputEvent ev = new ControllerInputEvent(playerIndex, lastButtons[playerIndex-1], ControllerInputEvent.state.RELEASED);
-		controller.handleEvent(ev);
+		controller.testProcessEvent(ev);
 		lastButtons[playerIndex-1] = ControllerInputEvent.button.NULL;
 	}
 
@@ -129,7 +131,7 @@ public class DefaultTestAdapter implements ITestAdapter {
 	@Override
 	public void attemptPlaceBomb (int playerIndex) {
 		ControllerInputEvent ev = new ControllerInputEvent(playerIndex, ControllerInputEvent.button.BOMB, ControllerInputEvent.state.PRESSED);
-		controller.handleEvent(ev);
+		controller.testProcessEvent(ev);
 	}
 
 	// SIMULATING TIME /////////////////////////////////////////////////////////////////////////////
@@ -160,19 +162,25 @@ public class DefaultTestAdapter implements ITestAdapter {
 			for (int y = 0; y < board.getHeight(); y++) {
 				List<GameElement> el = board.getElements(x, y);
 
+				if (el == null)
+					continue;
+
 				Element[] ls = new Element[el.size()];
 				for (int i = 0; i < el.size(); i++)
 				{
-					if (el.get(i) == controller.players.get(1))
-						ls[i] = Element.PLAYER1;
-					else if (el.get(i) == controller.players.get(2))
-						ls[i] = Element.PLAYER2;
-					else if (el.get(i) == controller.players.get(3))
-						ls[i] = Element.PLAYER3;
-					else if (el.get(i) == controller.players.get(4))
-						ls[i] = Element.PLAYER4;
+					if (el.get(i) instanceof Player) {
+						Player p = (Player)el.get(i);
+						switch(p.getPlayerID()) {
+							case 1: ls[i] = Element.PLAYER1; break;
+							case 2: ls[i] = Element.PLAYER2; break;
+							case 3: ls[i] = Element.PLAYER3; break;
+							case 4: ls[i] = Element.PLAYER4; break;
+						}
+					}
 					else if (el.get(i) instanceof Bomb)
 						ls[i] = Element.BOMB;
+					else if (el.get(i) instanceof Floor)
+						ls[i] = Element.FLOOR;
 					else if (el.get(i) instanceof Stone)
 						ls[i] = Element.STONE;
 					else if (el.get(i) instanceof Wall)
@@ -181,12 +189,26 @@ public class DefaultTestAdapter implements ITestAdapter {
 						ls[i] = Element.EXPLOSION;
 					else if (el.get(i) instanceof PowerUp)
 						ls[i] = Element.POWERUP;
+					else
+						System.out.println("Missed class: "+el.get(i).getClass());
 				}
 
+				fs[x][y] = new FieldStatus();
 				fs[x][y].elements = ls;
 			}
 		}
 
 		return fs;
 	}
+
+	/**
+	 * Gibt Informationen über die Konfiguration zurück - bspw. wie schnell Spieler laufen können.
+	 */
+	@Override
+	public int getIntParameter (Parameter p) {
+		if (p == Parameter.PLAYER_SPEED)
+			return 5;
+		return -1;
+	}
+
 }
