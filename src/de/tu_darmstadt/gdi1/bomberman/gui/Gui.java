@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 import de.tu_darmstadt.gdi1.bomberman.BombermanController;
 import de.tu_darmstadt.gdi1.bomberman.framework.AbstractBombermanController;
 import de.tu_darmstadt.gdi1.bomberman.game.elements.GameElement;
+import de.tu_darmstadt.gdi1.bomberman.sound.SoundManagerFactory;
 import de.tu_darmstadt.gdi1.framework.interfaces.IBoard;
 import de.tu_darmstadt.gdi1.framework.interfaces.IUserInterfaceEvent;
 import de.tu_darmstadt.gdi1.framework.utils.Point;
@@ -70,6 +71,10 @@ public class Gui extends UserInterface<GameElement> {
 	void quitGameGUI ()
 	{
 		System.out.println("Disposing GUI...");
+                // Gui does not dispose while sound is playing.
+                // So I found no better place for stopping the sound.
+                SoundManagerFactory.getSoundManager().setLoop(SoundManagerFactory.SoundLabel.BACKGROUND, false);
+                SoundManagerFactory.getSoundManager().stopSound(SoundManagerFactory.SoundLabel.BACKGROUND);
 		mainMenu.dispose();
 		dispose();
 	}
