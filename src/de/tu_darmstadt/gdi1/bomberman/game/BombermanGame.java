@@ -65,7 +65,8 @@ public class BombermanGame implements IBombermanGame {
 
 		// Keep on showing crazy pyro explosions
 		continueExplosions();
-
+		
+		
 		// Redraw what became dirty
 		this.controller.redrawDirtyPoints();
 	}
@@ -256,4 +257,6 @@ public class BombermanGame implements IBombermanGame {
 			}
 		}
 	}
+	
+	
 }

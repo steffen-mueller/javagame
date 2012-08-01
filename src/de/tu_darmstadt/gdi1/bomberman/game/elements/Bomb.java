@@ -36,6 +36,15 @@ public class Bomb extends GameElement {
     public void setTicksTillExplode(int ticksTillExplode) {
         this.ticksTillExplode = ticksTillExplode;
     }
+    
+    // get und set player
+    public void setPlayer(Player player){
+    	this.player = player;
+    }
+    
+    public Player getPlayer(){
+    	return player;
+    }
 
     //public int getDetonationRadius ()
     //{
@@ -144,6 +153,7 @@ public class Bomb extends GameElement {
         for (GameElement e : present) {
             // Another bomb - also explode
             if (e instanceof Bomb) {
+                ((Bomb) e).setPlayer(player);
                 toExplode.add((Bomb) e);
             } // Something solid - definitely stop propagation
             else if (e.isSolid()) {
@@ -151,6 +161,10 @@ public class Bomb extends GameElement {
             }
 
             if (e.isDestroyable()) {
+            	if (e instanceof Player){
+            		System.out.println(getPlayer().getDescription() + " killed " + ((Player) e).getDescription());
+            		getPlayer().addKill(((Player) e));
+            	}
                 toRemove.add(e);
             }
         }

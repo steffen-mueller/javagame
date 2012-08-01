@@ -33,6 +33,7 @@ public class Player extends GameElement {
     private int bombRadius = 0;
     private int myMaxBombs = 1;
     private ArrayList<Bomb> myBombs = new ArrayList<Bomb>();
+    private ArrayList<Player> playersKilled =new ArrayList<Player>();
 
     public Player(int playerID) {
         this.playerID = playerID;
@@ -93,6 +94,10 @@ public class Player extends GameElement {
 
     public void setmyMaxBombs(int myMaxBombs) {
         this.myMaxBombs = myMaxBombs;
+    }
+    
+    public void addKill(Player p){
+    	playersKilled.add(p);
     }
 
     // LOGIC ///////////////////////////////////////////////////////////////////////////////////////
