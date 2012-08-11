@@ -12,7 +12,9 @@ public class ControllerEvent extends DefaultControllerEvent {
 	public enum type {
 		USER_QUIT,
 		PLAYER_INPUT,
-		CHANGE_SKIN
+		CHANGE_SKIN,
+		CONTINUE_GAME,
+		RESTART_GAME
 	};
 
 	protected type myType;

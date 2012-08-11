@@ -28,11 +28,20 @@ public class MainMenu extends JFrame
 	}
 
 	private void QuitButtonActionPerformed(ActionEvent e) {
-		gui.quitGameGUI();
+		gui.closingRequested();
 	}
 
 	private void PlayButtonActionPerformed(ActionEvent e) {
-		// TODO add your code here
+		dispose();
+	}
+
+	private void thisWindowClosing(WindowEvent e) {
+		gui.mainMenuClosed();
+	}
+
+	private void buttonRestartActionPerformed(ActionEvent e) {
+		gui.restartGameButtonPressed();
+		dispose();
 	}
 
 	private void initComponents ()
@@ -41,11 +50,18 @@ public class MainMenu extends JFrame
 		panel1 = new JPanel();
 		label1 = new JLabel();
 		panel2 = new JPanel();
+		button4 = new JButton();
 		button1 = new JButton();
 		button3 = new JButton();
 		button2 = new JButton();
 
 		setName("this");
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				thisWindowClosing(e);
+			}
+		});
 		Container contentPane = getContentPane();
 		contentPane.setLayout(new BorderLayout());
 
@@ -70,12 +86,25 @@ public class MainMenu extends JFrame
 		panel2.setName("panel2");
 		panel2.setLayout(new GridBagLayout());
 		((GridBagLayout)panel2.getLayout()).columnWidths = new int[] {0, 0, 0};
-		((GridBagLayout)panel2.getLayout()).rowHeights = new int[] {45, 0, 0};
+		((GridBagLayout)panel2.getLayout()).rowHeights = new int[] {0, 45, 0, 0};
 		((GridBagLayout)panel2.getLayout()).columnWeights = new double[] {0.0, 0.0, 1.0E-4};
-		((GridBagLayout)panel2.getLayout()).rowWeights = new double[] {0.0, 0.0, 1.0E-4};
+		((GridBagLayout)panel2.getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 1.0E-4};
 
-		button1.setText(">> Play >>");
+		button4.setText("Restart");
+		button4.setName("button4");
+		button4.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				buttonRestartActionPerformed(e);
+			}
+		});
+		panel2.add(button4, new GridBagConstraints(0, 0, 2, 1, 0.0, 0.0,
+			GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+			new Insets(0, 0, 5, 0), 0, 0));
+
+		button1.setText(">> Continue >>");
 		button1.setFont(button1.getFont().deriveFont(button1.getFont().getStyle() | Font.BOLD));
+		button1.setActionCommand(">> Play >>");
 		button1.setName("button1");
 		button1.addActionListener(new ActionListener() {
 			@Override
@@ -83,13 +112,13 @@ public class MainMenu extends JFrame
 				PlayButtonActionPerformed(e);
 			}
 		});
-		panel2.add(button1, new GridBagConstraints(0, 0, 2, 1, 0.0, 0.0,
+		panel2.add(button1, new GridBagConstraints(0, 1, 2, 1, 0.0, 0.0,
 			GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 			new Insets(0, 0, 5, 0), 0, 0));
 
 		button3.setText("Options");
 		button3.setName("button3");
-		panel2.add(button3, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
+		panel2.add(button3, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0,
 			GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 			new Insets(0, 0, 0, 5), 0, 0));
 
@@ -101,7 +130,7 @@ public class MainMenu extends JFrame
 				QuitButtonActionPerformed(e);
 			}
 		});
-		panel2.add(button2, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
+		panel2.add(button2, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0,
 			GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 			new Insets(0, 0, 0, 0), 0, 0));
 		panel1.add(panel2, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
@@ -117,6 +146,7 @@ public class MainMenu extends JFrame
 	private JPanel panel1;
 	private JLabel label1;
 	private JPanel panel2;
+	private JButton button4;
 	private JButton button1;
 	private JButton button3;
 	private JButton button2;

@@ -103,6 +103,19 @@ public class BombermanGame implements IBombermanGame {
 		tickTimer = null;
 	}
 
+	public void pauseTickTimer ()
+	{
+		System.out.println("Pausing game...");
+		tickTimer.cancel();
+	}
+
+	public void continueTickTimer ()
+	{
+		System.out.println("Continuing game...");
+		tickTimer = null;
+		initialiseTickTimer();
+	}
+
 	// Gamedata Getter/Setter //////////////////////////////////////////////////////////////////////
 
 	/**
@@ -229,6 +242,7 @@ public class BombermanGame implements IBombermanGame {
 			this.dropBomb(event.getPlayerIndex());
 		}
 		else if (event.getButton() == ControllerInputEvent.button.MAIN_MENU) {
+			pauseTickTimer();
 			sendEventToUI(UIEvent.type.MAIN_MENU);
 		}
 		else if (event.getButton() == ControllerInputEvent.button.X_BUTTON) {
@@ -257,6 +271,4 @@ public class BombermanGame implements IBombermanGame {
 			}
 		}
 	}
-	
-	
 }

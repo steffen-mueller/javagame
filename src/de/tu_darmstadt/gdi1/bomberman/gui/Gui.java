@@ -3,6 +3,8 @@ package de.tu_darmstadt.gdi1.bomberman.gui;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -17,8 +19,6 @@ import de.tu_darmstadt.gdi1.framework.interfaces.IBoard;
 import de.tu_darmstadt.gdi1.framework.interfaces.IUserInterfaceEvent;
 import de.tu_darmstadt.gdi1.framework.utils.Point;
 import de.tu_darmstadt.gdi1.framework.view.UserInterface;
-import java.io.File;
-import java.io.FilenameFilter;
 
 
 /**
@@ -76,10 +76,10 @@ public class Gui extends UserInterface<GameElement> {
 	void quitGameGUI ()
 	{
 		System.out.println("Disposing GUI...");
-                // Gui does not dispose while sound is playing.
-                // So I found no better place for stopping the sound.
-                SoundManagerFactory.getSoundManager().setLoop(SoundManagerFactory.SoundLabel.BACKGROUND, false);
-                SoundManagerFactory.getSoundManager().stopSound(SoundManagerFactory.SoundLabel.BACKGROUND);
+        // Gui does not dispose while sound is playing.
+        // So I found no better place for stopping the sound.
+        SoundManagerFactory.getSoundManager().setLoop(SoundManagerFactory.SoundLabel.BACKGROUND, false);
+        SoundManagerFactory.getSoundManager().stopSound(SoundManagerFactory.SoundLabel.BACKGROUND);
 		mainMenu.dispose();
 		dispose();
 	}
@@ -362,5 +362,17 @@ public class Gui extends UserInterface<GameElement> {
 		temp.dispose();
 
 		return new ImageIcon(bufferedImage);
+	}
+
+	public void mainMenuClosed ()
+	{
+		ControllerEvent evt = ControllerEvent.create(ControllerEvent.type.CONTINUE_GAME);
+		controller.handleEventImmediately(evt);
+	}
+
+	public void restartGameButtonPressed ()
+	{
+		ControllerEvent evt = ControllerEvent.create(ControllerEvent.type.RESTART_GAME);
+		controller.handleEventImmediately(evt);
 	}
 }

@@ -1,10 +1,11 @@
 package de.tu_darmstadt.gdi1.bomberman;
 
 import java.io.IOException;
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 import de.tu_darmstadt.gdi1.bomberman.framework.AbstractBombermanController;
 import de.tu_darmstadt.gdi1.bomberman.game.BombermanGame;
@@ -25,8 +26,6 @@ import de.tu_darmstadt.gdi1.framework.interfaces.IControllerEvent;
 import de.tu_darmstadt.gdi1.framework.interfaces.IGameData;
 import de.tu_darmstadt.gdi1.framework.utils.FrameworkUtils;
 import de.tu_darmstadt.gdi1.framework.utils.Point;
-import java.util.ArrayList;
-import javax.sound.sampled.UnsupportedAudioFileException;
 
 /**
  * Der BombermanController ist unsere Implementierung eines
@@ -182,6 +181,22 @@ public class BombermanController extends AbstractBombermanController {
 			case CHANGE_SKIN:
 				this.gui.redrawFull(game.getBoard());
 				break;
+	        case CONTINUE_GAME:
+		        game.continueTickTimer();
+		        break;
+	        case RESTART_GAME:
+		        try
+		        {
+			        IGameData<GameElement> gd = levelManager.loadCurrentAgain();
+			        startNewGame((BombermanGameData) gd);
+		        } catch (InvalidLevelDataException e)
+		        {
+			        e.printStackTrace();    // todo: Implement useful logic
+		        } catch (IOException e)
+		        {
+			        e.printStackTrace();    // todo: Implement useful logic
+		        }
+		        break;
         }
     }
 
