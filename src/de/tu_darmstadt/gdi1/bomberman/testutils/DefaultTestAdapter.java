@@ -103,6 +103,7 @@ public class DefaultTestAdapter implements ITestAdapter {
 			case DOWN: btn = ControllerInputEvent.button.DOWN; break;
 			case LEFT: btn = ControllerInputEvent.button.LEFT; break;
 			case RIGHT: btn = ControllerInputEvent.button.RIGHT; break;
+			case BOMB: btn = ControllerInputEvent.button.BOMB; break;
 		}
 
 		ControllerInputEvent ev = new ControllerInputEvent(playerIndex, btn, ControllerInputEvent.state.PRESSED);

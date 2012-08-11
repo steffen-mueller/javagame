@@ -66,6 +66,9 @@ public class BombermanGame implements IBombermanGame {
 		// Keep on showing crazy pyro explosions
 		continueExplosions();
 		
+		//Time goes on
+		gametime();
+		
 		
 		// Redraw what became dirty
 		this.controller.redrawDirtyPoints();
@@ -269,6 +272,15 @@ public class BombermanGame implements IBombermanGame {
 			else {
 				this.stopPlayerMove(event.getPlayerIndex(), dir);
 			}
+		}
+	}
+	private long oldtime = 0;
+	
+	public void gametime(){
+		long mytime = getTickCount() / (1000 / tickRate);
+	if (mytime != oldtime){
+		oldtime = mytime;
+	System.out.println("Time played: "+ oldtime + " Seconds");
 		}
 	}
 }

@@ -12,7 +12,7 @@ public interface ITestAdapter {
 	/**
 	 * Die Himmelsrichtungen für das Laufen lassen.
 	 */
-	enum Direction {UP,DOWN,LEFT,RIGHT,NULL};
+	enum Direction {UP,DOWN,LEFT,RIGHT,BOMB,NULL};
 
 	/**
 	 * Die möglichen Elemente, die in FieldStatus zurück gegeben werden können.
