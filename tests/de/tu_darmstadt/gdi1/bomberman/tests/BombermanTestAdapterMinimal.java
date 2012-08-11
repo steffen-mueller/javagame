@@ -1,12 +1,10 @@
 package de.tu_darmstadt.gdi1.bomberman.tests;
 
-import org.junit.Test;
-import static org.junit.Assert.*;
-import org.tritonus.share.TDebug.AssertException;
-
 import de.tu_darmstadt.gdi1.bomberman.testutils.ITestAdapter;
-import de.tu_darmstadt.gdi1.bomberman.testutils.ITestAdapter.FieldStatus;
 import de.tu_darmstadt.gdi1.bomberman.testutils.TestAdapterFactory;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
  * Beispieltest.
@@ -37,7 +35,7 @@ public class BombermanTestAdapterMinimal  {
 						"###################\n";
 
 	/**
-	 *Prüft ob ein invalides Level geladen werden kann
+	 *PrÃ¼ft ob ein invalides Level geladen werden kann
 	 *
 	/
 		@Test(expected=Exception.class) public void loadFalseLevel() {
@@ -74,7 +72,7 @@ public class BombermanTestAdapterMinimal  {
 		// Jetzt mÃ¼sste der Spieler auf 1,2 stehen...
 		assertTrue(a.getLevelStatus()[1][2].contains(ITestAdapter.Element.PLAYER1));
 		
-		//und auch die anderen Spieler müssten sich bewegt haben
+		//und auch die anderen Spieler mï¿½ssten sich bewegt haben
 		assertTrue(a.getLevelStatus()[17][2].contains(ITestAdapter.Element.PLAYER2));
 		assertTrue(a.getLevelStatus()[1][8].contains(ITestAdapter.Element.PLAYER3));
 		assertTrue(a.getLevelStatus()[17][8].contains(ITestAdapter.Element.PLAYER4));
