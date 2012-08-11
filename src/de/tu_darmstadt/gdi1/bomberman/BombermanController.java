@@ -224,4 +224,9 @@ public class BombermanController extends AbstractBombermanController {
             Logger.getLogger(BombermanController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+	public long getTimeInSeconds ()
+	{
+		return game.getTimeInSeconds();
+	}
 }

@@ -3,7 +3,6 @@ package de.tu_darmstadt.gdi1.bomberman.game.levels;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import de.tu_darmstadt.gdi1.bomberman.BombermanController;
@@ -38,7 +37,6 @@ public class BombermanLevelInformationProvider implements ILevelInformationProvi
     public List<GameElement> getBoardElementsFor(char c) throws InvalidLevelDataException {
         // Liste zum stacken der Dinge auf einem Grid (Bsp.: Bodenelement + PowerUp + Stein)
         List<GameElement> l = new LinkedList<GameElement>();
-        // logger.log(Level.INFO, "Char: " + c);
 
         // Allgemein: Boden
         l.add(new Floor());

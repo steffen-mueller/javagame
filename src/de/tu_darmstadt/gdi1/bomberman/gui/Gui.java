@@ -67,6 +67,9 @@ public class Gui extends UserInterface<GameElement> {
 			case MAIN_MENU:
 				showMainMenu();
 				break;
+			case UPDATE_TIME:
+				setTitle("The amazing TU Darmstadt Bomberman! ["+((BombermanController) controller).getTimeInSeconds() + " sec.]");
+				break;
 			case REDRAW:
 				// This does nothing, it is just called to tell the framework, that the UI has work to do and needs repaint
 				break;

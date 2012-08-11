@@ -15,6 +15,7 @@ public class UIEvent extends DefaultUserInterfaceEvent<GameElement> {
 		QUIT_GAME,
 		MAIN_MENU,
 		DETONATE_BOMB,
+		UPDATE_TIME,
 		REDRAW
 	}
 

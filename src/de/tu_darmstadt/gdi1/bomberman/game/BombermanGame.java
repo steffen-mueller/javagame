@@ -11,10 +11,12 @@ import de.tu_darmstadt.gdi1.bomberman.game.elements.Bomb;
 import de.tu_darmstadt.gdi1.bomberman.game.elements.Explosion;
 import de.tu_darmstadt.gdi1.bomberman.game.elements.GameElement;
 import de.tu_darmstadt.gdi1.bomberman.game.elements.Player;
+import de.tu_darmstadt.gdi1.bomberman.game.elements.Wall;
 import de.tu_darmstadt.gdi1.bomberman.game.levels.BombermanGameData;
 import de.tu_darmstadt.gdi1.bomberman.gui.ControllerInputEvent;
 import de.tu_darmstadt.gdi1.bomberman.gui.UIEvent;
 import de.tu_darmstadt.gdi1.framework.interfaces.IBoard;
+import de.tu_darmstadt.gdi1.framework.interfaces.IGameBoard;
 import de.tu_darmstadt.gdi1.framework.utils.Point;
 
 /**
@@ -34,6 +36,7 @@ public class BombermanGame implements IBombermanGame {
 	public static long tickRate = 50;
 	protected Timer tickTimer;
 	protected long tickCounter = 0;
+	private long timeInSeconds = 0;
 
 	public BombermanGame (BombermanGameData data, BombermanController ctr) {
 		gameData = data;
@@ -41,6 +44,10 @@ public class BombermanGame implements IBombermanGame {
 
 		//say hello to the gui, show the loaded level:
 		sendEventToUI(UIEvent.type.NEW_GAME);
+	}
+
+	public long getTimeInSeconds () {
+		return timeInSeconds;
 	}
 
 	// Ticking /////////////////////////////////////////////////////////////////////////////////////
@@ -67,11 +74,34 @@ public class BombermanGame implements IBombermanGame {
 		continueExplosions();
 		
 		//Time goes on
-		gametime();
-		
+		gameTime();
 		
 		// Redraw what became dirty
 		this.controller.redrawDirtyPoints();
+	}
+
+	private void dropSuddenDeathWall ()
+	{
+		for (int i = 0; i < getBoard().getWidth(); i++) {
+			for (int j = 0; j < getBoard().getHeight(); j++) {
+				if (getBoard().getElements(i,j).get(getBoard().getElements(i, j).size() - 1).isDestroyable()) {
+					System.out.println("Sudden Death: Stoning " + i + ", " + j);
+
+					// TODO - Place Wall
+					List<GameElement> gE = getBoard().getElements(i,j);
+					Wall wall = new Wall();
+					wall.setCoordinates(i, j);
+					wall.setGameBoard((IGameBoard) getBoard());
+					wall.setGameData(gameData);
+					gE.add(wall);
+					((IGameBoard) getBoard()).setElements(i, j, gE);
+
+					this.controller.addDirtyPoint(new Point(i,j));
+					this.controller.redrawDirtyPoints();
+					return;
+				}
+			}
+		}
 	}
 
 	public long getTickCount () {
@@ -274,13 +304,15 @@ public class BombermanGame implements IBombermanGame {
 			}
 		}
 	}
-	private long oldtime = 0;
-	
-	public void gametime(){
+
+	public void gameTime (){
 		long mytime = getTickCount() / (1000 / tickRate);
-	if (mytime != oldtime){
-		oldtime = mytime;
-	System.out.println("Time played: "+ oldtime + " Seconds");
+		if (mytime != timeInSeconds){
+			timeInSeconds = mytime;
+			sendEventToUI(UIEvent.type.UPDATE_TIME);
+			if (timeInSeconds >= 300) {
+				dropSuddenDeathWall();
+			}
 		}
 	}
 }
