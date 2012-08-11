@@ -33,25 +33,26 @@ public class BombermanTestAdapterMinimal  {
 						"#*#*# #*#*#*# #*#*#\n"+
 						"#*#* *  ***  * *#*#\n"+
 						"# ###*#*# #*#*### #\n"+
-						"#3 ***  *  * ***  #\n"+
+						"#3 ***  *  * *** 4#\n"+
 						"###################\n";
 
 	/**
 	 *Pr�ft ob ein invalides Level geladen werden kann
-	 */
-	
+	 *
+	/
 		@Test(expected=Exception.class) public void loadFalseLevel() {
 			ITestAdapter a = TestAdapterFactory.createTestAdapter();
 			a.loadLevelFromString(falseLevel);
 	    }
 		
+		*/
 			
 	
 	
 	/**
 	 * Prüft, ob der Spieler tatsächlich ein Feld nach unten wandert, wenn die Taste "runter"
 	 * gedrückt wird.
-	 *
+	 */
 		@Test
 	public void testSimpleMovement () {
 		ITestAdapter a = TestAdapterFactory.createTestAdapter();
@@ -96,7 +97,7 @@ public class BombermanTestAdapterMinimal  {
 
 	/**
 	 * Prüft, dass der Spieler hängen bleibt.
-	 *
+	 */
 		@Test
 	public void testBlockingMovement () {
 		ITestAdapter a = TestAdapterFactory.createTestAdapter();
@@ -124,7 +125,7 @@ public class BombermanTestAdapterMinimal  {
 	
 	/**
 	 * Testet ob ein Spieler gestorben ist
-	 *
+	 */
 		@Test
 	public void testDeath(){
 		ITestAdapter a = TestAdapterFactory.createTestAdapter();
@@ -141,7 +142,7 @@ public class BombermanTestAdapterMinimal  {
 	
 	/**
 	 * testet ob eine Explosion statt gefunden hat und ob der Spieler und der Stein entfernt wurden
-	 *
+	 */
 		@Test
 	public void testExplosion(){
 		ITestAdapter a = TestAdapterFactory.createTestAdapter();
@@ -155,5 +156,5 @@ public class BombermanTestAdapterMinimal  {
 		assertFalse(a.getLevelStatus()[2][1].contains(ITestAdapter.Element.PLAYER1));
 		assertFalse(a.getLevelStatus()[3][1].contains(ITestAdapter.Element.STONE));
 	}
-	*/
+	
 }
