@@ -58,9 +58,9 @@ public class Bomb extends GameElement {
     @Override
     public ImageIcon getImageIcon() {
         if (ticksTillExplode < 20) {
-            return new ImageIcon("resource/images/bomb_attention.png");
+            return new ImageIcon(skinPath+"bomb_attention.png");
         } else {
-            return new ImageIcon("resource/images/bomb.png");
+            return new ImageIcon(skinPath+"bomb.png");
         }
     }
 

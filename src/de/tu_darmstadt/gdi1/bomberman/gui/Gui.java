@@ -17,6 +17,8 @@ import de.tu_darmstadt.gdi1.framework.interfaces.IBoard;
 import de.tu_darmstadt.gdi1.framework.interfaces.IUserInterfaceEvent;
 import de.tu_darmstadt.gdi1.framework.utils.Point;
 import de.tu_darmstadt.gdi1.framework.view.UserInterface;
+import java.io.File;
+import java.io.FilenameFilter;
 
 
 /**
@@ -27,6 +29,9 @@ public class Gui extends UserInterface<GameElement> {
 
 	protected AbstractBombermanController controller;
 	private MainMenu mainMenu;
+
+	// Used for skin cycling
+	int skinIndex = 0;
 
 	protected ArrayList<Point> dirtyPoints = new ArrayList<Point>();
 
@@ -122,6 +127,14 @@ public class Gui extends UserInterface<GameElement> {
 		dirtyPoints.clear();
 	}
 
+	public synchronized void redrawFull (IBoard<GameElement> board) {
+		if (board == null)
+			return;
+
+		boardPanel.paintBoard(board, true);
+	}
+
+
 	// PLAYER CONTROLS /////////////////////////////////////////////////////////////////////////////
 
 	@Override
@@ -181,7 +194,7 @@ public class Gui extends UserInterface<GameElement> {
 				playerIdx = 1;
 				btn = ControllerInputEvent.button.RIGHT;
 				break;
-			case (KeyEvent.VK_SPACE): // BOMB BABY BOMB!
+			case (KeyEvent.VK_CONTROL): // BOMB BABY BOMB!
 				playerIdx = 1;
 				btn = ControllerInputEvent.button.BOMB;
 				break;
@@ -206,6 +219,56 @@ public class Gui extends UserInterface<GameElement> {
 			case (KeyEvent.VK_Q): // BOMB BABY BOMB!
 				playerIdx = 2;
 				btn = ControllerInputEvent.button.BOMB;
+				break;
+
+			// PLAYER 3
+			case (KeyEvent.VK_I): // UP
+				playerIdx = 3;
+				btn = ControllerInputEvent.button.UP;
+				break;
+			case (KeyEvent.VK_K): // DOWN
+				playerIdx = 3;
+				btn = ControllerInputEvent.button.DOWN;
+				break;
+			case (KeyEvent.VK_J): // LEFT
+				playerIdx = 3;
+				btn = ControllerInputEvent.button.LEFT;
+				break;
+			case (KeyEvent.VK_L): // RIGHT
+				playerIdx = 3;
+				btn = ControllerInputEvent.button.RIGHT;
+				break;
+			case (KeyEvent.VK_O): // BOMB BABY BOMB!
+				playerIdx = 3;
+				btn = ControllerInputEvent.button.BOMB;
+				break;
+
+			// PLAYER 4
+			case (KeyEvent.VK_NUMPAD8): // UP
+				playerIdx = 4;
+				btn = ControllerInputEvent.button.UP;
+				break;
+			case (KeyEvent.VK_NUMPAD2): // DOWN
+				playerIdx = 4;
+				btn = ControllerInputEvent.button.DOWN;
+				break;
+			case (KeyEvent.VK_NUMPAD4): // LEFT
+				playerIdx = 4;
+				btn = ControllerInputEvent.button.LEFT;
+				break;
+			case (KeyEvent.VK_NUMPAD6): // RIGHT
+				playerIdx = 4;
+				btn = ControllerInputEvent.button.RIGHT;
+				break;
+			case (KeyEvent.VK_NUMPAD5): // BOMB BABY BOMB!
+				playerIdx = 4;
+				btn = ControllerInputEvent.button.BOMB;
+				break;
+
+			// Skin switching
+			case (KeyEvent.VK_SPACE):
+				if (state == ControllerInputEvent.state.PRESSED)
+					switchSkin();
 				break;
 
 			// DEBUG Buttons
@@ -240,6 +303,31 @@ public class Gui extends UserInterface<GameElement> {
 		throw new UnsupportedOperationException("Not supported yet.");
 	}
 
+	public void switchSkin () {
+		// Receive all skin subdirectories
+		File dir = new File("resource");
+		FilenameFilter filter = new FilenameFilter() {
+			@Override
+			public boolean accept(File dir, String name) {
+				return name.startsWith("images-");
+			}
+		};
+		String[] children = dir.list(filter);
+
+		// Rotate the skinindex and get the appropriate skin.
+		skinIndex = (skinIndex+1) % (children.length+1);
+		String skin = "images";
+		if (skinIndex > 0)
+			skin = children[skinIndex-1];
+
+		// Switch for game elements
+		System.out.println("Switching to skin "+skin+" (idx "+skinIndex+" of "+children.length+")");
+		GameElement.setSkin(skin);
+
+		// Force redraw
+		ControllerEvent evt = ControllerEvent.create(ControllerEvent.type.CHANGE_SKIN);
+		controller.handleEventImmediately(evt);
+	}
 
 	// GUI CELL RENDERER ///////////////////////////////////////////////////////////////////////////
 

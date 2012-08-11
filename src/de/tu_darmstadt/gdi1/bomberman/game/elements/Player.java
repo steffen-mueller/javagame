@@ -257,13 +257,13 @@ public class Player extends GameElement {
     @Override
     public ImageIcon getImageIcon() {
         if (playerID == 1) {
-            return new ImageIcon("resource/images/player_white.png");
+            return new ImageIcon(skinPath+"player_white.png");
         } else if (playerID == 2) {
-            return new ImageIcon("resource/images/player_red.png");
+            return new ImageIcon(skinPath+"player_red.png");
         } else if (playerID == 3) {
-            return new ImageIcon("resource/images/player_black.png");
+            return new ImageIcon(skinPath+"player_black.png");
         } else {
-            return new ImageIcon("resource/images/player_blue.png");
+            return new ImageIcon(skinPath+"player_blue.png");
         }
     }
 

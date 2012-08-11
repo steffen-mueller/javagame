@@ -179,6 +179,9 @@ public class BombermanController extends AbstractBombermanController {
                 game.disposeTickTimer();
                 sendEventToUI(UIEvent.create(UIEvent.type.QUIT_GAME));
                 break;
+			case CHANGE_SKIN:
+				this.gui.redrawFull(game.getBoard());
+				break;
         }
     }
 

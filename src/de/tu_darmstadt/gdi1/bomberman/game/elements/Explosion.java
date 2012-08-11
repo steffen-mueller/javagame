@@ -52,9 +52,9 @@ public class Explosion extends GameElement
 	@Override
 	public ImageIcon getImageIcon () {
 		switch (myStyle) {
-			case CENTER: return new ImageIcon("resource/images/explosion_center.png");
-			case HORIZONTAL: return new ImageIcon("resource/images/explosion_h.png");
-			case VERTICAL: return new ImageIcon("resource/images/explosion_v.png");
+			case CENTER: return new ImageIcon(skinPath+"explosion_center.png");
+			case HORIZONTAL: return new ImageIcon(skinPath+"explosion_h.png");
+			case VERTICAL: return new ImageIcon(skinPath+"explosion_v.png");
 		}
 		return null;
 	}

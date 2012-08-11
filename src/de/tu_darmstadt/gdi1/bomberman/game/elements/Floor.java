@@ -19,7 +19,7 @@ public class Floor extends GameElement
 	@Override
 	public ImageIcon getImageIcon ()
 	{
-		return new ImageIcon("resource/images/floor.png");
+		return new ImageIcon(skinPath+"floor.png");
 	}
 
 	@Override

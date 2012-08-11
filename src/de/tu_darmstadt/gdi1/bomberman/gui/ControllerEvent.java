@@ -11,7 +11,8 @@ public class ControllerEvent extends DefaultControllerEvent {
 	// Die möglichen Arten von Events.
 	public enum type {
 		USER_QUIT,
-		PLAYER_INPUT
+		PLAYER_INPUT,
+		CHANGE_SKIN
 	};
 
 	protected type myType;

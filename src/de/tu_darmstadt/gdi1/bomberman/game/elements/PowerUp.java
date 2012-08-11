@@ -52,13 +52,13 @@ public class PowerUp extends GameElement
 	
 		switch(powerID){
 			case 1:
-				return new ImageIcon("resource/images/increase_radius.png");
+				return new ImageIcon(skinPath+"increase_radius.png");
 			case 2:
-				return new ImageIcon("resource/images/increase_speed_2.png");
+				return new ImageIcon(skinPath+"increase_speed_2.png");
 			case 3:
-				return new ImageIcon("resource/images/increase_bombcount.png");
+				return new ImageIcon(skinPath+"increase_bombcount.png");
 			default:
-				return new ImageIcon("resource/images/superbomb.png");
+				return new ImageIcon(skinPath+"superbomb.png");
 		}
 		
 	}

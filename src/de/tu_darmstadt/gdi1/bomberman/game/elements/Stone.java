@@ -20,7 +20,7 @@ public class Stone extends GameElement
 	@Override
 	public ImageIcon getImageIcon ()
 	{
-		return new ImageIcon("resource/images/stone.png");
+		return new ImageIcon(skinPath+"stone.png");
 	}
 
 	@Override

@@ -19,7 +19,7 @@ public class Wall extends GameElement
 	@Override
 	public ImageIcon getImageIcon ()
 	{
-		return new ImageIcon("resource/images/wall.png");
+		return new ImageIcon(skinPath+"wall.png");
 	}
 
 	@Override

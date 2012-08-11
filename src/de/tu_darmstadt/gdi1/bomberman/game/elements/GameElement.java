@@ -15,6 +15,8 @@ import de.tu_darmstadt.gdi1.framework.utils.Point;
 public abstract class GameElement implements IBoardElement {
 	private static final long serialVersionUID = 4973814294335529190L;
 
+	protected static String skinPath = "resource/images/";
+
 	@Override
 	public abstract GameElement clone();
 
@@ -78,7 +80,11 @@ public abstract class GameElement implements IBoardElement {
 		present.remove(this);
 		gameBoard.setElements(x, y, present);
 	}
-	
+
+	public static void setSkin (String name) {
+		skinPath = "resource/"+name+"/";
+	}
+
 
 	// Appearance //////////////////////////////////////////////////////////////////////////////////
 
