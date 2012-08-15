@@ -2,6 +2,7 @@ package de.tu_darmstadt.gdi1.bomberman.game.elements;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.swing.ImageIcon;
 
 import de.tu_darmstadt.gdi1.bomberman.sound.SoundManagerFactory;
@@ -49,6 +50,10 @@ public class Player extends GameElement {
         System.out.println("Player " + playerID + " died.");
         gameData.removePlayer(playerID);
 
+    }
+    
+    public  ArrayList<Player> getPlayersKilled(){
+    	return playersKilled;
     }
 
     public boolean isDestroyable() {

@@ -1,7 +1,6 @@
 package de.tu_darmstadt.gdi1.bomberman.tests;
 
 import de.tu_darmstadt.gdi1.bomberman.testutils.ITestAdapter;
-import de.tu_darmstadt.gdi1.bomberman.testutils.ITestAdapter.FieldStatus;
 import de.tu_darmstadt.gdi1.bomberman.testutils.TestAdapterFactory;
 
 /**

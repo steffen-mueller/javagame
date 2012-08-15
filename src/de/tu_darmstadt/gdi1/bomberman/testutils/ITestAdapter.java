@@ -1,5 +1,8 @@
 package de.tu_darmstadt.gdi1.bomberman.testutils;
 
+import de.tu_darmstadt.gdi1.bomberman.game.elements.Bomb;
+import de.tu_darmstadt.gdi1.bomberman.game.elements.Player;
+
 /**
  * Der Testadapter wird von den TestfÃ¤llen verwendet, um mit dem Spiel zu interagieren.
  * Der Adapter kapselt alle testbaren AktivitÃ¤ten und bildet sie auf die Spielimplementierung ab.
@@ -109,4 +112,25 @@ public interface ITestAdapter {
 	 * @return
 	 */
 	public FieldStatus[][] getLevelStatus();
+	
+	/**
+	 * Holt sich die Bombe auf der Spielfeldposition (b,c) zurück
+	 */	
+	public Bomb getBomb(int b, int c);
+	
+	/**
+	 * Holt sich den Spieler auf der Spielfeldposition (b,c) zurück
+	 */	
+	public Player getPlayer(int b, int c);
+	
+	/**
+	 * Gibt die aktuelle Karte alsStrig aus
+	 */	
+	public String maptoString();
+	
+	/**
+	 * Gibt die abgelaufene Zeit zurück
+	 */
+	public long GetTime();
+
 }

@@ -1,10 +1,11 @@
 package de.tu_darmstadt.gdi1.bomberman.game.elements;
 
-import de.tu_darmstadt.gdi1.bomberman.sound.SoundManagerFactory;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.swing.ImageIcon;
 
+import de.tu_darmstadt.gdi1.bomberman.sound.SoundManagerFactory;
 import de.tu_darmstadt.gdi1.framework.utils.Point;
 
 /**

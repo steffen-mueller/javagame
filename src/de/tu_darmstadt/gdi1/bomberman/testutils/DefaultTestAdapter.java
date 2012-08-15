@@ -1,20 +1,23 @@
 package de.tu_darmstadt.gdi1.bomberman.testutils;
 
+import java.io.File;
+import java.util.List;
+
 import de.tu_darmstadt.gdi1.bomberman.BombermanController;
 import de.tu_darmstadt.gdi1.bomberman.game.BombermanGame;
-import de.tu_darmstadt.gdi1.bomberman.game.elements.*;
+import de.tu_darmstadt.gdi1.bomberman.game.elements.Bomb;
+import de.tu_darmstadt.gdi1.bomberman.game.elements.Explosion;
+import de.tu_darmstadt.gdi1.bomberman.game.elements.Floor;
+import de.tu_darmstadt.gdi1.bomberman.game.elements.GameElement;
+import de.tu_darmstadt.gdi1.bomberman.game.elements.Player;
+import de.tu_darmstadt.gdi1.bomberman.game.elements.PowerUp;
+import de.tu_darmstadt.gdi1.bomberman.game.elements.Stone;
+import de.tu_darmstadt.gdi1.bomberman.game.elements.Wall;
 import de.tu_darmstadt.gdi1.bomberman.game.levels.BombermanGameData;
 import de.tu_darmstadt.gdi1.bomberman.game.levels.BombermanLevelManager;
 import de.tu_darmstadt.gdi1.bomberman.gui.ControllerInputEvent;
-import de.tu_darmstadt.gdi1.framework.exceptions.InvalidLevelDataException;
 import de.tu_darmstadt.gdi1.framework.interfaces.IBoard;
 import de.tu_darmstadt.gdi1.framework.interfaces.IGameData;
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
-import java.util.jar.Attributes.Name;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Der Testadapter wird von den Testf√§llen verwendet, um mit dem Spiel zu interagieren.
@@ -211,5 +214,44 @@ public class DefaultTestAdapter implements ITestAdapter {
 			return 5;
 		return -1;
 	}
+	
+	/**
+	 * Get Element a at Bomb (b,c)
+	 */
+public Bomb getBomb(int b, int c){
+		
+		for (int i = 0; i < game.getBoard().getElements(b, c).size(); i++) {
+			if (game.getBoard().getElements(b,c).get(i) instanceof Bomb){
+				return ((Bomb) game.getBoard().getElements(b,c).get(i));
+			}
+		}	 
+		return null;	
+	}
 
+/**
+ * Get Element a at player (b,c)
+ */
+public Player getPlayer(int b, int c){
+	
+	for (int i = 0; i < game.getBoard().getElements(b, c).size(); i++) {
+		if (game.getBoard().getElements(b,c).get(i) instanceof Player){
+			return ((Player) game.getBoard().getElements(b,c).get(i));
+		}
+	}	 
+	return null;	
+}
+
+/**
+ * Gibt die aktuelle Karte als String aus
+ */	 
+public String maptoString(){
+	return "blub";
+}
+
+/**
+ * Gibt die abgelaufene Zeit zur¸ck
+ */
+public long GetTime() {
+	return game.getTimeInSeconds();
+}
 }

@@ -1,10 +1,13 @@
 package de.tu_darmstadt.gdi1.bomberman.tests;
 
-import de.tu_darmstadt.gdi1.bomberman.testutils.ITestAdapter;
-import de.tu_darmstadt.gdi1.bomberman.testutils.TestAdapterFactory;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import de.tu_darmstadt.gdi1.bomberman.testutils.ITestAdapter;
+import de.tu_darmstadt.gdi1.bomberman.testutils.TestAdapterFactory;
 
 /**
  * Beispieltest.
@@ -37,13 +40,18 @@ public class BombermanTestAdapterMinimal  {
 	/**
 	 *Prüft ob ein invalides Level geladen werden kann
 	 *
-	/
-		@Test(expected=Exception.class) public void loadFalseLevel() {
+	*/
+		@Test
+		public void loadFalseLevel() {
 			ITestAdapter a = TestAdapterFactory.createTestAdapter();
-			a.loadLevelFromString(falseLevel);
+			if (!a.loadLevelFromString(falseLevel)){
+				assertTrue(true);
+			}else{
+				assertTrue(false);
+			}
 	    }
 		
-		*/
+		
 			
 	
 	

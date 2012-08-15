@@ -1,5 +1,8 @@
 package de.tu_darmstadt.gdi1.framework.test.controller;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,17 +14,15 @@ import java.util.Random;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
-import de.tu_darmstadt.gdi1.framework.controller.AbstractController;
-import de.tu_darmstadt.gdi1.framework.events.DefaultControllerEvent;
-import de.tu_darmstadt.gdi1.framework.interfaces.IControllerEvent;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import de.tu_darmstadt.gdi1.framework.controller.AbstractController;
+import de.tu_darmstadt.gdi1.framework.events.DefaultControllerEvent;
+import de.tu_darmstadt.gdi1.framework.interfaces.IControllerEvent;
 
 
 /**
