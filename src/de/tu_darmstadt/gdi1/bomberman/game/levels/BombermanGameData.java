@@ -9,6 +9,7 @@ import de.tu_darmstadt.gdi1.bomberman.game.elements.Bomb;
 import de.tu_darmstadt.gdi1.bomberman.game.elements.Explosion;
 import de.tu_darmstadt.gdi1.bomberman.game.elements.GameElement;
 import de.tu_darmstadt.gdi1.bomberman.game.elements.Player;
+import de.tu_darmstadt.gdi1.bomberman.gui.Gui;
 import de.tu_darmstadt.gdi1.bomberman.sound.SoundManagerFactory;
 import de.tu_darmstadt.gdi1.framework.interfaces.IGameBoard;
 import de.tu_darmstadt.gdi1.framework.model.GameData;
@@ -123,6 +124,7 @@ public class BombermanGameData extends GameData<GameElement> {
             for (Player player : players.values()) {
                 // play sound
                 SoundManagerFactory.playWithoutAnnoyingExceptions(SoundManagerFactory.SoundLabel.GAME_END);
+                Gui.getInstance().showWinnerScreen(player.getDescription() + " wins");
                 System.out.println(player.getDescription() + " wins the game.");
             }
         }

@@ -18,6 +18,7 @@ import de.tu_darmstadt.gdi1.framework.utils.level.LevelManager;
  */
 public class BombermanLevelManager extends LevelManager<GameElement>  {
 	HashMap<Integer,Player> players = new HashMap<Integer, Player>();
+        boolean generate = true;
 	
 	public BombermanLevelManager ()
 	{
@@ -32,7 +33,12 @@ public class BombermanLevelManager extends LevelManager<GameElement>  {
 	@Override
 	public IGameData<GameElement> loadNextLevel () throws NoNextLevelException, InvalidLevelDataException, IOException
 	{
-		IGameData<GameElement> gd = super.loadNextLevel();
+            IGameData<GameElement> gd;
+            if (generate){
+                gd = super.loadLevel(BombermanLevelGenerator.generateGrid(6, 2));
+            } else {
+		 gd = super.loadNextLevel();
+            }
 		IBoard<GameElement> gb = gd.getStepManager().getCurrentBoard();
 		players = new HashMap<Integer,Player>();
 		for (int x = 0; x < gb.getWidth(); x++) {

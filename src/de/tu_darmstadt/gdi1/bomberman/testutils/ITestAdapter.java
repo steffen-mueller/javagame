@@ -114,12 +114,12 @@ public interface ITestAdapter {
 	public FieldStatus[][] getLevelStatus();
 	
 	/**
-	 * Holt sich die Bombe auf der Spielfeldposition (b,c) zurück
+	 * Holt sich die Bombe auf der Spielfeldposition (b,c) zurueck
 	 */	
 	public Bomb getBomb(int b, int c);
 	
 	/**
-	 * Holt sich den Spieler auf der Spielfeldposition (b,c) zurück
+	 * Holt sich den Spieler auf der Spielfeldposition (b,c) zurueck
 	 */	
 	public Player getPlayer(int b, int c);
 	
@@ -129,7 +129,7 @@ public interface ITestAdapter {
 	public String maptoString();
 	
 	/**
-	 * Gibt die abgelaufene Zeit zurück
+	 * Gibt die abgelaufene Zeit zurueck
 	 */
 	public long GetTime();
 

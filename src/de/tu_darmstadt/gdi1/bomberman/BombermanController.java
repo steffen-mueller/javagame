@@ -81,7 +81,8 @@ public class BombermanController extends AbstractBombermanController {
         }
 
         // Erstellt ein GUI Objekt. Wenn die Konfigurationsdateien fehlen, exception.
-        gui = new Gui(this);
+        Gui.createInstance(this);
+        gui = Gui.getInstance();
         try {
             // Hole den nächsten Level (oder eben den ersten) ...
             IGameData<GameElement> gd = levelManager.loadNextLevel();

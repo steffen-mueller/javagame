@@ -249,7 +249,7 @@ public String maptoString(){
 }
 
 /**
- * Gibt die abgelaufene Zeit zurück
+ * Gibt die abgelaufene Zeit zurueck
  */
 public long GetTime() {
 	return game.getTimeInSeconds();
