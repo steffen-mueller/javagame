@@ -405,6 +405,8 @@ public class Gui extends UserInterface<GameElement> {
     }
     
     public void loadNextLevel(){
-        
+	    ControllerEvent evt = ControllerEvent.create(ControllerEvent.type.NEXT_LEVEL);
+	    controller.handleEventImmediately(evt);
+	    winnerScreen.dispose();
     }
 }

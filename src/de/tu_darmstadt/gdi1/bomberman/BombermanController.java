@@ -132,9 +132,13 @@ public class BombermanController extends AbstractBombermanController {
         if (gamedata == null) {
             throw new NullPointerException("Cannot initialize null gamedata.");
         }
-
-        game = new BombermanGame(gamedata, this);
-        game.initialiseTickTimer();
+		if (game != null) {
+			game.setGameData(gamedata);
+		}
+	    else {
+	        game = new BombermanGame(gamedata, this);
+            game.initialiseTickTimer();
+		}
     }
 
     public void setGame(BombermanGame game) {
@@ -195,6 +199,22 @@ public class BombermanController extends AbstractBombermanController {
 		        {
 			        e.printStackTrace();    // todo: Implement useful logic
 		        } catch (IOException e)
+		        {
+			        e.printStackTrace();    // todo: Implement useful logic
+		        }
+		        break;
+	        case NEXT_LEVEL:
+		        try
+		        {
+			        IGameData<GameElement> gd = levelManager.loadNextLevel();
+			        startNewGame((BombermanGameData) gd);
+		        } catch (InvalidLevelDataException e)
+		        {
+			        e.printStackTrace();    // todo: Implement useful logic
+		        } catch (IOException e)
+		        {
+			        e.printStackTrace();    // todo: Implement useful logic
+		        } catch (NoNextLevelException e)
 		        {
 			        e.printStackTrace();    // todo: Implement useful logic
 		        }

@@ -194,7 +194,7 @@ public class Player extends GameElement {
 
         }
 
-        // quickfox für "alternative reality paradox" - bug
+        // quickfix für "alternative reality paradox" - bug
         if (present.contains(this)) {
             present.remove(this);
             System.out.println("Der Löwe frisst Player " + getPlayerID());

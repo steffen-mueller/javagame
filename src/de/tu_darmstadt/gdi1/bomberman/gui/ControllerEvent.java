@@ -14,7 +14,7 @@ public class ControllerEvent extends DefaultControllerEvent {
 		PLAYER_INPUT,
 		CHANGE_SKIN,
 		CONTINUE_GAME,
-		RESTART_GAME
+		NEXT_LEVEL, RESTART_GAME
 	};
 
 	protected type myType;
