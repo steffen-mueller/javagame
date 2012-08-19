@@ -35,7 +35,7 @@ public class BombermanLevelManager extends LevelManager<GameElement>  {
 	{
         IGameData<GameElement> gd;
         if (generate){
-            gd = super.loadLevel(BombermanLevelGenerator.generateGrid(6, 2));
+            gd = super.loadLevel(BombermanLevelGenerator.generateGrid(12, 4));
         } else {
 			gd = super.loadNextLevel();
         }

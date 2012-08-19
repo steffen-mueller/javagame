@@ -78,7 +78,7 @@ public class Gui extends UserInterface<GameElement> {
                 quitGameGUI();
                 break;
             case MAIN_MENU:
-                showMainMenu();
+	            Gui.getInstance().showMainMenu();
                 break;
             case UPDATE_TIME:
                 setTitle("The amazing TU Darmstadt Bomberman! [" + ((BombermanController) controller).getTimeInSeconds() + " sec.]");
