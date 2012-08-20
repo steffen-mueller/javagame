@@ -124,13 +124,23 @@ public interface ITestAdapter {
 	public Player getPlayer(int b, int c);
 	
 	/**
-	 * Gibt die aktuelle Karte alsStrig aus
-	 */	
-	public String maptoString();
-	
-	/**
 	 * Gibt die abgelaufene Zeit zurueck
 	 */
 	public long GetTime();
 
+	/**
+	 * Reloads and starts the active level
+	 */
+	public void restartLevel();
+
+	/**
+	 * Parses the level as String
+	 * @return parsed Level
+	 */
+	public String getLevelAsString();
+
+/**
+ *  Schaut nach ob das Spiel gewonnen ist
+  */
+	public boolean isWon();
 }

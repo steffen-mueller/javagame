@@ -48,6 +48,10 @@ public class BombermanGame implements IBombermanGame {
 		return timeInSeconds;
 	}
 
+	public BombermanGameData getBombermanGameData(){
+		return gameData;
+	}
+
 	public void setGameData (BombermanGameData gameData)
 	{
 		this.gameData = gameData;

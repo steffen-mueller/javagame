@@ -34,7 +34,7 @@ public class Delegate extends GameElement {
 
     @Override
     public char getParsingSymbol() {
-        return ' ';
+        return '#';
     }
 
     public boolean isSolid() {

@@ -15,6 +15,7 @@ import de.tu_darmstadt.gdi1.bomberman.game.elements.Stone;
 import de.tu_darmstadt.gdi1.bomberman.game.elements.Wall;
 import de.tu_darmstadt.gdi1.bomberman.game.levels.BombermanGameData;
 import de.tu_darmstadt.gdi1.bomberman.game.levels.BombermanLevelManager;
+import de.tu_darmstadt.gdi1.bomberman.gui.ControllerEvent;
 import de.tu_darmstadt.gdi1.bomberman.gui.ControllerInputEvent;
 import de.tu_darmstadt.gdi1.framework.interfaces.IBoard;
 import de.tu_darmstadt.gdi1.framework.interfaces.IGameData;
@@ -33,7 +34,7 @@ public class DefaultTestAdapter implements ITestAdapter {
 	ControllerInputEvent.button[] lastButtons;
 
 	DefaultTestAdapter () {
-		levelManager = new BombermanLevelManager();
+		levelManager = new BombermanLevelManager(false);
 		lastButtons = new ControllerInputEvent.button[4];
 	}
 
@@ -242,16 +243,41 @@ public Player getPlayer(int b, int c){
 }
 
 /**
- * Gibt die aktuelle Karte als String aus
- */	 
-public String maptoString(){
-	return "blub";
-}
-
-/**
  * Gibt die abgelaufene Zeit zurueck
  */
 public long GetTime() {
 	return game.getTimeInSeconds();
 }
+
+	public void restartLevel() {
+		ControllerEvent evt = ControllerEvent.create(ControllerEvent.type.RESTART_GAME);
+		controller.testProcessEvent(evt);
+	}
+
+	/**
+	 * Gibt die aktuelle Karte als String aus
+	 */
+	public String getLevelAsString() {
+		IBoard<GameElement> board = game.getBoard();
+		String actualMap = "";
+		for (int x = 0; x < board.getHeight(); x++) {
+			for (int y = 0; y < board.getWidth(); y++) {
+				List<GameElement> list = board.getElements(y,x);
+				actualMap += list.get(list.size() - 1).getParsingSymbol();
+			}
+			actualMap += "\n";
+		}
+		return actualMap;
+	}
+
+	public void setRandomizationFlag(boolean flag) {
+
+	}
+
+	/**
+	 *  Schaut nach ob das Spiel gewonnen ist
+	 */
+	public boolean isWon(){
+		return game.getBombermanGameData().isWon();
+	}
 }

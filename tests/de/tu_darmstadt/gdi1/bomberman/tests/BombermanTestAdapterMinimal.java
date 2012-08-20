@@ -1,13 +1,10 @@
 package de.tu_darmstadt.gdi1.bomberman.tests;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
-import org.junit.Test;
-
 import de.tu_darmstadt.gdi1.bomberman.testutils.ITestAdapter;
 import de.tu_darmstadt.gdi1.bomberman.testutils.TestAdapterFactory;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
  * Beispieltest.
@@ -36,6 +33,11 @@ public class BombermanTestAdapterMinimal  {
 						"# ###*#*# #*#*### #\n"+
 						"#3 ***  *  * *** 4#\n"+
 						"###################\n";
+
+	String testLevel =  			"####\n"+
+									"#12#\n"+
+									"#34#\n"+
+									"####\n";
 
 	/**
 	 *Prüft ob ein invalides Level geladen werden kann
@@ -161,6 +163,66 @@ public class BombermanTestAdapterMinimal  {
 		a.tick(61);
 		assertFalse(a.getLevelStatus()[2][1].contains(ITestAdapter.Element.PLAYER1));
 		assertFalse(a.getLevelStatus()[3][1].contains(ITestAdapter.Element.STONE));
+	}
+
+	@Test
+	public void testRestartLevel() {
+		ITestAdapter a = TestAdapterFactory.createTestAdapter();
+		if (!a.loadLevelFromString(simpleLevel))
+			fail("Could not load level");
+
+		// Move all Player
+		a.attemptMovePlayer(1, ITestAdapter.Direction.DOWN);
+
+		//auch die anderen Spieler werden bewegt
+		a.attemptMovePlayer(2, ITestAdapter.Direction.DOWN);
+		a.attemptMovePlayer(3, ITestAdapter.Direction.UP);
+		a.attemptMovePlayer(4, ITestAdapter.Direction.UP);
+		a.tick(1);
+
+		String simpleLevelChanged = "###################\n"+
+							 "#  ***  *  * ***  #\n"+
+						 	 "#1###*#*# #*#*###2#\n"+
+							 "# #* *  ***  * *#*#\n"+
+							 "#*#*# #*#*#*# #*#*#\n"+
+							 "#* ************  *#\n"+
+							 "#*#*# #*#*#*# #*#*#\n"+
+							 "#*#* *  ***  * *#*#\n"+
+							 "#3###*#*# #*#*###4#\n"+
+							 "#  ***  *  * ***  #\n"+
+							 "###################\n";
+
+		assertEquals(a.getLevelAsString(), simpleLevelChanged);
+		// Restart active level
+		a.restartLevel();
+
+		// Level should be the same as from the beginning
+		assertEquals(a.getLevelAsString(), simpleLevel);
+	}
+	
+	@Test
+	public void testToString() {
+		ITestAdapter a = TestAdapterFactory.createTestAdapter();
+		if (!a.loadLevelFromString(simpleLevel))
+			fail("Could not load level");
+		
+		assertEquals(a.getLevelAsString(), simpleLevel);
+	}
+
+	/**
+	 *	Schaut nach ob das erkannt wurde das das Spiel gewonnen ist
+	 */
+
+
+	@Test
+	public void TestIsWon(){
+		ITestAdapter a = TestAdapterFactory.createTestAdapter();
+		if (!a.loadLevelFromString(testLevel))
+			fail("Could not load level");
+
+		a.attemptMovePlayer(1, ITestAdapter.Direction.BOMB);
+		a.tick(61);
+		assertTrue(a.isWon());
 	}
 	
 }

@@ -18,13 +18,25 @@ import de.tu_darmstadt.gdi1.framework.utils.level.LevelManager;
  */
 public class BombermanLevelManager extends LevelManager<GameElement>  {
 	HashMap<Integer,Player> players = new HashMap<Integer, Player>();
-        boolean generate = true;
+        boolean generate;
         final int BOARDSIZE = 12;
         final int NO_OF_PLAYER = 4;
 	
+	public BombermanLevelManager (boolean randomize)
+	{
+		super(new BombermanLevelInformationProvider());
+		generate = randomize;
+	}
+
 	public BombermanLevelManager ()
 	{
 		super(new BombermanLevelInformationProvider());
+		generate = false;
+	}
+
+	public void setGenerate (boolean generate)
+	{
+		this.generate = generate;
 	}
 
 	public HashMap<Integer,Player> getPlayers()

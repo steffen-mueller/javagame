@@ -134,9 +134,14 @@ public class BombermanGameData extends GameData<GameElement> {
         // Game Mode "Multiplayer"
         if ((players.size() - deadPlayers.size()) == 1) {
             won = true;
-            // play sound
-            SoundManagerFactory.playWithoutAnnoyingExceptions(SoundManagerFactory.SoundLabel.GAME_END);
-            Gui.getInstance().showWinnerScreen(players);
+            try {
+                // play sound
+                SoundManagerFactory.playWithoutAnnoyingExceptions(SoundManagerFactory.SoundLabel.GAME_END);
+                Gui.getInstance().showWinnerScreen(players);
+            }
+            catch (Exception e) {
+
+            }
         }
         return won;
     }
