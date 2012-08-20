@@ -26,6 +26,7 @@ public class BombermanGameData extends GameData<GameElement> {
      * Contains all players the level contains.
      */
     protected HashMap<Integer, Player> players = new HashMap<Integer, Player>();
+	protected HashMap<Integer, Player> deadPlayers = new HashMap<Integer, Player>();
     protected ArrayList<Bomb> bombs = new ArrayList<Bomb>();
     protected ArrayList<Explosion> explosions = new ArrayList<Explosion>();
 	protected Delegate delegate;
@@ -75,7 +76,7 @@ public class BombermanGameData extends GameData<GameElement> {
     }
 
     public void removePlayer(int playerIdx) {
-        players.remove(playerIdx);
+        deadPlayers.put(playerIdx, players.get(playerIdx));
         isWon();
     }
 
@@ -131,14 +132,11 @@ public class BombermanGameData extends GameData<GameElement> {
         boolean won = false;
 
         // Game Mode "Multiplayer"
-        if (players.size() == 1) {
+        if ((players.size() - deadPlayers.size()) == 1) {
             won = true;
-            for (Player player : players.values()) {
-                // play sound
-                SoundManagerFactory.playWithoutAnnoyingExceptions(SoundManagerFactory.SoundLabel.GAME_END);
-                Gui.getInstance().showWinnerScreen(player.getDescription() + " wins");
-                System.out.println(player.getDescription() + " wins the game.");
-            }
+            // play sound
+            SoundManagerFactory.playWithoutAnnoyingExceptions(SoundManagerFactory.SoundLabel.GAME_END);
+            Gui.getInstance().showWinnerScreen(players);
         }
         return won;
     }

@@ -17,7 +17,12 @@ public class Player extends GameElement {
     public static final String DESCRITION = "Player";
     public static final String PATTERN = DESCRITION + ".+";
 
-    /**
+	public Integer getKillCount ()
+	{
+		return playersKilled.size();
+	}
+
+	/**
      * In welche Richtung bewegt sich der Spieler aktuell?
      */
     public enum direction {

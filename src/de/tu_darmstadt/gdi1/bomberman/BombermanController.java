@@ -134,6 +134,7 @@ public class BombermanController extends AbstractBombermanController {
         }
 		if (game != null) {
 			game.setGameData(gamedata);
+			game.setTickCounter(0);
 		}
 	    else {
 	        game = new BombermanGame(gamedata, this);

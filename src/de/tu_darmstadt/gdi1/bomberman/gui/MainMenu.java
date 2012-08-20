@@ -43,6 +43,7 @@ public class MainMenu extends JFrame
 	private void buttonRestartActionPerformed(ActionEvent e) {
 		gui.restartGameButtonPressed();
 		dispose();
+		gui.mainMenuClosed();
 	}
 
 	private void initComponents ()

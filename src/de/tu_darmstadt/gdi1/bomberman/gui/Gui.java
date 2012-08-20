@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -14,6 +15,7 @@ import javax.swing.JLabel;
 import de.tu_darmstadt.gdi1.bomberman.BombermanController;
 import de.tu_darmstadt.gdi1.bomberman.framework.AbstractBombermanController;
 import de.tu_darmstadt.gdi1.bomberman.game.elements.GameElement;
+import de.tu_darmstadt.gdi1.bomberman.game.elements.Player;
 import de.tu_darmstadt.gdi1.bomberman.sound.SoundManagerFactory;
 import de.tu_darmstadt.gdi1.framework.interfaces.IBoard;
 import de.tu_darmstadt.gdi1.framework.interfaces.IUserInterfaceEvent;
@@ -105,9 +107,9 @@ public class Gui extends UserInterface<GameElement> {
         mainMenu.setVisible(true);
     }
 
-    public void showWinnerScreen(String winnerText) {
+    public void showWinnerScreen(HashMap<Integer, Player> players) {
         System.out.println("Displaying winner screen...");
-        winnerScreen.updateWinnerText(winnerText);
+        winnerScreen.updateWinnerText(players);
         winnerScreen.setVisible(true);
     }
 
@@ -379,7 +381,7 @@ public class Gui extends UserInterface<GameElement> {
         Graphics temp = bufferedImage.createGraphics();
         for (ImageIcon imageIcon : imageList) {
 			if (imageIcon == null) continue;
-			
+
             BufferedImage bi = new BufferedImage(imageIcon.getIconWidth(), imageIcon.getIconHeight(), BufferedImage.TYPE_INT_ARGB);
             Graphics g = bi.createGraphics();
             g.drawImage(imageIcon.getImage(), 0, 0, null);

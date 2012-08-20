@@ -87,6 +87,11 @@ public class BombermanGame implements IBombermanGame {
 		return tickCounter;
 	}
 
+	public void setTickCounter (long tickCounter)
+	{
+		this.tickCounter = tickCounter;
+	}
+
 	/**
 	 * Startet einen Timer, der die tick() Funktion alle tickRate Millisekunden ausführt.
 	 */

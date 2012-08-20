@@ -4,8 +4,24 @@
  */
 package de.tu_darmstadt.gdi1.bomberman.gui;
 
+import java.awt.Container;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.HashMap;
+import javax.swing.*;
+import javax.swing.DefaultListModel;
+import javax.swing.GroupLayout;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.LayoutStyle;
+import javax.swing.UIManager;
+import javax.swing.WindowConstants;
+
+import de.tu_darmstadt.gdi1.bomberman.game.elements.Player;
 
 /**
  *
@@ -19,15 +35,18 @@ public class WinnerScreen extends javax.swing.JFrame {
      */
     public WinnerScreen(Gui parent)
     {
-        this.parent = parent;
+	    this.parent = parent;
         initComponents();
+	    list1.setModel(new DefaultListModel());
         
-        addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent e) {
-				screenClosing();
-			}
-		});
+        addWindowListener(new WindowAdapter()
+        {
+	        @Override
+	        public void windowClosing (WindowEvent e)
+	        {
+		        screenClosing();
+	        }
+        });
     }
     
     private void screenClosing(){
@@ -38,6 +57,20 @@ public class WinnerScreen extends javax.swing.JFrame {
         jLabel1.setText(text);
     }
 
+	public void updateWinnerText(HashMap<Integer, Player> players){
+		Integer bestPlayer = 1;
+		Integer mostKills = 0;
+		for (Player player : players.values()) {
+			Integer killCount = player.getKillCount();
+			((DefaultListModel) list1.getModel()).add(player.getPlayerID()-1, player.getDescription() + " - "+killCount+" Kill(s)");
+			if (killCount > mostKills) {
+				bestPlayer = player.getPlayerID();
+				mostKills = killCount;
+			}
+		}
+		updateWinnerText(players.get(bestPlayer).getDescription() + " wins");
+	}
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -45,56 +78,64 @@ public class WinnerScreen extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+	private void initComponents() {
+		jLabel1 = new JLabel();
+		jButton1 = new JButton();
+		jButton2 = new JButton();
+		list1 = new JList();
 
-        jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		Container contentPane = getContentPane();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+		jLabel1.setFont(new Font("Tahoma", Font.BOLD, 24));
+		jLabel1.setText("Player wins");
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        jLabel1.setText("Player wins");
+		jButton1.setText("New Level");
+		jButton1.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				jButton1ActionPerformed(e);
+			}
+		});
 
-        jButton1.setText("New Level");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
+		jButton2.setText("Exit");
+		jButton2.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				jButton2ActionPerformed(e);
+			}
+		});
 
-        jButton2.setText("Exit");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
+		list1.setBackground(UIManager.getColor("Button.background"));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 234, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addGap(65, 65, 65)
-                .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton2)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        pack();
+		GroupLayout contentPaneLayout = new GroupLayout(contentPane);
+		contentPane.setLayout(contentPaneLayout);
+		contentPaneLayout.setHorizontalGroup(
+			contentPaneLayout.createParallelGroup()
+				.addGroup(GroupLayout.Alignment.TRAILING, contentPaneLayout.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(contentPaneLayout.createParallelGroup(GroupLayout.Alignment.TRAILING)
+						.addComponent(list1, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 372, Short.MAX_VALUE)
+						.addComponent(jLabel1, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 372, Short.MAX_VALUE)
+						.addComponent(jButton1, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 372, Short.MAX_VALUE)
+						.addComponent(jButton2, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 372, Short.MAX_VALUE))
+					.addContainerGap())
+		);
+		contentPaneLayout.setVerticalGroup(
+			contentPaneLayout.createParallelGroup()
+				.addGroup(contentPaneLayout.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(jLabel1)
+					.addGap(18, 18, 18)
+					.addComponent(list1, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE)
+					.addGap(18, 18, 18)
+					.addComponent(jButton1)
+					.addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+					.addComponent(jButton2)
+					.addContainerGap(68, Short.MAX_VALUE))
+		);
+		pack();
+		setLocationRelativeTo(getOwner());
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -106,8 +147,9 @@ public class WinnerScreen extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JLabel jLabel1;
+	private JLabel jLabel1;
+	private JButton jButton1;
+	private JButton jButton2;
+	private JList list1;
     // End of variables declaration//GEN-END:variables
 }
