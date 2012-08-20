@@ -1,0 +1,80 @@
+package de.tu_darmstadt.gdi1.bomberman.game.elements;
+
+import de.tu_darmstadt.gdi1.bomberman.BombermanController;
+import de.tu_darmstadt.gdi1.bomberman.framework.AbstractBombermanController;
+import de.tu_darmstadt.gdi1.framework.utils.Point;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.ImageIcon;
+
+
+/**
+ * javadoc: Not yet commented
+ *
+ * @version $Id$
+ */
+public class Delegate extends GameElement {
+
+    public Delegate() {
+    }
+
+    @Override
+    public GameElement clone() {
+        return new Delegate();
+    }
+
+    @Override
+    public ImageIcon getImageIcon() {
+		return null;
+    }
+
+    @Override
+    public String getDescription() {
+        return "(Delegate)";
+    }
+
+    @Override
+    public char getParsingSymbol() {
+        return ' ';
+    }
+
+    public boolean isSolid() {
+        return false;
+    }
+
+    public boolean isDirty() {
+        return false;
+    }
+
+    @Override
+    public void destroy() {
+		return;
+    }
+
+	// Delegate runner /////////////////////////////////////////////////////////////////////////////
+
+	public void manageSuddenDeath (BombermanController controller) {
+		for (int i = 0; i < gameBoard.getWidth(); i++) {
+			for (int j = 0; j < gameBoard.getHeight(); j++) {
+				if (gameBoard.getElements(i,j).get(gameBoard.getElements(i, j).size() - 1).isDestroyable()) {
+					System.out.println("Sudden Death: Stoning " + i + ", " + j);
+
+					// TODO - Place Wall
+					List<GameElement> gE = gameBoard.getElements(i,j);
+					Wall wall = new Wall();
+					wall.setCoordinates(i, j);
+					wall.setGameBoard(gameBoard);
+					wall.setGameData(gameData);
+					gE.add(wall);
+					gameBoard.setElements(i, j, gE);
+
+
+					controller.addDirtyPoint(new Point(i,j));
+					controller.redrawDirtyPoints();
+					return;
+				}
+			}
+		}
+	}
+}

@@ -85,30 +85,6 @@ public class BombermanGame implements IBombermanGame {
 		this.controller.redrawDirtyPoints();
 	}
 
-	private void dropSuddenDeathWall ()
-	{
-		for (int i = 0; i < getBoard().getWidth(); i++) {
-			for (int j = 0; j < getBoard().getHeight(); j++) {
-				if (getBoard().getElements(i,j).get(getBoard().getElements(i, j).size() - 1).isDestroyable()) {
-					System.out.println("Sudden Death: Stoning " + i + ", " + j);
-
-					// TODO - Place Wall
-					List<GameElement> gE = getBoard().getElements(i,j);
-					Wall wall = new Wall();
-					wall.setCoordinates(i, j);
-					wall.setGameBoard((IGameBoard) getBoard());
-					wall.setGameData(gameData);
-					gE.add(wall);
-					((IGameBoard) getBoard()).setElements(i, j, gE);
-
-					this.controller.addDirtyPoint(new Point(i,j));
-					this.controller.redrawDirtyPoints();
-					return;
-				}
-			}
-		}
-	}
-
 	public long getTickCount () {
 		return tickCounter;
 	}
@@ -316,7 +292,7 @@ public class BombermanGame implements IBombermanGame {
 			timeInSeconds = mytime;
 			sendEventToUI(UIEvent.type.UPDATE_TIME);
 			if (timeInSeconds >= 300) {
-				dropSuddenDeathWall();
+				gameData.getDelegate().manageSuddenDeath(this.controller);
 			}
 		}
 	}

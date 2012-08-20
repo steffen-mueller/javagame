@@ -4,8 +4,6 @@ package de.tu_darmstadt.gdi1.bomberman.tests;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-import org.tritonus.share.TDebug.AssertException;
-
 import de.tu_darmstadt.gdi1.bomberman.testutils.ITestAdapter;
 import de.tu_darmstadt.gdi1.bomberman.testutils.ITestAdapter.Element;
 import de.tu_darmstadt.gdi1.bomberman.testutils.ITestAdapter.FieldStatus;

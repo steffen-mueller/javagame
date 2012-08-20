@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import de.tu_darmstadt.gdi1.bomberman.game.elements.Bomb;
+import de.tu_darmstadt.gdi1.bomberman.game.elements.Delegate;
 import de.tu_darmstadt.gdi1.bomberman.game.elements.Explosion;
 import de.tu_darmstadt.gdi1.bomberman.game.elements.GameElement;
 import de.tu_darmstadt.gdi1.bomberman.game.elements.Player;
@@ -27,6 +28,7 @@ public class BombermanGameData extends GameData<GameElement> {
     protected HashMap<Integer, Player> players = new HashMap<Integer, Player>();
     protected ArrayList<Bomb> bombs = new ArrayList<Bomb>();
     protected ArrayList<Explosion> explosions = new ArrayList<Explosion>();
+	protected Delegate delegate;
 
     public BombermanGameData(IGameBoard<GameElement> gameBoard) {
         super(new StepManager<GameElement>(gameBoard));
@@ -50,7 +52,18 @@ public class BombermanGameData extends GameData<GameElement> {
                 }
             }
         }
+
+		// Add the delegate
+		delegate = new Delegate();
+		delegate.setGameBoard(gameBoard);
+		delegate.setGameData(this);
+		List<GameElement> firstField = gameBoard.getElements(0,0);
+		firstField.add(delegate);
     }
+
+	public Delegate getDelegate () {
+		return delegate;
+	}
 
     // Players /////////////////////////////////////////////////////////////////////////////////////
     public Collection<Player> getPlayers() {
@@ -64,7 +77,6 @@ public class BombermanGameData extends GameData<GameElement> {
     public void removePlayer(int playerIdx) {
         players.remove(playerIdx);
         isWon();
-
     }
 
     // Bombs ///////////////////////////////////////////////////////////////////////////////////////

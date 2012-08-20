@@ -5,8 +5,6 @@ package de.tu_darmstadt.gdi1.bomberman.tests;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-import org.tritonus.share.TDebug.AssertException;
-
 import de.tu_darmstadt.gdi1.bomberman.game.elements.GameElement;
 import de.tu_darmstadt.gdi1.bomberman.game.elements.Player;
 import de.tu_darmstadt.gdi1.bomberman.testutils.ITestAdapter;

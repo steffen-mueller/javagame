@@ -378,6 +378,8 @@ public class Gui extends UserInterface<GameElement> {
         BufferedImage bufferedImage = new BufferedImage(40, 40, BufferedImage.TYPE_INT_ARGB);
         Graphics temp = bufferedImage.createGraphics();
         for (ImageIcon imageIcon : imageList) {
+			if (imageIcon == null) continue;
+			
             BufferedImage bi = new BufferedImage(imageIcon.getIconWidth(), imageIcon.getIconHeight(), BufferedImage.TYPE_INT_ARGB);
             Graphics g = bi.createGraphics();
             g.drawImage(imageIcon.getImage(), 0, 0, null);
