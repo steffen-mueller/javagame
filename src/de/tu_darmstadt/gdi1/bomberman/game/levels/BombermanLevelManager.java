@@ -34,11 +34,6 @@ public class BombermanLevelManager extends LevelManager<GameElement>  {
 		generate = false;
 	}
 
-	public void setGenerate (boolean generate)
-	{
-		this.generate = generate;
-	}
-
 	public HashMap<Integer,Player> getPlayers()
 	{
 		return players;
