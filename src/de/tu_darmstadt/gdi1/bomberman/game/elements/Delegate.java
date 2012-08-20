@@ -1,12 +1,10 @@
 package de.tu_darmstadt.gdi1.bomberman.game.elements;
 
-import de.tu_darmstadt.gdi1.bomberman.BombermanController;
-import de.tu_darmstadt.gdi1.bomberman.framework.AbstractBombermanController;
-import de.tu_darmstadt.gdi1.framework.utils.Point;
-import java.util.ArrayList;
 import java.util.List;
-
 import javax.swing.ImageIcon;
+
+import de.tu_darmstadt.gdi1.bomberman.BombermanController;
+import de.tu_darmstadt.gdi1.framework.utils.Point;
 
 
 /**
@@ -55,10 +53,16 @@ public class Delegate extends GameElement {
 	// Delegate runner /////////////////////////////////////////////////////////////////////////////
 
 	public void manageSuddenDeath (BombermanController controller) {
-		for (int i = 0; i < gameBoard.getWidth(); i++) {
-			for (int j = 0; j < gameBoard.getHeight(); j++) {
-				if (gameBoard.getElements(i,j).get(gameBoard.getElements(i, j).size() - 1).isDestroyable()) {
+		for (int i = 1; i < gameBoard.getWidth()-1; i++) {
+			for (int j = 1; j < gameBoard.getHeight()-1; j++) {
+				GameElement gameElement = gameBoard.getElements(i, j).get(gameBoard.getElements(i, j).size() - 1);
+				if (!(gameElement instanceof Wall)) {
 					System.out.println("Sudden Death: Stoning " + i + ", " + j);
+
+					if (gameElement instanceof Player) {
+						System.out.println(gameElement.getDescription() + " died");
+						gameElement.destroy();
+					}
 
 					// TODO - Place Wall
 					List<GameElement> gE = gameBoard.getElements(i,j);

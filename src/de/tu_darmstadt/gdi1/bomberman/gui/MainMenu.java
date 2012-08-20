@@ -33,6 +33,7 @@ public class MainMenu extends JFrame
 
 	private void PlayButtonActionPerformed(ActionEvent e) {
 		dispose();
+		gui.mainMenuClosed();
 	}
 
 	private void thisWindowClosing(WindowEvent e) {

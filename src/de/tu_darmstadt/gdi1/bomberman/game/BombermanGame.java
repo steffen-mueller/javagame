@@ -11,12 +11,10 @@ import de.tu_darmstadt.gdi1.bomberman.game.elements.Bomb;
 import de.tu_darmstadt.gdi1.bomberman.game.elements.Explosion;
 import de.tu_darmstadt.gdi1.bomberman.game.elements.GameElement;
 import de.tu_darmstadt.gdi1.bomberman.game.elements.Player;
-import de.tu_darmstadt.gdi1.bomberman.game.elements.Wall;
 import de.tu_darmstadt.gdi1.bomberman.game.levels.BombermanGameData;
 import de.tu_darmstadt.gdi1.bomberman.gui.ControllerInputEvent;
 import de.tu_darmstadt.gdi1.bomberman.gui.UIEvent;
 import de.tu_darmstadt.gdi1.framework.interfaces.IBoard;
-import de.tu_darmstadt.gdi1.framework.interfaces.IGameBoard;
 import de.tu_darmstadt.gdi1.framework.utils.Point;
 
 /**
